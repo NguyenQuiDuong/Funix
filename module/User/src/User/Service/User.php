@@ -530,6 +530,14 @@ class User implements ServiceLocatorAwareInterface
         return $subjects;
     }
 
+    public function getMentor(){
+        /** @var $userMapper User/Model/UserMapper */
+        $userMapper = $this->getServiceLocator()->get('User/Model/UserMapper');
+
+        return $userMapper->getMentor();
+
+    }
+
 
 
 }
