@@ -11,16 +11,13 @@ use Home\Model\BaseMapper;
 use Zend\Db\Adapter\Adapter;
 use User\Model\User;
 use Zend\Db\Sql\Expression;
-use Work\Model\ProjectUserMapper;
-use Work\Model\ProjectUser;
+
 use Zend\Db\Sql\Predicate\PredicateSet;
 use Zend\Db\Sql\Predicate\In;
 use Zend\Db\Sql\Predicate\Operator;
-use Hrm\Model\EmployeeMapper;
+
 use Address\Model\CityMapper;
 use Address\Model\DistrictMapper;
-use Company\Model\User\FeatureMapper;
-use Company\Model\DepartmentMapper;
 
 class UserMapper extends BaseMapper
 {
@@ -538,6 +535,19 @@ class UserMapper extends BaseMapper
         } else{
             return [-1];
         }
+    }
+
+    public  function getMentor(){
+        $select = $this->getDbSql()->select(array('u'=> self::TABLE_NAME));
+        $select->columns(['username']);
+        $select->where(['u.role'=>User::ROLE_MENTOR]);
+        $query = $this->getDbSql()->buildSqlString($select);
+        $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        $result = [];
+        if($rows->count()){
+            $result = $rows->toArray();
+        }
+        return $result;
     }
 
 
