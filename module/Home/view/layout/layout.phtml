@@ -21,6 +21,12 @@
     );
     echo '<link rel="stylesheet" href="/min/f=' . implode(',', $style) . '?14" type="text/css">';
 	?>
+    <?php if($this->user()->getIdentity()){?>
+    <script>
+        var my_username = '<?= $this->user()->getUser($this->user()->getIdentity())->getUserName()?>';
+        var my_token = '<?= strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime())?>';
+    </script>
+    <?php } ?>
 </head>
 
 <body class="">
@@ -49,9 +55,11 @@ $js = array(
 //	'/js/combodate.js',
 //	'/js/notification/jquery.gritter.min.js',
 //	'/js/bootstrap-datetimepicker.js',
+    '/js/chat/socket.io.js',
+    '/js/chat/chat.js',
     '/js/jquery/select2.min.js',
-    '/js/application.js',
-    '/js/chat/popupchat.js'
+//    '/js/application.js',
+//    '/js/chat/popupchat.js'
 
 );
 echo '<script type="text/javascript" src="/min/f=' . implode(',', $js) . '?2"></script>';

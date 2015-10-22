@@ -17,7 +17,7 @@ $('.user').each(function(){
                     '<div class="msg_push"></div>'+
             '</div>'+
                 '<div class="msg_footer">'+
-                    '<textarea class="msg_input" rows="1"></textarea>'+
+                    '<input type="text" class="msg_input" rows="1">'+
                 '</div>'+
             '</div>'+
             '</div>')
