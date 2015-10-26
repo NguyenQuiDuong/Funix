@@ -1,32 +1,37 @@
 <footer class="footer_area">
 
-	<div class="footer_bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4">
-					<p>© 2015 FUNIX. All rights reserved</p>
-				</div>
-				<div class="col-sm-8">
-					<nav class="footer_menu">
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="mentor.html">Mentor</a></li>
-							<li><a href="http://cyberlms.fpt.edu.vn/">Course</a></li>
-							<li><a href="about.html">About</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="footer_bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>© 2015 FUNIX. All rights reserved</p>
+                </div>
+                <div class="col-sm-8">
+                    <nav class="footer_menu">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="mentor.html">Mentor</a></li>
+                            <li><a href="http://cyberlms.fpt.edu.vn/">Course</a></li>
+                            <li><a href="about.html">About</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
 <?php
-$mytoken='';
-if($this->user()->getIdentity()){
-	$mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime());
-}?>
-<div id="chat_boxid" class="chat_box">
-	<div class="chat_head"> Chat Box</div>
-	<div class="chat_body">
-	</div>
-</div>
+$mytoken = '';
+if ($this->user()->getIdentity()) {
+    $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime()); ?>
+    <div id="chat_boxid" class="chat_box">
+        <div class="chat_head">Mentor</div>
+		<div class="chatlist_action">
+            <a>Experts</a>
+            <a>Recents</a>
+        </div>
+        <div class="chat_body">
+        </div>
+    </div>
+<?php } ?>
+
