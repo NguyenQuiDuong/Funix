@@ -24,12 +24,9 @@
 $mytoken = '';
 if ($this->user()->getIdentity()) {
     $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime()); ?>
+
     <div id="chat_boxid" class="chat_box">
         <div class="chat_head">Mentor</div>
-		<div class="chatlist_action">
-            <a>Experts</a>
-            <a>Recents</a>
-        </div>
         <div class="chat_body">
         </div>
     </div>
