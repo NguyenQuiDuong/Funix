@@ -9,7 +9,7 @@ $(document).ready(function(){
         $('.chat_body').slideToggle('slow');
     });
     $('.msg_head').click(function(){
-        $('.msg_wrap').slideToggle('slow');
+        $('.msg_body').slideToggle('slow');
     });
 
     $('.close').click(function(){
