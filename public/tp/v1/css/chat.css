@@ -11,6 +11,7 @@ body{
     bottom:0px;
     width:250px;
 }
+
 .chat_body{
     background:white;
     height:400px;
@@ -20,7 +21,7 @@ body{
 .chat_head,.msg_head{
     background:#f39c12;
     color:white;
-    padding:15px;
+    padding:10px;
     font-weight:bold;
     cursor:pointer;
     border-radius:5px 5px 0px 0px;
@@ -125,4 +126,39 @@ body{
     border-color: transparent transparent transparent #EEF2E7;
     right:-20px;
     top:7px;
+}
+
+.chatlist_action{
+    display: flex;
+    display: -webkit-flex;
+    z-index: 1;
+    opacity: 0.85;
+    padding: 0px;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #888;
+    background: #eee
+}
+
+
+.chatlist_action .split {
+    height: 34px;
+    width: 1px;
+    background: #ccc
+}
+
+.chatlist_action a.tab {
+    overflow: hidden;
+    text-align: center;
+    line-height: 35px;
+    flex: 1;
+    -webkit-flex: 1;
+    box-sizing: border-box;
+    padding: 0px 5px;
+    text-decoration: none;
+    color: #999
 }
