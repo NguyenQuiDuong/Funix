@@ -1,0 +1,241 @@
+<?php
+$this->headScript()->appendFile('/js/typeahead.bundle.js');
+$this->headScript()->appendFile('/js/bootstrap-tagsinput.min.js');
+$this->headScript()->appendFile('/min?f=/js/jquery.redirect.js');
+$this->headLink()->prependStylesheet('/css/bootstrap-tagsinput.css');
+$this->headLink()->prependStylesheet('/css/home/get_help_now.css');
+$this->headLink()->prependStylesheet('/css/home/directory_new_for_clients.css');
+$this->headScript()->appendFile('/min?f=/tp/v1/js/home/search/index.js');
+$form = $this->form;
+$subjects = $this->subjects;
+$expert = $this->expert;
+?>
+
+<div class="alerts">
+    <!-- ngRepeat: alert in Alert.alerts -->
+</div>
+<div class="directory">
+    <div class="resultBlock">
+        <div class="customizeContainer">
+            <div class="switchBlock">
+                <div class="row-fluid">
+                    <div class="span9">
+                        <h2 class="sub-title">
+                            Get Live Help From Expert Mentors
+                        </h2>
+                        <hr class="bg-splitter">
+                        <div class="request-section-wrapper">
+                            <div class="request-section skrollable skrollable-before">
+                                <div class="request-info-wrapper">
+                                    <img class="request-icon" src="/images/icon-request.png">
+                                    <!-- ngIf: !questionTitle -->
+                                    <h2 class="request-title" ng-if="questionTitle">
+                                        <?=$this->searchContent?>
+                                    </h2><!-- end ngIf: questionTitle -->
+                                    <hr ng-hide="requestSent">
+                                    <div class="row-fluid request-info" ng-hide="requestSent">
+                                        <div class="span7 request-categories">
+                                            <?php
+                                            foreach($subjects as $s){
+                                                ?>
+                                                <div class="cate">
+                                                    <?=ucfirst($s->getName())?>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="span5 text-right">
+                                            <button class="btn-post-request btn btn-red">
+                                                Tiếp tục cần sự trợ giúp của Mentor
+                                                <i class="icon-chevron-down" style="margin-left: 5px;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- ngIf: requestSent -->
+                                </div>
+                                <form class="request-form ng-hide">
+                                    <img class="request-icon" src="/images/icon-request.png">
+                                    <h2 class="form-title">
+                                        Please provide more details about your request
+                                    </h2>
+                                    <div class="form-body">
+                                        <label class="lable-title">
+                                            What do you need help with?
+                                        </label>
+                                        <?=$this->formelement($form->get('search')->setValue($this->searchContent))?>
+                                        <?=$this->formelement($form->get('searchDetail'))?>
+                                        <div class="control-group text required question_category_names tagInput">
+                                            <div class="controls">
+                                                <input name="subject" class="input" placeholder="Add tags (e.g. Javascript)" autocomplete="off" style="width: 170px;">
+<!--                                                <div class="bootstrap-tagsinput">-->
+<!--                                                    <input data-role="tagsinput" class="input ng-pristine ng-valid ng-touched" type="text" name="subject" maxlength="255"  placeholder="Tên môn học" id="subject" value="" class="ui-autocomplete-input" autocomplete="off">-->
+<!--                                                </div>-->
+                                            </div>
+                                        </div>
+                                        <label class="label-budget">
+                                            What's your maximum hourly budget?
+                                        </label>
+                                        <div class="budget-buttons" data-toggle-name="radius_options">
+                                            <button class="btn" data-toggle="button" value="5"type="button">
+                                                $20
+                                            </button>
+                                            <button class="btn" data-toggle="button" value="10"type="button">
+                                                $40
+                                            </button>
+                                        </div>
+                                        <input type="hidden" name="radius_options" value="5">
+                                        <div class="row-fluid account-info">
+                                            <div class="span6">
+                                                <label class="label-email">
+                                                    Email:
+                                                    <small style="font-weight: 400;">
+                                                        ( Already have an account?
+                                                        <a href="javascript:showPassword();">
+                                                            Sign In
+                                                        </a>
+                                                        )
+                                                    </small>
+                                                    <small style="font-weight: 400;" class="ng-hide">
+                                                        ( Don't have an account?
+                                                        <a href="#">
+                                                            Sign Up
+                                                        </a>
+                                                        )
+                                                    </small>
+                                                </label>
+                                                <?=$this->formelement($form->get('email')->setAttributes([
+                                                    'class' =>  'input-email',
+                                                    'placeholder'   =>  'Email',
+                                                ]))?>
+                                            </div>
+                                            <div class="span6">
+                                                <div class="password-input ng-hide">
+                                                    <label class="label-password">
+                                                        Password:
+                                                    </label>
+                                                    <?=$this->formelement($form->get('password')->setAttributes([
+                                                        'class' => 'input-password',
+                                                        'placeholder'   =>  'Mật khẩu',
+                                                        'autocomplete'  =>  'off',
+                                                    ]))?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row-fluid">
+                                        <div class="span7 text-left">
+                                            <div class="errorMsg ng-binding">
+
+                                            </div>
+                                        </div>
+                                        <div class="span5 text-right">
+                                            <div class="btn cancel">
+                                                Cancel
+                                            </div>
+                                            <div id="submit" class="btn btn-red">
+                                                Get Help Now
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid logging-requesting ng-hide">
+                                        <div class="span12 text-right muted">
+                                            Loading ...
+                                            <i class="icon-spin icon-refresh"></i>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="expert-list" ng-hide="loaded" style="margin-top: 204px;">
+                            <?php foreach($expert as $mentor){?>
+                            <div class="mentorModule">
+                                <div class="row-fluid mentor-item-row">
+                                    <div class="span3 text-center mentor-info">
+                                        <div>
+                                            <img class="img-circle headImg" src="https://www.gravatar.com/avatar/b2528fb97648d9b78942a83a456f03ab?d=mm&amp;s=200">
+                                        </div>
+                                        <div class="rate">
+<!--                                            <strong>$30.00</strong>-->
+<!--                                            <small>/15min</small>-->
+                                        </div>
+                                        <a class="btn btn-success messageBtn" href="#" ng-click="Chat.openChatroomViaAPI('consultwithmike')">
+                                            x
+                                        </a>
+                                    </div>
+                                    <div class="span9 mentor-details">
+                                        <a class="name" href="/consultwithmike" target="consultwithmike">
+                                            <?=$mentor['username']?>
+                                        </a>
+                                        <span class="ratingNum">4.9</span>
+                                        <div class="rating">
+<!--                                            <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>-->
+                                        </div>
+                                        <sup class="online">
+<!--                                            <span class="online"><i class="icon-circle"></i>ONLINE</span>-->
+                                        </sup>
+                                        <div class="headLine">
+                                            <small>
+                                                Enterprise application developer with 15 years of experience in the industry.
+                                            </small>
+                                        </div>
+                                        <div class="about">
+                                            <?=$mentor['description']?>
+                                        </div>
+                                        <div class="expertise">
+                                            <?php foreach($mentor['subject'] as $sid=>$sname){?>
+                                            <div class="badge customizeBadge">
+                                                <a class="removeDec">
+                                                    <?=$sname?>
+                                                </a>
+                                            </div>
+                                            <?php }?>
+                                        </div>
+                                        <div class="hirable">
+                                            * Available For Hire
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <div class="signupModule">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <h3 class="signupTitle">
+                                        To view more experts on Codementor ...
+                                    </h3>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <h2 class="sub-title">
+                            Why users love our mentors
+                        </h2>
+                        <hr class="bg-splitter">
+                        <div class="reviews" ng-hide="loaded">
+                            <div class="review">
+                                <div class="writer">
+                                    <span class="img-circle headImg ng-isolate-scope" img-src="" name="Leonard Mbah Acha">
+                                        <img ng-hide="!!userShortName" class="img-circle avatar ng-hide"  src="">
+                                        <div class="customizeAvatar ng-binding" ng-show="!!userShortName">L</div>
+                                    </span>
+                                    <span class="name">Leonard Mbah Acha</span>
+                                </div>
+                                <div class="content">
+                                    <p>
+                                        "Another awesome session with Kevin. I have been studying SQL Server now for a while and I needed some real world insights into projects. Kevin walked me through some of the projects he's done, including some of the challenges and learning points. Very information session."
+                                    </p>
+                                    <span class="rating"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

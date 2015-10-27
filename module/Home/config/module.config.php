@@ -209,6 +209,8 @@ return array(
             'error/index' => __DIR__ . '/../view/error/index.phtml',
             'error/403'   => __DIR__ . '/../view/error/403.phtml',
         	'error/404'   => __DIR__ . '/../view/error/404.phtml',
+            'email/layout'=> __DIR__ . '/../view/home/email/layout.phtml',
+            'email/activeFill'      => __DIR__ . '/../view/home/email/activeFill.phtml',
         	'partial/formInput'		=> __DIR__ . '/../view/home/partial/formInput.phtml',
         	'partial/formFilter'	=> __DIR__ . '/../view/home/partial/formFilter.phtml',
         	'partial/dataGrid'		=> __DIR__ . '/../view/home/partial/dataGrid.phtml',

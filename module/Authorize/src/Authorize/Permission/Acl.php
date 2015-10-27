@@ -24,6 +24,7 @@ class Acl extends ZendAcl
 
         $this->addResource('home:index');
         $this->addResource('home:media');
+        $this->addResource('home:search');
         
         $this->addResource('admin:index');
         $this->addResource('admin:subject');
@@ -54,10 +55,11 @@ class Acl extends ZendAcl
 
         $this->allow('Guest', 'home:index');
         $this->allow('Guest', 'home:media');
+        $this->allow('Guest', 'home:search');
         $this->allow('Guest', 'address:district', ['load']);
         $this->allow('Guest', 'address:city', ['load']);
         $this->allow('Guest', 'user:user', ['signin', 'signout', 'signup',
-        		 'active', 'getactivecode', 'getpassword', 'ajaxsignup', 'ajaxsignin', 'resetpassword']);
+        		 'active', 'getactivecode', 'getpassword', 'ajaxsignup', 'ajaxsignin', 'resetpassword','sendemail','activeaccount']);
         $this->allow('Guest', 'user:signin', ['index', 'google', 'facebook']);
         $this->allow('Guest', 'user:manage');
         // deploy code
@@ -65,7 +67,7 @@ class Acl extends ZendAcl
         $this->allow('Guest', 'system:api',['getuser']);
         $this->allow('Guest', 'expert:index');
 
-        $this->allow('Guest', 'subject:subject',['suggest']);
+        $this->allow('Guest', 'subject:subject',['suggest','fetchall']);
 
         $this->allow('Member', 'user:profile');
         $this->allow('Member', 'user:user', ['updatecode']);

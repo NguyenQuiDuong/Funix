@@ -1,5 +1,5 @@
 .bootstrap-tagsinput input{
-    width: 92px !important;
+    width: auto !important;
     height: 32px !important;
     border: 0 !important;
     outline: 0 !important;
@@ -19,5 +19,12 @@
     display: inline-block;
     float: left;
     font: 14px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    border: 1px solid #acacac;
+}
+.bootstrap-tagsinput .removeTag{
+    margin-left: 5px;
+    font: 700 14px Arial,sans-serif;
+    color: #585858;
+    margin: 0 0 0 5px;
+    cursor: pointer;
+    text-decoration:none;
 }

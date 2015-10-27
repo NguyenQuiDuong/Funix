@@ -65,49 +65,10 @@ class ControllerBase extends AbstractActionController
 		return $this->getViewModel()->setTemplate('error/404');
 	}
 
-	/**
-	 * @author VanCK
-	 * @return \Company\Service\Company
-	 */
-	public function company() {
-		return $this->getServiceLocator()->get('Company\Service\Company');
-	}
-
-	/**
-	 * @author KienNN
-	 * @return \Company\Service\Department
-	 */
-	public function department(){
-		return $this->getServiceLocator()->get('Company\Service\Department');
-	}
-
-	/**
-	 * @author VanCK
-	 * @return \Work\Service\Work
-	 */
-	public function work() {
-		return $this->getServiceLocator()->get('Work\Service\Work');
-	}
-
-	/**
-	 * @author KienNN
-	 * @return \Work\Service\Project
-	 */
-	public function project(){
-		return $this->getServiceLocator()->get('Work\Service\Project');
-	}
-
 	public function user(){
 	    return $this->getServiceLocator()->get('User\Service\User');
 	}
 
-	public function crm(){
-	    return $this->getServiceLocator()->get('Crm\Service\Crm');
-	}
-
-	public function hrm(){
-	    return $this->getServiceLocator()->get('Hrm\Service\Hrm');
-	}
 
 	/**
 	 * @author VanCK

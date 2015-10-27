@@ -8,7 +8,6 @@ return array(
     'Home\Controller\MediaController'               => __DIR__ . '/src/Home/Controller/MediaController.php',
     'Home\Controller\Plugin\HTMLPurifier'           => __DIR__ . '/src/Home/Controller/Plugin/HTMLPurifier.php',
     'Home\Controller\SearchController'              => __DIR__ . '/src/Home/Controller/SearchController.php',
-    'Home\Controller\SearchsController'             => __DIR__ . '/src/Home/Controller/SearchsController.php',
     'Home\Db\Adapter\MasterSlaveAdapter'            => __DIR__ . '/src/Home/Db/Adapter/MasterSlaveAdapter.php',
     'Home\Db\Adapter\MasterSlaveAdapterInterface'   => __DIR__ . '/src/Home/Db/Adapter/MasterSlaveAdapterInterface.php',
     'Home\EventManager\EventProvider'               => __DIR__ . '/src/Home/EventManager/EventProvider.php',

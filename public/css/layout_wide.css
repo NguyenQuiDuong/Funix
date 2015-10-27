@@ -2599,8 +2599,8 @@ body.minibar .navbar-inner .nav li.active a:hover {
 }
 
 .navbar .brand > img {
-    height: 28px !important;
-    width: 205px !important
+    height: 51px !important;
+    width: 215px !important;
 }
 
 #signup-modal {

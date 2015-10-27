@@ -10,7 +10,7 @@ use Home\Model\DateBase;
 
 class Uri
 {
-	const MULTIMEDIA_SERVER = "http://erp.nhanh.vn";
+	const MULTIMEDIA_SERVER = "http://mentor.funix.edu.vn";
 
     /**
      * @param Object $obj

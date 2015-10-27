@@ -8,14 +8,6 @@ $(document).ready(function(){
     $('.chat_head').click(function(){
         $('.chat_body').slideToggle('slow');
     });
-    $('.msg_head').click(function(){
-        $('.msg_body').slideToggle('slow');
-    });
-
-    $('.close').click(function(){
-        $('.msg_box').hide();
-    });
-
     $('.user').click(function(){
 
         $('.msg_wrap').show();
@@ -36,3 +28,13 @@ $(document).ready(function(){
 
 
 });
+function showChat(){
+        $('.msg_wrap').slideToggle('slow');
+
+
+}
+function closeChat(id){
+            $('#'+id).remove();
+    console.log($('.msg_box'))
+    console.log( $('#'+id));
+}

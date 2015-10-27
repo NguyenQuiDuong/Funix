@@ -193,17 +193,20 @@ public function get($sub){
         $select = $this->getDbSql()->select(array('s' => self::TABLE_NAME), array(
             'id', 'name'
         ));
-        $select->where([
-            '(s.name LIKE ?)' =>
-                ['%'.$item->getName().'%']
-        ]);
-        $select->limit(20);
+        if($item != null){
+            $select->where([
+                '(s.name LIKE ?)' =>
+                    ['%'.$item->getName().'%']
+            ]);
+            $select->limit(20);
+        }
         $query = $this->getDbSql()->buildSqlString($select);
         $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
         $result = [];
         if($rows->count()){
             foreach ($rows as $row){
                 $row = (array) $row;
+                $row['id'] = (int)$row['id'];
                 $row['label'] = $row['name'];
                 $result[] = $row;
             }
@@ -233,5 +236,32 @@ public function get($sub){
             }
         }
         return $users;
+    }
+
+    /**
+     * todo trả lại một mảng tên và id môn học cho hàm search ở trang chủ
+     * @return array
+     * @param array $searchDatas
+     */
+    public function fetchSearch($searchDatas){
+        $select = $this->getDbSql()->select(array(
+            's' => self::TABLE_NAME
+        ));
+        if(is_array($searchDatas)){
+            foreach($searchDatas as $subjectName){
+                $select->where(['s.name LIKE ?'=> '%'.$subjectName.'%'],'OR');
+            }
+        }
+        $query = $this->getDbSql()->buildSqlString($select);
+        $results = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
+        $subjects = array();
+        if(count($results)){
+            foreach($results as $s){
+                $subject = new Subject();
+                $subject->exchangeArray((array)$s);
+                $subjects[] = $subject;
+            }
+        };
+        return $subjects;
     }
 }

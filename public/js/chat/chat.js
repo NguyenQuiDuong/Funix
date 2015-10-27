@@ -363,8 +363,8 @@ socket.on('msg_user_handle', function (userSender, data) {
 	}else{
 		$('body').append(
 			'<div id="'+userSender.id+'" class="msg_box" style="right:290px">'+
-			'<div class="msg_head">'+userSender.userName+
-			'<div class="close">x</div>'+
+			'<div class="msg_head" onclick="showChat()">'+userSender.userName+
+			'<div class="close" onclick="closeChat(\''+userSender.id+'\')">x</div>'+
 			'</div>'+
 			'<div class="msg_wrap">'+
 			'<div class="msg_body">'+
@@ -411,8 +411,8 @@ socket.on('updateusers', function(data) {
 function popupchat(id,username){
 			$('body').append(
 				'<div id="'+id+'" class="msg_box" style="right:290px">'+
-				'<div class="msg_head">'+username+
-				'<div class="close">x</div>'+
+				'<div class="msg_head" onclick="showChat()">'+username+
+				'<div class="close" onclick="closeChat(\''+id+'\')">x</div>'+
 				'</div>'+
 				'<div class="msg_wrap">'+
 				'<div class="msg_body">'+

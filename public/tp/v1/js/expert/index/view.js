@@ -32,7 +32,7 @@ function addAttendanceTag(item){
     text = '<span class="tag label label-info">' +
         '<span class="ng-binding ng-scope subjectIdtag" value="'+item.id+'">'+item.name
         +
-        '<span data-role="remove" class="removeTag remove-button ng-binding ng-scope" style="margin-left: 5px;">x</span></span>';
+        '<a data-role="remove" class="removeTag remove-button ng-binding ng-scope">x</a></span>';
     $('#subject').parent().prepend(text);
     refillAttendanceId()
 };
@@ -50,3 +50,16 @@ $('.searchButton').click(function () {
     console.log(uri);
     location.replace(uri);
 });
+$('.searchBarContent').click(function(){
+    $('.searchBarContent input').focus();
+})
+
+function resizeInput() {
+    $(this).attr('size', $(this).val().length);
+}
+
+$('.searchBarContent input[type="text"]')
+    // event handler
+    .keyup(resizeInput)
+    // resize on page load
+    .each(resizeInput);

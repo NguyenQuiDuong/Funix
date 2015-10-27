@@ -7,14 +7,18 @@
 namespace Home\Controller;
 
 
+use Home\Form\Search\Search;
+
 class IndexController extends ControllerBase
 {
     public function indexAction()
     {
-        /** @var $subjectMapper Subject/Model/SubjectMapper */
+        $form = new Search($this->getServiceLocator());
+        /** @var $subjectMapper \Subject\Model\SubjectMapper */
         $subjectMapper = $this->getServiceLocator()->get('Subject/Model/SubjectMapper');
         $subjects = $subjectMapper->featchAll('category');
         $this->layout()->setVariables(['subjectCategories' => $subjects]);
+        $this->getViewModel()->setVariables(['form'   =>  $form]);
     	return $this->getViewModel();
     }
 
@@ -40,6 +44,6 @@ class IndexController extends ControllerBase
 
     public function searchAction()
     {
-        echo 'aaaaaaaaaaaaa';
+        return $this->getViewModel();
     }
 }

@@ -23,12 +23,12 @@ $this->headLink()->prependStylesheet('/css/style-sign-in.css');
 							$form->prepare();
 
 							echo $this->form()->openTag($form);
-							echo $this->formelement($form->get('username')->setAttributes(array(
+							echo $this->formelement($form->get('mail')->setAttributes(array(
 								'class'			=>	'inputName',
 								'autofocus'		=>	'autofocus',
-								'placeholder'	=>	'Tên đăng nhập',
+								'placeholder'	=>	'Email',
 							)));
-							echo $this->formelementerrors($form->get('username'),[
+							echo $this->formelementerrors($form->get('mail'),[
 								'class'	=>	'center alert alert-error flash-message topAlert'
 							]);
 							echo $this->formelement($form->get('password')->setAttributes(array(

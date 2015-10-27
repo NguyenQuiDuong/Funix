@@ -40,4 +40,15 @@ class SubjectController extends AbstractActionController
         ]);
         return $jsonModel;
     }
+
+    /**
+     * todo lay ra môn học dùng cho tags ở search
+     */
+    public function fetchallAction(){
+        /** @var \Subject\Model\SubjectMapper $subjectMapper */
+        $subjectMapper = $this->getServiceLocator()->get('Subject\Model\SubjectMapper');
+        $jsonModel = New JsonModel();
+        $jsonModel->setVariables($subjectMapper->suggest(null));
+        return $jsonModel;
+    }
 }

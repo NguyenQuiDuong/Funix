@@ -13,7 +13,7 @@ use Zend\Form\Element\Password;
 
 class Signin extends FormBase
 {
-	const ERROR_INVALID = "Tên đăng nhập hoặc mật khẩu không chính xác";
+	const ERROR_INVALID = "Mail hoặc mật khẩu không chính xác";
 	const ERROR_LOCKED = "Tài khoản của bạn đã bị khóa";
 	const ERROR_INACTIVE = "Tài khoản của bạn chưa được kích hoạt";
 	/**
@@ -42,27 +42,35 @@ class Signin extends FormBase
 			),
 		));
 
-		$username = new Text('username');
-		$username->setLabel('Tên đăng nhập:');
-		$username->setAttributes(array(
+		$mail = new Text('mail');
+		$mail->setLabel('Email:');
+		$mail->setAttributes(array(
 			'type'  => 'text',
-			'id' => 'username',
+			'id' => 'mail',
 		));
-		$this->add($username);
+		$this->add($mail);
 		//$groupBasic->addElement($username);
 		$filter->add(array(
-			'name' => 'username',
+			'name' => 'mail',
 			'required' => true,
 			'filters'   => array(
 				array('name' => 'StringTrim'),
-            	array('name' => 'StringToLower')
 			),
 			'validators' => array(
 				array(
 					'name'    => 'NotEmpty',
 					'options' => array(
 						'messages' => array(
-							'isEmpty' => 'Bạn chưa nhập Tên đăng nhập'
+							'isEmpty' => 'Bạn chưa nhập email đăng nhập'
+						)
+					)
+				),
+				array(
+					'name'    => 'EmailAddress',
+					'break_chain_on_failure' => true,
+					'options' => array(
+						'messages' => array(
+							'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ'
 						)
 					)
 				),
@@ -155,8 +163,8 @@ class Signin extends FormBase
 		if($isValid){
 			$userService = $this->getServiceLocator()->get('User\Service\User');
 			$data = parent::getData();
-			if(!$userService->authenticate($data['username'], $data['password'])){
-				$this->get('username')->setMessages([self::ERROR_INVALID]);
+			if(!$userService->authenticate($data['mail'], $data['password'])){
+				$this->get('mail')->setMessages([self::ERROR_INVALID]);
 				return false;
 			}
 			/* @var $user \User\Model\User */

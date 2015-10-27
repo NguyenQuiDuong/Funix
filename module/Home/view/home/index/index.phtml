@@ -1,6 +1,7 @@
 <?php
 $this->headLink()->prependStylesheet('/css/home/index.css');
 $this->headScript()->appendFile('/tp/v1/js/home/index.js');
+$form = $this->form;
 ?>
     <div check-time-zone=''></div>
 
@@ -22,8 +23,13 @@ $this->headScript()->appendFile('/tp/v1/js/home/index.js');
                     <div class="customizeContainer">
                         <div class="row-fluid request-form-wrapper">
                             <div class="span10 offset1">
-                                <form class="request-form" action="/get-help-now" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓">
-                                    <input name="request_title" placeholder="Tìm kiếm sự giúp đỡ ở đây" required="required" type="text">
+                                <form class="request-form" action="/home/search" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓">
+                                    <?php
+                                        echo $this->formelement($form->get('search')->setAttributes([
+                                            'placeholder'   =>  'Tìm kiếm sự giúp đỡ ở đây',
+                                            'required'  =>  'required'
+                                        ]));
+                                    ?>
                                     <button class="btn btn-red" type="submit">
                                         <span>Giúp đỡ</span>
                                     </button>
@@ -233,9 +239,7 @@ $this->headScript()->appendFile('/tp/v1/js/home/index.js');
                     <div class='span12'>
                         <center>
                             <br>
-                            <a class='btn signupBtn'>
                                 <h2>HỌC GÌ Ở FUNIX</h2>
-                            </a>
                             </br>
                         </center>
                         <div class='row-fluid'>

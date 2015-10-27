@@ -45,6 +45,7 @@ class UserMapper extends BaseMapper
             'mobile' => $user->getMobile()?:null,
             'lastAccess' => $user->getLastAccess()?:null,
             'active' => $user->getActive()?:null,
+            'activeKey' =>  $user->getActiveKey()?:null,
             'createdById' => $user->getCreatedById()?:null,
             'createdDate' => $user->getCreatedDate(),
             'createdDateTime' => $user->getCreatedDateTime(),
@@ -233,12 +234,12 @@ class UserMapper extends BaseMapper
      */
     public function checkExistsUserActive($user)
     {
-        if(!$user->getActiveKey() || !$user->getUsername()) {
+        if(!$user->getActiveKey() || !$user->getEmail()) {
             return false;
         }
         $select = $this->getDbSql()->select(self::TABLE_NAME);
         $select->where([
-            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
             'activeKey' => $user->getActiveKey()
         ]);
         $select->where('active IS NULL');
@@ -287,7 +288,11 @@ class UserMapper extends BaseMapper
         } else {
             $update = $this->getDbSql()->update(self::TABLE_NAME);
             $update->set(array('active' => 1));
-            $update->where(['username' => $user->getUsername(), 'activeKey' => $user->getActiveKey()]);
+            if($user->getEmail()){
+                $update->where(['email' => $user->getEmail(), 'activeKey' => $user->getActiveKey()]);
+            }else{
+                $update->where(['username' => $user->getUsername(), 'activeKey' => $user->getActiveKey()]);
+            }
             $query = $this->getDbSql()->buildSqlString($update);
             $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
             return true;
@@ -550,5 +555,64 @@ class UserMapper extends BaseMapper
         return $result;
     }
 
+    /**
+     * @return array|null
+     * @param \User\Model\User $user
+     * todo l?y user theo email và activeCode
+     */
+    public function getUserNotActive($user){
+        if (! $user->getEmail() || !$user->getActiveKey()) {
+            return null;
+        }
+        $select = $this->getDbSql()->select(array(
+            'u' => self::TABLE_NAME
+        ));
+
+        $select->where(['email' => $user->getEmail(), 'activeKey' => $user->getActiveKey()]);
+
+
+        $select->limit(1);
+
+
+        $query = $this->getDbSql()->buildSqlString($select);
+        $results = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        if ($results->count()) {
+            $data = $results->current();
+            $user->exchangeArray((array) $results->current());
+            return $user;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array|null
+     * @param \User\Model\User $user
+     */
+    public function isActive($user){
+        if(!$user->getEmail()){
+            return null;
+        }
+        $select = $this->getDbSql()->select(array(
+            'u' => self::TABLE_NAME
+        ));
+
+        if($this->isExistedEmail($user)){
+            $select->where(['active IS NULL']);
+        }
+
+        $select->limit(1);
+
+
+        $query = $this->getDbSql()->buildSqlString($select);
+        $results = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        if ($results->count()) {
+            $data = $results->current();
+            $user->exchangeArray((array) $results->current());
+            return false;
+        }
+
+        return true;
+    }
 
 }

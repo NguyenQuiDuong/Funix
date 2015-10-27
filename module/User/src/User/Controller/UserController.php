@@ -9,7 +9,10 @@
 
 namespace User\Controller;
 
+use User\Form\ActiveAccount;
 use User\Model\User;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\SmtpOptions;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -397,6 +400,111 @@ class UserController extends AbstractActionController
         }
         return $viewModel;
 
+    }
+
+    public function sendemailAction(){
+        $data = $this->params()->fromQuery();
+        if(!isset($data['email'])||!$data['email']){
+            return 'Dữ liệu không đúng';
+        }
+        if(!isset($data['activeKey'])||!$data['activeKey']){
+            return 'Dữ liệu không đúng';
+        }
+        $validator = new \Zend\Validator\EmailAddress();
+        if($validator->isValid($data['email'])){
+            $user = new User();
+            $user->setEmail($data['email']);
+            $user->setActiveKey($data['activeKey']);
+            /* @var $userMapper \User\Model\UserMapper */
+            $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+            if($userMapper->checkExistsUserActive($user)) {
+                $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+
+                // Email content
+                $viewContent = new \Zend\View\Model\ViewModel(
+                    array(
+                        'activeLink'    =>  Uri::buildAutoHttp('/user/user/activeaccount',[
+                            'u' =>  $user->getEmail(),
+                            'c' =>  $user->getActiveKey(),
+                        ]),
+                    ));
+                $viewContent->setTemplate('email/activeFill'); // set in module.config.php
+                $content = $renderer->render($viewContent);
+
+                // Email layout
+                $viewLayout = new \Zend\View\Model\ViewModel(array('content' => $content));
+                $viewLayout->setTemplate('email/layout'); // set in module.config.php
+
+
+                $message = new Message();
+                $message->addTo($data['email']);
+                $message->addFrom('duongnqse02934@fpt.edu.vn',$_SERVER['HTTP_HOST']);
+                $message->setSubject('Welcome to ' . $_SERVER['HTTP_HOST']);
+
+                $html = new \Zend\Mime\Part($renderer->render($viewLayout));
+                $html->type = 'text/html';
+                $body = new \Zend\Mime\Message();
+                $body->setParts(array($html));
+                $message->setBody($body);
+                $message->setEncoding("UTF-8");
+                $smtp = new \Zend\Mail\Transport\Smtp();
+                $config = $this->getServiceLocator()->get('Config');
+                $options = new SmtpOptions($config['smtpOptions']);
+                $smtp->setOptions($options);
+                $smtp->send($message);
+                $json = new JsonModel();
+                return $json->setVariable('Status', 'Đã xong');
+            }else{
+                return 'Dữ liệu không phù hợp';
+            }
+        }
+
+    }
+
+    /**
+     * active user
+     */
+    public function activeaccountAction()
+    {
+        /** @var \Zend\Http\Request $request */
+        $request = $this->getRequest();
+
+        $email = $request->getQuery('u');
+        $activeKey = $request->getQuery('c');
+        if (!$email || !$activeKey) {
+            $this->redirect()->toUrl('/');
+        }
+        $form = new ActiveAccount();
+
+        /* @var $userMapper \User\Model\UserMapper */
+        $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+        /** @var \User\Model\User $user */
+        $user = new User();
+        $translator = $this->getServiceLocator()->get('translator');
+        $user->setActiveKey($activeKey);
+        $user->setEmail($email);
+        $user = $userMapper->getUserNotActive($user);
+
+        if($this->getRequest()->isPost()){
+            $data = $this->getRequest()->getPost();
+            $form->setData($data);
+            if($form->isValid()){
+                $user->exchangeArray((array)$data);
+                /** @var \User\Service\User $userService */
+                $userService = $this->getServiceLocator()->get('User\Service\User');
+                $userService->signup($user);
+
+                if($userService->authenticate($user->getEmail(),$data['password'])){
+                    return $this->redirect()->toUrl('/');
+                }
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariables(['email'=>$email]);
+        $viewModel->setVariables(['form' => $form]);
+
+        return $viewModel;
     }
 
 

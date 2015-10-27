@@ -106,18 +106,18 @@ class User implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param string $username
+     * @param string $mail
      * @param string $password
      * @return boolean
      */
-    public function authenticate($username, $password)
+    public function authenticate($mail, $password)
     {
         /* @var $sl \Zend\ServiceManager\ServiceManager */
         $sl = $this->getServiceLocator();
 
         $authAdapter = new CredentialTreatmentAdapter($sl->get('dbAdapter'),
-            'users', 'username', 'password', 'MD5(CONCAT(salt,?))');
-        $authAdapter->setIdentity($username);
+            'users', 'email', 'password', 'MD5(CONCAT(salt,?))');
+        $authAdapter->setIdentity($mail);
         $authAdapter->setCredential($password);
         /* @var $result \Zend\Authentication\Result */
         $result = $this->getAuthService()->authenticate($authAdapter);
@@ -125,7 +125,7 @@ class User implements ServiceLocatorAwareInterface
             /* @var $userMapper \User\Model\UserMapper */
             $userMapper = $sl->get('User\Model\UserMapper');
             /* @var $user \User\Model\User */
-            $user = $userMapper->get(null, $username);
+            $user = $userMapper->get(null,null, $mail);
             $this->getAuthService()->getStorage()->write($user->getId());
             return true;
         }
@@ -169,7 +169,14 @@ class User implements ServiceLocatorAwareInterface
     }
 
     public function isAvailableEmail($item){
-
+        $user = new \User\Model\User();
+        $user->setEmail($item);
+        /* @var $userMapper \User\Model\UserMapper */
+        $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+        if($userMapper->isExistedEmail($user)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -227,8 +234,10 @@ class User implements ServiceLocatorAwareInterface
         $user->setPassword(md5($user->getSalt() . $user->getPassword()));
         $user->setRegisteredDate(date('Y-m-d'));
         $user->setRegisteredFrom(str_replace('www.', '', strtolower($_SERVER['HTTP_HOST'])));
-        $user->setActiveKey((md5($user->getUsername() . $user->getPassword() . time())));
-        $user->setActiveLink('http://' . $_SERVER['HTTP_HOST'] . '/user/active?u=' . $user->getUsername() . '&c=' . $user->getActiveKey());
+        // todo hien tai mac dinh dang ki thuong la active luon sau nay tinh sau
+        $user->setActive(\User\Model\User::STATUS_ACTIVE);
+//        $user->setActiveKey((md5($user->getUsername() . $user->getPassword() . time())));
+//        $user->setActiveLink('http://' . $_SERVER['HTTP_HOST'] . '/user/active?u=' . $user->getUsername() . '&c=' . $user->getActiveKey());
         $user->setRole(\User\Model\User::ROLE_MEMBER);
 
         $sl = $this->getServiceLocator();
@@ -243,55 +252,48 @@ class User implements ServiceLocatorAwareInterface
      *
      * @param \User\Model\User $user
      */
-//    public function sendActiveLink(\User\Model\User $user)
-//    {
-//        $sl = $this->getServiceLocator();
-//        /* @var $userMapper \User\Model\UserMapper */
-//        $userMapper = $sl->get('User\Model\UserMapper');
-//        $translator = $this->getServiceLocator()->get('translator');
-//        /* @var $storeMailMapper \Store\Model\StoreEmailMapper */
-//        $storeMailMapper = $sl->get('Store\Model\StoreEmailMapper');
-//        /* @var $storeMail \Store\Model\StoreEmail */
-//        $storeMail = $storeMailMapper->getByStoreId($this->getServiceLocator()->get('Store\Service\Store')->getStoreId());
-//        $us = $userMapper->get($user->getId(), $user->getUsername(), $user->getEmail());
-//        $us->setActiveLink('http://' . $_SERVER['HTTP_HOST'] . '/user/active?u=' . $us->getUsername() . '&c=' . $us->getActiveKey());
-//        $message = new Message();
-//        $message->addTo($us->getEmail());
-//        if ($storeMail->getEmail()) {
-//            $message->addFrom($storeMail->getEmail(), $_SERVER['HTTP_HOST']);
-//        } else {
-//            $message->addFrom(self::DEFAULT_EMAIL_SENDER, $_SERVER['HTTP_HOST']);
-//        }
-//        $message->setSubject('Welcome to ' . $_SERVER['HTTP_HOST']);
-//        $body = sprintf($translator->translate("Xin chào %s"), $us->getFullName());
-//
-//        // @todo fixed mail template for kitchenArt
-//        if($this->getServiceLocator()->get('Store\Service\Store')->getStoreId() == 68){
-//            $this->renderer = $this->getServiceLocator()->get('ViewRenderer');
-//            $body .= "<br><br>";
-//            $body .= $translator->translate('Để hoàn thành quá trình đăng kí, xin nhấp vào đường dẫn bên dưới để kích hoạt tài khoản của bạn');
-//            $body .= "<br><br>";
-//            $body .= "<a href='{$us->getActiveLink()}'>{$us->getActiveLink()}</a>";
-//            $body .= $this->renderer->render('user/user/getactivecode');
-//            $body .= "<br><br>";
-//        }else{
-//            $body .= "<br><br>";
-//            $body .= $translator->translate('Để hoàn thành quá trình đăng kí, xin nhấp vào đường dẫn bên dưới để kích hoạt tài khoản của bạn');
-//            $body .= "<br><br>";
-//            $body .= "<a href='{$us->getActiveLink()}'>{$us->getActiveLink()}</a>";
-//            $body .= "<br><br>";
-//            $body .= $translator->translate('Xin cảm ơn!');
-//            $body .= "<br>";
-//        }
-//        $html = new MimePart($body);
-//        $html->type = 'text/html';
-//        $content = new MimeMessage();
-//        $content->setParts(array($html));
-//        $message->setBody($content);
-//        $smtp = new Smtp();
-//        $smtp->setOptions(new SmtpOptions($sl->get('Store\Service\Store')->getStoreSmtpOptions()));
-//        $smtp->send($message);
-//    }
+    public function sendActiveLink(\User\Model\User $user)
+    {
+        $sl = $this->getServiceLocator();
+        /* @var $userMapper \User\Model\UserMapper */
+        $userMapper = $sl->get('User\Model\UserMapper');
+        $translator = $this->getServiceLocator()->get('translator');
+
+        $us = $userMapper->get($user->getId(), $user->getUsername(), $user->getEmail());
+        $us->setActiveLink('http://' . $_SERVER['HTTP_HOST'] . '/user/active?u=' . $us->getUsername() . '&c=' . $us->getActiveKey());
+        $message = new Message();
+        $message->addTo($us->getEmail());
+            $message->addFrom(self::DEFAULT_EMAIL_SENDER, $_SERVER['HTTP_HOST']);
+        $message->setSubject('Welcome to ' . $_SERVER['HTTP_HOST']);
+        $body = sprintf($translator->translate("Xin chào %s"), $us->getFullName());
+
+        // @todo fixed mail template for kitchenArt
+        if($this->getServiceLocator()->get('Store\Service\Store')->getStoreId() == 68){
+            $this->renderer = $this->getServiceLocator()->get('ViewRenderer');
+            $body .= "<br><br>";
+            $body .= $translator->translate('Để hoàn thành quá trình đăng kí, xin nhấp vào đường dẫn bên dưới để kích hoạt tài khoản của bạn');
+            $body .= "<br><br>";
+            $body .= "<a href='{$us->getActiveLink()}'>{$us->getActiveLink()}</a>";
+            $body .= $this->renderer->render('user/user/getactivecode');
+            $body .= "<br><br>";
+        }else{
+            $body .= "<br><br>";
+            $body .= $translator->translate('Để hoàn thành quá trình đăng kí, xin nhấp vào đường dẫn bên dưới để kích hoạt tài khoản của bạn');
+            $body .= "<br><br>";
+            $body .= "<a href='{$us->getActiveLink()}'>{$us->getActiveLink()}</a>";
+            $body .= "<br><br>";
+            $body .= $translator->translate('Xin cảm ơn!');
+            $body .= "<br>";
+        }
+        $html = new MimePart($body);
+        $html->type = 'text/html';
+        $content = new MimeMessage();
+        $content->setParts(array($html));
+        $message->setBody($content);
+        $smtp = new Smtp();
+        $smtp->setOptions(new SmtpOptions($sl->get('Store\Service\Store')->getStoreSmtpOptions()));
+        $smtp->send($message);
+    }
 
     /**
      * @param \User\Model\User $user
@@ -434,54 +436,6 @@ class User implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Hàm này đăng nhập người dùng dựa trên 1 SignInToken
-     *
-     * @param string $token SignInToken được truyền sang từ id.vatgia.com
-     */
-    function signInByToken($token)
-    {
-        $config = $this->getServiceLocator()->get('Config');
-        $secretKey = $config['sso']['id.vatgia.com_IKI']['secretKey'];
-        $publicKey = $config['oauths']['id.vatgia.com']['publicKey'];
-        $s = new SignInToken(array(), $secretKey, $publicKey);
-        if (SSOHelper::isRefererValid() && ($signinErr = $s->decrypt($token)) == SignInToken::ERROR_NONE) {
-            // Header này chỉ định dành cho IE, để cho phép cross domain cookie
-            header('P3P: CP="CAO PSA OUR"');
-
-            $data = $s->getData(); // dữ liệu của SignInToken
-
-            $info = $data['info'];
-
-            // Vì id.vatgia.com chỉ cung cấp Họ Đệm và Tên, bạn có thể lấy tên đầy đủ như dưới đây
-            $info['name'] = trim($info['first_name'] . ' ' . $info['last_name']);
-            /* @var $userMapper \User\Model\UserMapper */
-            $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
-            if (($user = $userMapper->get(null, null, $info['email'])) == null) {
-                $user = new \User\Model\User();
-                $user->setEmail($info['email']);
-                $user->setFullName($info['name']);
-                $user->setAddress($info['address']);
-                $user->setBirthday($info['dob']);
-                $user->setMobile($info['phone']);
-                $user->setActive(1);
-                $user->setRegisteredDate(date('Y-m-d H:i:s'));
-                $userMapper->save($user);
-            }
-
-            // TODO lưu lại thông tin OAuth2 Access Token dùng để xác thực tài khoản trước khi lấy thông tin bảo kim...
-            //$this->setState('oauth2_access_token', $data['oauth2_access_token']);
-            // hoặc : $_SESSION['oauth2_access_token'] = $data['oauth2_access_token'];
-
-            // Lưu lại gsn vào cookie
-            SSOHelper::saveGSN($data['gsn'], $data['expired_time']);
-            return $user;
-        } else {
-            echo $signinErr;
-        }
-        return null;
-    }
-
-    /**
      * @param string $email
      * @return boolean
      */
@@ -537,7 +491,6 @@ class User implements ServiceLocatorAwareInterface
         return $userMapper->getMentor();
 
     }
-
 
 
 }

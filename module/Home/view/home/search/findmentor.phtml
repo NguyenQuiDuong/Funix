@@ -1,0 +1,3710 @@
+<div class="container"><div class="center alert flash-message topAlert alert-success" id="broadcastSuccess"><a class="close" data-dismiss="alert">×</a><div class="msg">Your request has been broadcasted to Codementor experts. In the mean time, you are also free to connect with one of the expert mentors below.</div></div>
+    <!-- ngIf: !User.hasWebRTC -->
+    <div check-time-zone=""></div>
+
+    <div class="alerts ng-scope" ng-controller="AlertCtrl as alertCtrl">
+        <!-- ngRepeat: alert in Alert.alerts --><div class="center alert flash-message topAlert ng-scope alert-success cookie-alert" ng-class="alert.type" ng-repeat="alert in Alert.alerts">
+            <a class="close" data-dismiss="alert">×</a>
+            <span class="ng-binding"></span>
+            <span msg-html-unsafe="alert.msgHtmlUnsafe"><span class="ng-scope">Make sure you're properly set up!  Please </span><a href="/session?intro=true" target="_blank" class="ng-scope">try a test session</a><span class="ng-scope"> and </span><a href="#" ng-click="openPaymentSettingForm()" class="ng-scope">set up billing info</a><span class="ng-scope">.</span></span>
+            <a class="never-ask-again muted" href="#" ng-click="Alert.neverAskAgain(alert.name)" style="padding-left:10px;text-decoration:underline;">
+                Never ask again
+            </a>
+        </div><!-- end ngRepeat: alert in Alert.alerts -->
+    </div>
+
+    <div class="offset2 recommended_mentors span8 ng-scope" ng-controller="findMentorsCtrl" ng-init="init({step:2,online_mentor_count:0,offline_mentor_count:40,budget:15,isBroadcasted:false, broadcastUrl:'/questions/7659868537/broadcast'})" ng-show="show">
+        <div class="question_show_title ng-hide" ng-show="loading==1">
+            <h1>
+                We are finding someone to work with you
+            </h1>
+        </div>
+        <div class="question_show_title ng-hide" ng-show="loading==2">
+            <h1>
+                We are finding mentors with upcoming availability for you
+            </h1>
+        </div>
+        <div class="question_show_title ng-hide" ng-show="step == 1 &amp;&amp; loading==false">
+            <h1>
+                Here is an online expert we've found for you
+            </h1>
+        </div>
+        <div class="question_show_title" ng-show="step == 2 &amp;&amp; loading==false">
+            <h1>
+                Here are available experts we've found for you
+            </h1>
+            <div class="filter muted" ng-hide="original_budget==undefined">
+                <a ng-class="{active:(offlineMentorDisplay=='budget')}" ng-click="offlineMentorShow('budget')" href="#" class="active">Experts matching your budget ($60/hr) </a>
+                |
+                <a ng-class="{active:(offlineMentorDisplay=='all')}" ng-click="offlineMentorShow('all')" href="#">All available experts</a>
+            </div>
+        </div>
+        <div class="loading ng-hide" ng-show="loading == true">
+            <div class="loading-bar" percentage="percentage">
+                <div class="frame">
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <h3 class="loading-msg">
+                Here are some mentors we're reaching out to:
+            </h3>
+            <div class="mentor-avatars">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/b95fb6235dc676abfb760c523c35bf26?d=404&amp;s=200" src="https://www.gravatar.com/avatar/b95fb6235dc676abfb760c523c35bf26?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/44128d17e23187413cded5010698ecb8?d=404&amp;s=200" src="https://www.gravatar.com/avatar/44128d17e23187413cded5010698ecb8?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/32d407cac6126f3c9e08a67973c155c5?d=404&amp;s=200" src="https://www.gravatar.com/avatar/32d407cac6126f3c9e08a67973c155c5?d=404&amp;s=200" style="display: none;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/27ec338f45082ff999895a6cb9830065?d=404&amp;s=200" src="https://www.gravatar.com/avatar/27ec338f45082ff999895a6cb9830065?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/eac9331f58a625d1e64cd263dd7c2cbc?d=404&amp;s=200" src="https://www.gravatar.com/avatar/eac9331f58a625d1e64cd263dd7c2cbc?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/f66d125e3355ffd90d62dffa5e54939c?d=404&amp;s=200" src="https://www.gravatar.com/avatar/f66d125e3355ffd90d62dffa5e54939c?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/KeRJiyVZSsGCvjdbkxgG" src="https://www.filepicker.io/api/file/KeRJiyVZSsGCvjdbkxgG" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/xozYpGooS02a9SECXoSR" src="https://www.filepicker.io/api/file/xozYpGooS02a9SECXoSR" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/Exl7HLpQjiKN6xK18yPW" src="https://www.filepicker.io/api/file/Exl7HLpQjiKN6xK18yPW" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/b49232b25ec631c30bd705adbc21038a?d=404&amp;s=200" src="https://www.gravatar.com/avatar/b49232b25ec631c30bd705adbc21038a?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/pJ8q5HdjTa2tzqPgKjyU" src="https://www.filepicker.io/api/file/pJ8q5HdjTa2tzqPgKjyU" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/323311bb4cc5af1a4b2c5c26b4cfc5a3?d=404&amp;s=200" src="https://www.gravatar.com/avatar/323311bb4cc5af1a4b2c5c26b4cfc5a3?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/f78a8a2a69c1d371ef5ee8001a2acac7?d=404&amp;s=200" src="https://www.gravatar.com/avatar/f78a8a2a69c1d371ef5ee8001a2acac7?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/11af03e8af2ef126d2f98528c78c4c53?d=404&amp;s=200" src="https://www.gravatar.com/avatar/11af03e8af2ef126d2f98528c78c4c53?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/L9s1rrPTGGrDBTWIzW9C" src="https://www.filepicker.io/api/file/L9s1rrPTGGrDBTWIzW9C" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/nHnqkhqCRiKIcVzbWv6k" src="https://www.filepicker.io/api/file/nHnqkhqCRiKIcVzbWv6k" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/ca71042d9d6724f4cbc2598195662eb0?d=404&amp;s=200" src="https://www.gravatar.com/avatar/ca71042d9d6724f4cbc2598195662eb0?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/103592e42360fa41825c314e73756a8f?d=404&amp;s=200" src="https://www.gravatar.com/avatar/103592e42360fa41825c314e73756a8f?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/40db9e75b3f5899258e3bdc0c9210154?d=404&amp;s=200" src="https://www.gravatar.com/avatar/40db9e75b3f5899258e3bdc0c9210154?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/2d310faad4e133a768e61973899d18dd?d=404&amp;s=200" src="https://www.gravatar.com/avatar/2d310faad4e133a768e61973899d18dd?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/a8d6ac94766a5a15503f860ce4934c38?d=404&amp;s=200" src="https://www.gravatar.com/avatar/a8d6ac94766a5a15503f860ce4934c38?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/56ec6071b9e9a3724ad6adee3656f8e4?d=404&amp;s=200" src="https://www.gravatar.com/avatar/56ec6071b9e9a3724ad6adee3656f8e4?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/8f48fb2286a93fa15d6e76e8e79e150d?d=404&amp;s=200" src="https://www.gravatar.com/avatar/8f48fb2286a93fa15d6e76e8e79e150d?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/c131a7eccd0103070d16d2f100edcb15?d=404&amp;s=200" src="https://www.gravatar.com/avatar/c131a7eccd0103070d16d2f100edcb15?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/f03891f3e028395e3f72676be727bf62?d=404&amp;s=200" src="https://www.gravatar.com/avatar/f03891f3e028395e3f72676be727bf62?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/HOJmVj8bSUCKLCAdIVSf" src="https://www.filepicker.io/api/file/HOJmVj8bSUCKLCAdIVSf" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/dc307ff619e7314adc30d95786116cf8?d=404&amp;s=200" src="https://www.gravatar.com/avatar/dc307ff619e7314adc30d95786116cf8?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/ce01342d890b759eb97a617e324227f3?d=404&amp;s=200" src="https://www.gravatar.com/avatar/ce01342d890b759eb97a617e324227f3?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/04f3babefa4ba85e7904b40e6846e217?d=404&amp;s=200" src="https://www.gravatar.com/avatar/04f3babefa4ba85e7904b40e6846e217?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/3585b7a37816f97b3bd2bd9f9a63e593?d=404&amp;s=200" src="https://www.gravatar.com/avatar/3585b7a37816f97b3bd2bd9f9a63e593?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/11e6ca0e69c0dcd6f3d32e8a03ae431b?d=404&amp;s=200" src="https://www.gravatar.com/avatar/11e6ca0e69c0dcd6f3d32e8a03ae431b?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/2ebcf33aeecc0823e47966317adc3008?d=404&amp;s=200" src="https://www.gravatar.com/avatar/2ebcf33aeecc0823e47966317adc3008?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/fc268665968fd71388b7dcbb221e86fa?d=404&amp;s=200" src="https://www.gravatar.com/avatar/fc268665968fd71388b7dcbb221e86fa?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/c6c36f8dd020f94994d557df7e202429?d=404&amp;s=200" src="https://www.gravatar.com/avatar/c6c36f8dd020f94994d557df7e202429?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/ffd0dd14cf820a0de3708ab6ce929666?d=404&amp;s=200" src="https://www.gravatar.com/avatar/ffd0dd14cf820a0de3708ab6ce929666?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/17c224af3f4e8cfc6e2195e4b8cfa886?d=404&amp;s=200" src="https://www.gravatar.com/avatar/17c224af3f4e8cfc6e2195e4b8cfa886?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.filepicker.io/api/file/oCesEKX7TcOhGc2t4OeU" src="https://www.filepicker.io/api/file/oCesEKX7TcOhGc2t4OeU" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/2177a13668b2fd6ca39e6fcf0f40d6b0?d=404&amp;s=200" src="https://www.gravatar.com/avatar/2177a13668b2fd6ca39e6fcf0f40d6b0?d=404&amp;s=200" style="display: none;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/bf515421c1a764339fa7f8003b7097f3?d=404&amp;s=200" src="https://www.gravatar.com/avatar/bf515421c1a764339fa7f8003b7097f3?d=404&amp;s=200" style="display: inline;">
+                <img class="img-circle hide-gravatar-404" ng-src="https://www.gravatar.com/avatar/477dc65c2083c0aea87485b399372db0?d=404&amp;s=200" src="https://www.gravatar.com/avatar/477dc65c2083c0aea87485b399372db0?d=404&amp;s=200" style="display: inline;">
+            </div>
+        </div>
+        <div class="online-experts ng-hide" ng-show="step == 1 &amp;&amp; loading == false">
+        </div>
+        <div class="other-experts" ng-show="step == 2 &amp;&amp; loading == false">
+            <div class="empty-case">
+                Oops! We can't find any mentors matching your budget.
+            </div>
+            <div class="row" ng-show="budget==undefined || budget >= 14.99" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/b95fb6235dc676abfb760c523c35bf26?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/mikerodriguez">
+                            Michael Rodriguez
+                        </a>
+                        <br>
+                        UI/UX designer, front-end and WordPress developer with 8+ years of expierence.
+                        <br>
+                        <strong>$14.99</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            20
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/sass-experts">Sass</a>
+</span>
+<span class="cate">
+<a href="/scss-experts">Scss</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/angularjs-experts">AngularJS</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/mikerodriguez" style="color:#8e979b;" title="About Michael Rodriguez">
+                                UI/UX designer, front-end and WordPress developer from Miami, FL with a little over 8 years of experience. During my career as a designer/developer, I've lead numerous of projects on all aspects....
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'b9af1083c9c798a4cb542d9c5b4f368d', 'chatroomFirebaseId': '21b6fa679849acbe08fe8592917d6033', 'contact': {'name': 'Michael Rodriguez', 'username': 'mikerodriguez', 'avatarUrl': 'https://www.gravatar.com/avatar/b95fb6235dc676abfb760c523c35bf26?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Michael Rodriguez', username:'mikerodriguez'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 14.99">
+            <div class="row" ng-show="budget==undefined || budget >= 14.95" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/44128d17e23187413cded5010698ecb8?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/zachsaucier">
+                            Zach Saucier
+                        </a>
+                        <br>
+                        Front-end developer and designer; Writer and speaker on web animations
+                        <br>
+                        <strong>$14.95</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            96
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/css-experts">CSS</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/responsive-design-experts">Responsive design</a>
+</span>
+<span class="cate">
+<a href="/web-animation-experts">Web animation</a>
+</span>
+<span class="cate">
+<a href="/front-end-development-experts">Front end development</a>
+</span>
+<span class="cate">
+<a href="/sass-experts">Sass</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/gsap-experts">Gsap</a>
+</span>
+<span class="cate">
+<a href="/velocityjs-experts">Velocity.js</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/zachsaucier" style="color:#8e979b;" title="About Zach Saucier">
+                                For just about anything front end related, I'm the guy you want and I'd love to help!
+
+                                I've written for CSS Tricks and others, work as a front-end developer, am an international speaker on front...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+99%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'fba042135ac9d57b5268632e7e093bf2', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Zach Saucier', 'username': 'zachsaucier', 'avatarUrl': 'https://www.gravatar.com/avatar/44128d17e23187413cded5010698ecb8?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Zach Saucier', username:'zachsaucier'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 14.95">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/32d407cac6126f3c9e08a67973c155c5?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/robertogd">
+                            Robert
+                        </a>
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+<span class="cate">
+<a href="/dot_net-experts">.NET</a>
+</span>
+<span class="cate">
+<a href="/umbraco-experts">Umbraco</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html5-experts">HTML5</a>
+</span>
+<span class="cate">
+<a href="/css3-experts">CSS3</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/css-experts">CSS</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/robertogd" style="color:#8e979b;" title="About Robert">
+                                My best skills is a Web Development, SEO, GameDev and Graphic. I'am IT Specialist - Apple software &amp; products/Windows. This is my passion and work. I like to create new projects and help people...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '0cbb0b23dce3d407040f62d329f45939', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Robert', 'username': 'robertogd', 'avatarUrl': 'https://www.gravatar.com/avatar/32d407cac6126f3c9e08a67973c155c5?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Robert', username:'robertogd'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 10.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/27ec338f45082ff999895a6cb9830065?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/solidux">
+                            Nestor Zepeda
+                        </a>
+                        <br>
+                        <strong>$10.00</strong>
+                        <small>/15min</small>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/android-experts">Android</a>
+</span>
+<span class="cate">
+<a href="/java-experts">Java</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/cordova-experts">Cordova</a>
+</span>
+<span class="cate">
+<a href="/phonegap-experts">PhoneGap</a>
+</span>
+<span class="cate">
+<a href="/jquery-mobile-experts">jQuery Mobile</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/solidux" style="color:#8e979b;" title="About Nestor Zepeda">
+                                Tengo 6 años de experiencia en el desarrollo de proyectos informaticos.
+                                Developer WEB, utilizando frameworks como Struts2, Spring, Hibernate, Ejb.
+                                Para los GUI utilizando Jquery con Jquery...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '2c25457cc75fb52b56b71772b84b09ac', 'chatroomFirebaseId': '6ef12cd611f85a72d28d354fb76bef9a', 'contact': {'name': 'Nestor Zepeda', 'username': 'solidux', 'avatarUrl': 'https://www.gravatar.com/avatar/27ec338f45082ff999895a6cb9830065?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Nestor Zepeda', username:'solidux'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 10.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/eac9331f58a625d1e64cd263dd7c2cbc?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/moazam">
+                            Moazam
+                        </a>
+                        <br>
+                        Expert Full Stack Developer
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            17
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/twitter-bootstrap-experts">Twitter bootstrap</a>
+</span>
+<span class="cate">
+<a href="/html5-experts">HTML5</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/laravel-experts">Laravel</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+<span class="cate">
+<a href="/twitter-api-experts">Twitter api</a>
+</span>
+<span class="cate">
+<a href="/sphinx-search-experts">Sphinx search</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/moazam" style="color:#8e979b;" title="About Moazam">
+                                I am a founder and lead developer at ISolution Technologies. I have developed high performance and user friendly websites by using various popular technologies including but not limited to PHP,...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+67%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '95a978dafea4e92f7904ef6b9a350533', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Moazam', 'username': 'moazam', 'avatarUrl': 'https://www.gravatar.com/avatar/eac9331f58a625d1e64cd263dd7c2cbc?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Moazam', username:'moazam'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/f66d125e3355ffd90d62dffa5e54939c?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/nicoledominguez">
+                            Nicole Dominguez
+                        </a>
+                        <br>
+                        Front-end developer, designer, 7yrs of front-end exp
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            2
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/less-experts">Less</a>
+</span>
+<span class="cate">
+<a href="/sass-experts">Sass</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/django-experts">Django</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/bootstrap-experts">Bootstrap</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/nicoledominguez" style="color:#8e979b;" title="About Nicole Dominguez">
+                                Front end dev / Designer with years of experience templating for Wordpress, Django and Rails. Loves CSS, preprocessing with Sass &amp; holds a soft spot in my heart for HTML emails!
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '39ebbd8ac8c3e45e2edfbaa0017886be', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Nicole Dominguez', 'username': 'nicoledominguez', 'avatarUrl': 'https://www.gravatar.com/avatar/f66d125e3355ffd90d62dffa5e54939c?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Nicole Dominguez', username:'nicoledominguez'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/KeRJiyVZSsGCvjdbkxgG">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/panda_whisperer">
+                            Christoph Wagner
+                        </a>
+                        <br>
+                        Experienced full-stack developer. I see code as an art form.
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            152
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/nodejs-experts">Node.js</a>
+</span>
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/polymer-experts">Polymer</a>
+</span>
+<span class="cate">
+<a href="/meteor-experts">Meteor</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/panda_whisperer" style="color:#8e979b;" title="About Christoph Wagner">
+                                "Whoever travels without a guide needs 200 years for a two-day journey."
+
+                                Whether you're just starting out on the journey to becoming a great coder, or whether you're somewhere in the middle and...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+91%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'f047bb1803168359cab4f9a9d1d803b1', 'chatroomFirebaseId': '064bd45bf362838238a460391a8ec98b', 'contact': {'name': 'Christoph Wagner', 'username': 'panda_whisperer', 'avatarUrl': 'https://www.filepicker.io/api/file/KeRJiyVZSsGCvjdbkxgG'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Christoph Wagner', username:'panda_whisperer'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 11.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/xozYpGooS02a9SECXoSR">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/martal">
+                            Marcus Tallberg
+                        </a>
+                        <br>
+                        Senior Front-End Developer
+                        <br>
+                        <strong>$11.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            13
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/code-review-experts">Code review</a>
+</span>
+<span class="cate">
+<a href="/automation-experts">Automation</a>
+</span>
+<span class="cate">
+<a href="/speed-up-experts">Speed up</a>
+</span>
+<span class="cate">
+<a href="/requirejs-experts">Requirejs</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/martal" style="color:#8e979b;" title="About Marcus Tallberg">
+                                Full-stack developer with 14 years experience from JavaScript / HTML / CSS. I have a passion for solving problems and finding bugs.
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'ed824e8718b9469aec1e8d5fe04861bd', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Marcus Tallberg', 'username': 'martal', 'avatarUrl': 'https://www.filepicker.io/api/file/xozYpGooS02a9SECXoSR'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Marcus Tallberg', username:'martal'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 11.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/Exl7HLpQjiKN6xK18yPW">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/jonathaneunice">
+                            Jonathan Eunice
+                        </a>
+                        <br>
+                        full-stack developer, DevOps/cloud service operator, IT strategic advisor, smokejumper
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            144
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/full-stack-experts">Full stack</a>
+</span>
+<span class="cate">
+<a href="/devops-experts">DevOps</a>
+</span>
+<span class="cate">
+<a href="/d3js-experts">D3.js</a>
+</span>
+<span class="cate">
+<a href="/python-experts">Python</a>
+</span>
+<span class="cate">
+<a href="/cloud-experts">Cloud</a>
+</span>
+<span class="cate">
+<a href="/aws-experts">AWS</a>
+</span>
+<span class="cate">
+<a href="/server-experts">Server</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/perl-experts">Perl</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/jonathaneunice" style="color:#8e979b;" title="About Jonathan Eunice">
+                                I'm a software developer and DevOps/cloud service operator. I also advise companies and investors on IT and business strategy. Solid programmer. Extraordinary trouble-shooter and "OMG! Everything...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '6154d9ed3af68931294b4ddc01cce79b', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Jonathan Eunice', 'username': 'jonathaneunice', 'avatarUrl': 'https://www.filepicker.io/api/file/Exl7HLpQjiKN6xK18yPW'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Jonathan Eunice', username:'jonathaneunice'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 26.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/b49232b25ec631c30bd705adbc21038a?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/matstc">
+                            Matthieu Tanguay-Carel
+                        </a>
+                        <br>
+                        Senior Web Developer
+                        <br>
+                        <strong>$26.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            112
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/heroku-experts">Heroku</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/knockoutjs-experts">Knockout.js</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/browser-testing-experts">Browser testing</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/matstc" style="color:#8e979b;" title="About Matthieu Tanguay-Carel">
+                                Freelance software consultant and web developer. Years of experience building websites, APIs and backend services.
+
+                                Lately I've done a lot of mobile websites, responsive design, and automated...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+64%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a day
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '622568151c67df81e5bbdb361f381ec3', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Matthieu Tanguay-Carel', 'username': 'matstc', 'avatarUrl': 'https://www.gravatar.com/avatar/b49232b25ec631c30bd705adbc21038a?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Matthieu Tanguay-Carel', username:'matstc'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 26.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 20.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/pJ8q5HdjTa2tzqPgKjyU">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/walid.ajaj">
+                            Walid Ajaj
+                        </a>
+                        <br>
+                        PHP / Web / Mobile Developer with 9+ years experience.
+                        <br>
+                        <strong>$20.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            102
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/angularjs-experts">AngularJS</a>
+</span>
+<span class="cate">
+<a href="/ionicframework-experts">Ionicframework</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/walid.ajaj" style="color:#8e979b;" title="About Walid Ajaj">
+                                Full-stack developer with 9+ years experience in PHP/Web development and 2+ years in Mobile/Cordova development. API's building lover.
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+72%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'cbdbb7c5fe7f0ae623a3da8a83522998', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Walid Ajaj', 'username': 'walid.ajaj', 'avatarUrl': 'https://www.filepicker.io/api/file/pJ8q5HdjTa2tzqPgKjyU'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Walid Ajaj', username:'walid.ajaj'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 20.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 100.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/323311bb4cc5af1a4b2c5c26b4cfc5a3?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/aarongustafson">
+                            Aaron Gustafson
+                        </a>
+                        <br>
+                        My name is Aaron Gustafson and I work on the web.
+                        <br>
+                        <strong>$100.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/responsive-web-design-experts">Responsive web design</a>
+</span>
+<span class="cate">
+<a href="/progressive-enhancement-experts">Progressive enhancement</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/expressionengine-experts">Expressionengine</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/aarongustafson" style="color:#8e979b;" title="About Aaron Gustafson">
+                                I am the founder and technical lead of Easy Designs, a web development consultancy focused on helping businesses elegantly tackle the challenges of presented by all these crazy screens you see...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '07c9fa872aac8c179553f486056446b6', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Aaron Gustafson', 'username': 'aarongustafson', 'avatarUrl': 'https://www.gravatar.com/avatar/323311bb4cc5af1a4b2c5c26b4cfc5a3?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Aaron Gustafson', username:'aarongustafson'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 100.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 24.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/f78a8a2a69c1d371ef5ee8001a2acac7?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/pburtchaell">
+                            Patrick Burtchaell
+                        </a>
+                        <br>
+                        Front end web developer at PeachMe
+                        <br>
+                        <strong>$24.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/sass-experts">Sass</a>
+</span>
+<span class="cate">
+<a href="/less-experts">Less</a>
+</span>
+<span class="cate">
+<a href="/gruntjs-experts">Gruntjs</a>
+</span>
+<span class="cate">
+<a href="/gulpjs-experts">Gulp.js</a>
+</span>
+<span class="cate">
+<a href="/yeoman-experts">Yeoman</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/pburtchaell" style="color:#8e979b;" title="About Patrick Burtchaell">
+                                I am a senior web developer with experience in maintaining and writing front-end code —generally Sass/LESS and JS— for large projects. I have intermediate experience with Node (mostly through...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'eb3ccf965f0d37fe679406bd3d5f3fc7', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Patrick Burtchaell', 'username': 'pburtchaell', 'avatarUrl': 'https://www.gravatar.com/avatar/f78a8a2a69c1d371ef5ee8001a2acac7?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Patrick Burtchaell', username:'pburtchaell'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 24.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/11af03e8af2ef126d2f98528c78c4c53?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/mrjst55057">
+                            John Thomas
+                        </a>
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/classic-asp-experts">Classic asp</a>
+</span>
+<span class="cate">
+<a href="/asp-classic-experts">Asp classic</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/mrjst55057" style="color:#8e979b;" title="About John Thomas">
+                                Owner &amp; Principal Technologist at Mr. JST Technology Consulting LLC
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'ae85da86038195f03f6b9f60c54e0086', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'John Thomas', 'username': 'mrjst55057', 'avatarUrl': 'https://www.gravatar.com/avatar/11af03e8af2ef126d2f98528c78c4c53?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'John Thomas', username:'mrjst55057'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 8.5" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/L9s1rrPTGGrDBTWIzW9C">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/xnineteen">
+                            Andrew
+                        </a>
+                        <br>
+                        Team of Coders Ready To Help On Demand with 8 Years of Experience
+                        <br>
+                        <strong>$8.50</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            8
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/xnineteen" style="color:#8e979b;" title="About Andrew">
+                                We are xNineteen, we develop Websites in
+                                PHP, MYSQL, MYSQLI, HTML
+
+                                we are ready to help you when needed.
+
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a day
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445814000000" data-end="1445900400000" data-mentor-id="7214147302" data-mentor-name="Andrew" data-mentor-timezone="0" data-start="1445814000000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time">All Day</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445900400000" data-end="1445986800000" data-mentor-id="7214147302" data-mentor-name="Andrew" data-mentor-timezone="0" data-start="1445900400000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time">All Day</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445986800000" data-end="1446073200000" data-mentor-id="7214147302" data-mentor-name="Andrew" data-mentor-timezone="0" data-start="1445986800000" data-target="#modalSchedule">
+                                <span class="date">Wednesday</span>
+                                <span class="time">All Day</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'dfd3f83c8c550c41bba8eaa4bf0d005c', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Andrew', 'username': 'xnineteen', 'avatarUrl': 'https://www.filepicker.io/api/file/L9s1rrPTGGrDBTWIzW9C'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Andrew', username:'xnineteen'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 8.5">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/nHnqkhqCRiKIcVzbWv6k">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/anlek">
+                            Andrew Kalek
+                        </a>
+                        <br>
+                        Ruby and Rails developer for over 9+ years.
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            9
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/slim-experts">Slim</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/mongodb-experts">MongoDB</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/anlek" style="color:#8e979b;" title="About Andrew Kalek">
+                                I've been programming since I was 15, started working on Microsoft languages like VB and C#. First paying job was using Flash's ActionScript but once I found Ruby, life became like a dream and I've...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+86%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a day
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445889600000" data-end="1445895000000" data-mentor-id="2141387237" data-mentor-name="Andrew Kalek" data-mentor-timezone="-25200" data-start="1445889600000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time"> 3:00AM -  4:30AM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1446062400000" data-end="1446067800000" data-mentor-id="2141387237" data-mentor-name="Andrew Kalek" data-mentor-timezone="-25200" data-start="1446062400000" data-target="#modalSchedule">
+                                <span class="date">Thursday</span>
+                                <span class="time"> 3:00AM -  4:30AM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1446228000000" data-end="1446231600000" data-mentor-id="2141387237" data-mentor-name="Andrew Kalek" data-mentor-timezone="-25200" data-start="1446228000000" data-target="#modalSchedule">
+                                <span class="date">Saturday</span>
+                                <span class="time"> 1:00AM -  2:00AM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'a538b458b7d48354ecc22939b1c317e4', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Andrew Kalek', 'username': 'anlek', 'avatarUrl': 'https://www.filepicker.io/api/file/nHnqkhqCRiKIcVzbWv6k'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Andrew Kalek', username:'anlek'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 20.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/ca71042d9d6724f4cbc2598195662eb0?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/anttihaapala">
+                            Antti Haapala
+                        </a>
+                        <br>
+                        <strong>$20.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            1
+                        </b>
+<span>
+session
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/python-experts">Python</a>
+</span>
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+<span class="cate">
+<a href="/assembly-experts">Assembly</a>
+</span>
+<span class="cate">
+<a href="/x86-experts">X86</a>
+</span>
+<span class="cate">
+<a href="/html5-experts">HTML5</a>
+</span>
+<span class="cate">
+<a href="/sqlalchemy-experts">Sqlalchemy</a>
+</span>
+<span class="cate">
+<a href="/pyramid-experts">Pyramid</a>
+</span>
+<span class="cate">
+<a href="/eclipse-plugin-experts">Eclipse plugin</a>
+</span>
+<span class="cate">
+<a href="/postgresql-experts">Postgresql</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/anttihaapala" style="color:#8e979b;" title="About Antti Haapala">
+                                With almost 20 years of programming experience, of which 15 years professional, I have delivered software from embedded systems to distributed, games to social media web applications, operating...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'a5e39a1f03bc187ed4c2cb9fa49965ed', 'chatroomFirebaseId': '72e642b7c89e77cdc0c950f95065bd6b', 'contact': {'name': 'Antti Haapala', 'username': 'anttihaapala', 'avatarUrl': 'https://www.gravatar.com/avatar/ca71042d9d6724f4cbc2598195662eb0?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Antti Haapala', username:'anttihaapala'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 20.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/103592e42360fa41825c314e73756a8f?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/joemsak">
+                            Joe Sak
+                        </a>
+                        <br>
+                        Clean, test-driven, disciplined programmer. Strengths: Ruby, Javascript, TDD, Rails
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            28
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/vim-experts">Vim</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/backbonejs-experts">Backbone.js</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/joemsak" style="color:#8e979b;" title="About Joe Sak">
+                                I want to help new programmers understand the simple principles of better design, and how to write clean, elegant, disciplined code that is informative, readable, unambiguous, maintainable, and...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '738193252328b690f95c089a812e0ac2', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Joe Sak', 'username': 'joemsak', 'avatarUrl': 'https://www.gravatar.com/avatar/103592e42360fa41825c314e73756a8f?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Joe Sak', username:'joemsak'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 20.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/40db9e75b3f5899258e3bdc0c9210154?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/conradwt">
+                            Conrad Taylor
+                        </a>
+                        <br>
+                        Software developer with 10+ years of experience.
+                        <br>
+                        <strong>$20.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            6
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/postgresql-experts">Postgresql</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/erlang-experts">Erlang</a>
+</span>
+<span class="cate">
+<a href="/elixir-experts">Elixir</a>
+</span>
+<span class="cate">
+<a href="/swift-experts">Swift</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/conradwt" style="color:#8e979b;" title="About Conrad Taylor">
+                                Hi, I'm a software engineer that's originally from the Chicago, Illinois. I have been developing software 10+ years and loving it. Also, I have interests in robotics, artificial intelligence,...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '386d29935b6d7cf9288d26c06e8c1224', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Conrad Taylor', 'username': 'conradwt', 'avatarUrl': 'https://www.gravatar.com/avatar/40db9e75b3f5899258e3bdc0c9210154?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Conrad Taylor', username:'conradwt'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 20.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/2d310faad4e133a768e61973899d18dd?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/huntington">
+                            Matthew Huntington
+                        </a>
+                        <br>
+                        Full Stack Engineer focusing on AngularJS, BackBoneJS, Javascript, LESS, SASS, Grunt, PHP, Java, WebGL
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            37
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/server-experts">Server</a>
+</span>
+<span class="cate">
+<a href="/nodejs-experts">Node.js</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/java-experts">Java</a>
+</span>
+<span class="cate">
+<a href="/android-experts">Android</a>
+</span>
+<span class="cate">
+<a href="/c_plus_plus-experts">C++</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/backbonejs-experts">Backbone.js</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/huntington" style="color:#8e979b;" title="About Matthew Huntington">
+                                I have over 15 years of development experience for the top names in all the major industries.  I love to teach and talk about technology, and I have extensive mentoring experience.  I'm friendly...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '4edbca28664aa1a162214ff29c3142b3', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Matthew Huntington', 'username': 'huntington', 'avatarUrl': 'https://www.gravatar.com/avatar/2d310faad4e133a768e61973899d18dd?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Matthew Huntington', username:'huntington'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 25.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/a8d6ac94766a5a15503f860ce4934c38?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/joelgraham">
+                            Joel graham
+                        </a>
+                        <br>
+                        <strong>$25.00</strong>
+                        <small>/15min</small>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/magento-experts">Magento</a>
+</span>
+<span class="cate">
+<a href="/css-experts">CSS</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/joelgraham" style="color:#8e979b;" title="About Joel graham">
+                                Website developer, working mainly with Magento website. Written my own PHP OOP MVC framework.
+
+                                Competent with jQuery, HTML and CSS too.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '9590e6cdd4c3f00790df8b5a508952bd', 'chatroomFirebaseId': '47ebe964726069cae3eaa6b07d599654', 'contact': {'name': 'Joel graham', 'username': 'joelgraham', 'avatarUrl': 'https://www.gravatar.com/avatar/a8d6ac94766a5a15503f860ce4934c38?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Joel graham', username:'joelgraham'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 25.0" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 10.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/56ec6071b9e9a3724ad6adee3656f8e4?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/loktar">
+                            Jason Brown
+                        </a>
+                        <br>
+                        <strong>$10.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html-experts">Html</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/css-experts">CSS</a>
+</span>
+<span class="cate">
+<a href="/html5-experts">HTML5</a>
+</span>
+<span class="cate">
+<a href="/html5-canvas-experts">Html5 canvas</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/loktar" style="color:#8e979b;" title="About Jason Brown">
+                                I love making things for the web, and teaching others how to as well. My expertise and current passion involves using JavaScript and the canvas element to make visually impressive applications.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'ad39ef0038e71713cb08ed0e9cdd2004', 'chatroomFirebaseId': '397a64cd5f6863084ef734116e56d5a0', 'contact': {'name': 'Jason Brown', 'username': 'loktar', 'avatarUrl': 'https://www.gravatar.com/avatar/56ec6071b9e9a3724ad6adee3656f8e4?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Jason Brown', username:'loktar'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 10.0">
+            <div class="row" ng-show="budget==undefined || budget >= 10.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/8f48fb2286a93fa15d6e76e8e79e150d?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/oespirilla">
+                            Oscar Espirilla
+                        </a>
+                        <br>
+                        <strong>$10.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+                        <br>
+                        <b>
+                            1
+                        </b>
+<span>
+session
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/google-app-engine-experts">Google app engine</a>
+</span>
+<span class="cate">
+<a href="/sharepoint-experts">Sharepoint</a>
+</span>
+<span class="cate">
+<a href="/sharepoint-2010-experts">Sharepoint 2010</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/sharepoint-2007-experts">Sharepoint 2007</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/oespirilla" style="color:#8e979b;" title="About Oscar Espirilla">
+                                Software Development Supervisor at Laureate International Universities, 5+ yerars web development experience.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '7c3da7dcddb5de5f37df4e58c3cc353c', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Oscar Espirilla', 'username': 'oespirilla', 'avatarUrl': 'https://www.gravatar.com/avatar/8f48fb2286a93fa15d6e76e8e79e150d?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Oscar Espirilla', username:'oespirilla'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 10.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/c131a7eccd0103070d16d2f100edcb15?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/zacheryrodgers">
+                            Zachery Rodgers
+                        </a>
+                        <br>
+                        Professional Problem Solver
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            9
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-jquery-experts">Javascript jquery</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/google-chrome-experts">Google chrome</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/zacheryrodgers" style="color:#8e979b;" title="About Zachery Rodgers">
+                                I am an expert in front-end design and development. I can manipulate css can javascript to do my bidding no matter the situation. My real skill lies in my ability to find and fix strange bugs and...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+50%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445814000000" data-end="1445832000000" data-mentor-id="3441323790" data-mentor-name="Zachery Rodgers" data-mentor-timezone="-14400" data-start="1445814000000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time"> 6:00AM - 11:00AM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445832000000" data-end="1445842800000" data-mentor-id="3441323790" data-mentor-name="Zachery Rodgers" data-mentor-timezone="-14400" data-start="1445832000000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time">11:00AM -  2:00PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445900400000" data-end="1445918400000" data-mentor-id="3441323790" data-mentor-name="Zachery Rodgers" data-mentor-timezone="-14400" data-start="1445900400000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time"> 6:00AM - 11:00AM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'bf7916880e8bc5e745b7fcf59169bcba', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Zachery Rodgers', 'username': 'zacheryrodgers', 'avatarUrl': 'https://www.gravatar.com/avatar/c131a7eccd0103070d16d2f100edcb15?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Zachery Rodgers', username:'zacheryrodgers'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/f03891f3e028395e3f72676be727bf62?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/goginzid">
+                            Dragos Iorgulescu
+                        </a>
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span> <span class="empty"> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            4
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/goginzid" style="color:#8e979b;" title="About Dragos Iorgulescu">
+                                While I can offer expertise and guidance on all stages of a project development, perhaps the most important thing I can teach or show you is how to find answers and solutions in situations where...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445839200000" data-end="1445846400000" data-mentor-id="7642337612" data-mentor-name="Dragos Iorgulescu" data-mentor-timezone="7200" data-start="1445839200000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time"> 1:00PM -  3:00PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445878800000" data-end="1445884200000" data-mentor-id="7642337612" data-mentor-name="Dragos Iorgulescu" data-mentor-timezone="7200" data-start="1445878800000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time">12:00AM -  1:30AM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445925600000" data-end="1445932800000" data-mentor-id="7642337612" data-mentor-name="Dragos Iorgulescu" data-mentor-timezone="7200" data-start="1445925600000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time"> 1:00PM -  3:00PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '5a49c36021a684bfd68d30609c46d461', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Dragos Iorgulescu', 'username': 'goginzid', 'avatarUrl': 'https://www.gravatar.com/avatar/f03891f3e028395e3f72676be727bf62?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Dragos Iorgulescu', username:'goginzid'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 25.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/HOJmVj8bSUCKLCAdIVSf">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/afuggini">
+                            Ariel Fuggini
+                        </a>
+                        <br>
+                        ⭐⭐⭐⭐⭐ Problem Solver 💪 14+ yr Experience Full-Stack Web Developer &amp; Expert UI/UX Designer 🚀
+                        <br>
+                        <strong>$25.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            87
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/meteor-experts">Meteor</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/design-experts">Design</a>
+</span>
+<span class="cate">
+<a href="/user-interface-experts">User interface</a>
+</span>
+<span class="cate">
+<a href="/ui-design-experts">Ui design</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/bootstrap-experts">Bootstrap</a>
+</span>
+<span class="cate">
+<a href="/mobile-experts">Mobile</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/css-experts">CSS</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/afuggini" style="color:#8e979b;" title="About Ariel Fuggini">
+                                Trained in Problem Solving. Full-Stack Web Developer &amp; Expert UI/UX Designer w/ 14+ yr Experience.
+
+                                ---
+
+                                First time in Codementor? I recommend you to read...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+76%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="good num">
+within an hour
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445868000000" data-end="1445914800000" data-mentor-id="3411062738" data-mentor-name="Ariel Fuggini" data-mentor-timezone="-10800" data-start="1445868000000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time"> 9:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445954400000" data-end="1446001200000" data-mentor-id="3411062738" data-mentor-name="Ariel Fuggini" data-mentor-timezone="-10800" data-start="1445954400000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time"> 9:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1446040800000" data-end="1446087600000" data-mentor-id="3411062738" data-mentor-name="Ariel Fuggini" data-mentor-timezone="-10800" data-start="1446040800000" data-target="#modalSchedule">
+                                <span class="date">Wednesday</span>
+                                <span class="time"> 9:00PM - 11:59PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '0caaa2f528a505d2471be2216e6e18d2', 'chatroomFirebaseId': '772f75c664f9b1274e70f28e83ffd9dd', 'contact': {'name': 'Ariel Fuggini', 'username': 'afuggini', 'avatarUrl': 'https://www.filepicker.io/api/file/HOJmVj8bSUCKLCAdIVSf'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Ariel Fuggini', username:'afuggini'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 25.0" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/dc307ff619e7314adc30d95786116cf8?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/commander_clifford">
+                            Clifford Nelson
+                        </a>
+                        <br>
+                        Front-End Developer / Interactive Designer / jQuery and Responsive Expert.
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/commander_clifford" style="color:#8e979b;" title="About Clifford Nelson">
+                                I am a Front-End Developer and I love trouble-shooting.  My strengths are in jQuery and Responsive Design, and of course HTML/CSS.  I've been coding for a few years now and have 10 years of...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445871600000" data-end="1445886000000" data-mentor-id="7477137729" data-mentor-name="Clifford Nelson" data-mentor-timezone="-25200" data-start="1445871600000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time">10:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445958000000" data-end="1445972400000" data-mentor-id="7477137729" data-mentor-name="Clifford Nelson" data-mentor-timezone="-25200" data-start="1445958000000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time">10:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1446044400000" data-end="1446058800000" data-mentor-id="7477137729" data-mentor-name="Clifford Nelson" data-mentor-timezone="-25200" data-start="1446044400000" data-target="#modalSchedule">
+                                <span class="date">Wednesday</span>
+                                <span class="time">10:00PM - 11:59PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '59dcbe766f5925c2ef07baaa0115eb0c', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Clifford Nelson', 'username': 'commander_clifford', 'avatarUrl': 'https://www.gravatar.com/avatar/dc307ff619e7314adc30d95786116cf8?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Clifford Nelson', username:'commander_clifford'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/ce01342d890b759eb97a617e324227f3?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/madarauchiha">
+                            Madara Uchiha
+                        </a>
+                        <br>
+                        Most powerful ninja of all time
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            4
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/server-experts">Server</a>
+</span>
+<span class="cate">
+<a href="/nodejs-experts">Node.js</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/madarauchiha" style="color:#8e979b;" title="About Madara Uchiha">
+                                I am a web developer who specializes in PHP, but knows a little bit of everything. Very good at HTML, CSS, JavaScript, work with Linux and Git regularly.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+                        <div class="next_available_times">
+                            <h5>
+                                Next available time:
+                                <small class="user_time_zone muted">
+                                    ( Display in time zone
+                                    <span cm-user-time-zone="">+07:00</span>
+                                    )
+                                </small>
+                            </h5>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445875200000" data-end="1445893200000" data-mentor-id="1773442636" data-mentor-name="Madara Uchiha" data-mentor-timezone="7200" data-start="1445875200000" data-target="#modalSchedule">
+                                <span class="date">Today</span>
+                                <span class="time">11:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1445961600000" data-end="1445979600000" data-mentor-id="1773442636" data-mentor-name="Madara Uchiha" data-mentor-timezone="7200" data-start="1445961600000" data-target="#modalSchedule">
+                                <span class="date">Tuesday</span>
+                                <span class="time">11:00PM - 11:59PM</span>
+                            </div>
+                            <div class="nat btnSchedule ng-isolate-scope" data-currentuser-timezone="25200" data-default-time="1446048000000" data-end="1446066000000" data-mentor-id="1773442636" data-mentor-name="Madara Uchiha" data-mentor-timezone="7200" data-start="1446048000000" data-target="#modalSchedule">
+                                <span class="date">Wednesday</span>
+                                <span class="time">11:00PM - 11:59PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '25df8182d9428f1100c5a04f96f2b1a8', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Madara Uchiha', 'username': 'madarauchiha', 'avatarUrl': 'https://www.gravatar.com/avatar/ce01342d890b759eb97a617e324227f3?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Madara Uchiha', username:'madarauchiha'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 30.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/04f3babefa4ba85e7904b40e6846e217?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/sanityinc">
+                            Steve Purcell
+                        </a>
+                        <br>
+                        Web Startup Tech Lead - Full Stack Help - Tips &amp; Tricks to Share!
+                        <br>
+                        <strong>$30.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            20
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/postgresql-experts">Postgresql</a>
+</span>
+<span class="cate">
+<a href="/linux-experts">Linux</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/stripe-experts">Stripe</a>
+</span>
+<span class="cate">
+<a href="/python-experts">Python</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/sanityinc" style="color:#8e979b;" title="About Steve Purcell">
+                                Hi! I'm a polyglot technologist with decades of experience in startups and industry, and one of the most active Github users worldwide. Want insights, guidance or help? Get in touch!
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'c7b5a221ec509ad80798d96fa772f8f2', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Steve Purcell', 'username': 'sanityinc', 'avatarUrl': 'https://www.gravatar.com/avatar/04f3babefa4ba85e7904b40e6846e217?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Steve Purcell', username:'sanityinc'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 30.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 16.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/3585b7a37816f97b3bd2bd9f9a63e593?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/josef">
+                            Josef Dunne
+                        </a>
+                        <br>
+                        Front-End Web Developer with over 15 years experience.
+                        <br>
+                        <strong>$16.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            1
+                        </b>
+<span>
+session
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/user-experience-experts">User experience</a>
+</span>
+<span class="cate">
+<a href="/user-interface-experts">User interface</a>
+</span>
+<span class="cate">
+<a href="/mailchimp-experts">Mailchimp</a>
+</span>
+<span class="cate">
+<a href="/photoshop-experts">Photoshop</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/standards-experts">Standards</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/josef" style="color:#8e979b;" title="About Josef Dunne">
+                                A seasoned web developer with over 15 years experience with focus on front web development &amp; design, accessibility and user experience. Built my first website in 1995, since then I've had a long...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '15631366aae4b3f5efe5aa212a505644', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Josef Dunne', 'username': 'josef', 'avatarUrl': 'https://www.gravatar.com/avatar/3585b7a37816f97b3bd2bd9f9a63e593?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Josef Dunne', username:'josef'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 16.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 27.5" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/11e6ca0e69c0dcd6f3d32e8a03ae431b?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/deanb">
+                            Dean
+                        </a>
+                        <br>
+                        Developer to help you grow your business
+                        <br>
+                        <strong>$27.50</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            5
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/python-experts">Python</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/api-experts">Api</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/deanb" style="color:#8e979b;" title="About Dean">
+                                I'm Dean, a systems engineer who uses technology to automate processes to make life easier. I've worked with many different technologies over the years and am always looking for a new challenge.
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+96%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'e97df7f29126621e98c1bbb2903e446c', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Dean', 'username': 'deanb', 'avatarUrl': 'https://www.gravatar.com/avatar/11e6ca0e69c0dcd6f3d32e8a03ae431b?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Dean', username:'deanb'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 27.5" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/2ebcf33aeecc0823e47966317adc3008?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/jamdonut">
+                            Adam Dougherty
+                        </a>
+                        <br>
+                        Patient problem solver, Advice and Teaching. I want to help.
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            27
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/angularjs-experts">AngularJS</a>
+</span>
+<span class="cate">
+<a href="/linux-experts">Linux</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/facebook-experts">Facebook</a>
+</span>
+<span class="cate">
+<a href="/windows-server-experts">Windows server</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/jamdonut" style="color:#8e979b;" title="About Adam Dougherty">
+                                Senior Software Developer at Bespoke Team, I love to teach others and actually this site really suits my spare time. I'll try keep my costs low so you guys can use me as much as you need.
+
+                                I can...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+54%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'e3ec3cb8961ac82a28ab8bef36a32052', 'chatroomFirebaseId': '6dfb5e4a0540dc4a73735b150410f7fd', 'contact': {'name': 'Adam Dougherty', 'username': 'jamdonut', 'avatarUrl': 'https://www.gravatar.com/avatar/2ebcf33aeecc0823e47966317adc3008?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Adam Dougherty', username:'jamdonut'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/fc268665968fd71388b7dcbb221e86fa?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/rafaelfragoso">
+                            Rafael Fragoso
+                        </a>
+                        <br>
+                        PHP and Rails Developer with +15 apps developed and deployed
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            2
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/coffeescript-experts">CoffeeScript</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/rafaelfragoso" style="color:#8e979b;" title="About Rafael Fragoso">
+                                Web Developer since 13 years old, Brazilian and working with the best Texas companies for the past 3 years.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'bc431cccf0b190dee77415821092722b', 'chatroomFirebaseId': '056935a9d974b432555a2f61aa5b1c86', 'contact': {'name': 'Rafael Fragoso', 'username': 'rafaelfragoso', 'avatarUrl': 'https://www.gravatar.com/avatar/fc268665968fd71388b7dcbb221e86fa?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Rafael Fragoso', username:'rafaelfragoso'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 20.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/c6c36f8dd020f94994d557df7e202429?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/dustinczysz">
+                            Dustin J. Czysz
+                        </a>
+                        <br>
+                        <strong>$20.00</strong>
+                        <small>/15min</small>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            1
+                        </b>
+<span>
+session
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/joomla-experts">Joomla</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/dustinczysz" style="color:#8e979b;" title="About Dustin J. Czysz">
+                                Native English speaking Web Technologist from Wisconsin, USA with over 15 yrs. experience developing websites, consulting and teaching.
+
+                                Lately I've been working on responsive design &amp;...
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'ad6f691386eb7de6c640350f92788252', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Dustin J. Czysz', 'username': 'dustinczysz', 'avatarUrl': 'https://www.gravatar.com/avatar/c6c36f8dd020f94994d557df7e202429?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Dustin J. Czysz', username:'dustinczysz'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 20.0" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/ffd0dd14cf820a0de3708ab6ce929666?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/zachcase">
+                            Zach Case
+                        </a>
+                        <br>
+                        Web Developer/Designer
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            4
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/web-development-experts">Web development</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/web-design-experts">Web design</a>
+</span>
+<span class="cate">
+<a href="/user-experience-experts">User experience</a>
+</span>
+<span class="cate">
+<a href="/user-interface-experts">User interface</a>
+</span>
+<span class="cate">
+<a href="/content-management-system-experts">Content management system</a>
+</span>
+<span class="cate">
+<a href="/database-experts">Database</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/zachcase" style="color:#8e979b;" title="About Zach Case">
+                                Cheif Technology Officer at DD buddy
+                                I started teaching myself HTML and CSS when I was a Sophomore in High School and have been improving ever since. Started my first company my Junior year of...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+50%
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'e78dd8ea8cb37e3dbd902a1fc1be8fe1', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Zach Case', 'username': 'zachcase', 'avatarUrl': 'https://www.gravatar.com/avatar/ffd0dd14cf820a0de3708ab6ce929666?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Zach Case', username:'zachcase'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 20.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/17c224af3f4e8cfc6e2195e4b8cfa886?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/dejitaru">
+                            Carlos
+                        </a>
+                        <br>
+                        Dedicated web programmer
+                        <br>
+                        <strong>$20.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            32
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/codeigniter-experts">Codeigniter</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/bootstrap-experts">Bootstrap</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/seo-experts">SEO</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/dejitaru" style="color:#8e979b;" title="About Carlos">
+                                I'm a developer who love to code. I can help or teach you in english or spanish how to solve Jquery, Css, javascript, PHP, Codeigniter, MVC, database problems, Responsive design, html, wordpress....
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="good num">
+82%
+</span>
+                            </div>
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': 'b70c6372654e110a2f3b629a713bd0b6', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Carlos', 'username': 'dejitaru', 'avatarUrl': 'https://www.gravatar.com/avatar/17c224af3f4e8cfc6e2195e4b8cfa886?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Carlos', username:'dejitaru'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 20.0" class="ng-hide">
+            <div class="row" ng-show="budget==undefined || budget >= 15.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.filepicker.io/api/file/oCesEKX7TcOhGc2t4OeU">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/cmarrero01">
+                            Claudio
+                        </a>
+                        <br>
+                        Entrepreneur
+                        <br>
+                        <strong>$15.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            1
+                        </b>
+<span>
+session
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/cordova-experts">Cordova</a>
+</span>
+<span class="cate">
+<a href="/socketio-experts">Socket.io</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/mongodb-experts">MongoDB</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/nodejs-experts">Node.js</a>
+</span>
+<span class="cate">
+<a href="/sql-experts">SQL</a>
+</span>
+<span class="cate">
+<a href="/android-experts">Android</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/cmarrero01" style="color:#8e979b;" title="About Claudio">
+                                I'm involved in software development over 12 years ago.
+                                I'm ex founder and CTO at Coinding.com. Now I'm the owner of a small company that make tech products.
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="avg-time">
+                                Response Time:
+<span class="num">
+within a few hours
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '3293babbe8f4c79b14154ee893875ca8', 'chatroomFirebaseId': '687fb5e60badbf2410d5ad6cd92ae499', 'contact': {'name': 'Claudio', 'username': 'cmarrero01', 'avatarUrl': 'https://www.filepicker.io/api/file/oCesEKX7TcOhGc2t4OeU'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Claudio', username:'cmarrero01'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 15.0">
+            <div class="row" ng-show="budget==undefined || budget >= 10.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/2177a13668b2fd6ca39e6fcf0f40d6b0?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/k111ky">
+                            Asko Nõmm
+                        </a>
+                        <br>
+                        Web Developer &amp; Designer.
+                        <br>
+                        <strong>$10.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span> <span class="empty"> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            2
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/k111ky" style="color:#8e979b;" title="About Asko Nõmm">
+                                I'm a web developer &amp; designer. I build products and handcraft beautiful design.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '449e7fd8f3173c2ecf990864b45214d5', 'chatroomFirebaseId': '0bc2027e742da6f0c042911974782327', 'contact': {'name': 'Asko Nõmm', 'username': 'k111ky', 'avatarUrl': 'https://www.gravatar.com/avatar/2177a13668b2fd6ca39e6fcf0f40d6b0?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Asko Nõmm', username:'k111ky'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 10.0">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 25.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/bf515421c1a764339fa7f8003b7097f3?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/zeddotes">
+                            Zain Syed
+                        </a>
+                        <br>
+                        Developer, designer, and consultant with over 12 years of industry experience.
+                        <br>
+                        <strong>$25.00</strong>
+                        <small>/15min</small>
+                        &nbsp;
+                        <strong>
+                            <small class="red">(First 15 Minutes Free)</small>
+                        </strong>
+<span class="rating">
+<span> ★ </span>  <span> ★ </span>  <span> ★ </span>  <span> ★ </span> <span class="empty"> ★ </span>
+</span>
+                        <br>
+                        <b>
+                            2
+                        </b>
+<span>
+sessions
+given
+</span>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/angularjs-experts">AngularJS</a>
+</span>
+<span class="cate">
+<a href="/php-experts">PHP</a>
+</span>
+<span class="cate">
+<a href="/api-experts">Api</a>
+</span>
+<span class="cate">
+<a href="/mysql-experts">MySQL</a>
+</span>
+<span class="cate">
+<a href="/jquery-experts">jQuery</a>
+</span>
+<span class="cate">
+<a href="/wordpress-experts">WordPress</a>
+</span>
+<span class="cate">
+<a href="/ux-experts">Ux</a>
+</span>
+<span class="cate">
+<a href="/ui-experts">Ui</a>
+</span>
+<span class="cate">
+<a href="/git-experts">Git</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/zeddotes" style="color:#8e979b;" title="About Zain Syed">
+                                From Brampton, ON, I'm a self-taught developer and designer with over 10 years of industry experience. Currently working as a Senior Developer for one of the best agencies in Hamilton, ON.
+
+                                My...
+                            </a>
+                        </p>
+                        <div class="mentor-response wide clearfix">
+                            <div class="rate">
+                                Likelihood of Reply:
+<span class="num">
+67%
+</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '6b190c7c6ac83eca4d51c68c6cd60cfe', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Zain Syed', 'username': 'zeddotes', 'avatarUrl': 'https://www.gravatar.com/avatar/bf515421c1a764339fa7f8003b7097f3?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Zain Syed', username:'zeddotes'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+            <hr ng-show="budget==undefined || budget >= 25.0" class="ng-hide">
+            <div class="row ng-hide" ng-show="budget==undefined || budget >= 25.0" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="span1">
+                    <img class="img-circle" src="https://www.gravatar.com/avatar/477dc65c2083c0aea87485b399372db0?d=mm&amp;s=200">
+                </div>
+                <div class="span5">
+                    <p>
+                        <a class="mentor_list_info_display_name" href="/goshakkk">
+                            Gosha Arinich
+                        </a>
+                        <br>
+                        <strong>$25.00</strong>
+                        <small>/15min</small>
+                        <br>
+<span class="cates">
+<span class="cate">
+<a href="/ruby-experts">Ruby</a>
+</span>
+<span class="cate">
+<a href="/ruby-on-rails-experts">Ruby on Rails</a>
+</span>
+<span class="cate">
+<a href="/javascript-experts">JavaScript</a>
+</span>
+<span class="cate">
+<a href="/ember-js-experts">Ember.js</a>
+</span>
+<span class="cate">
+<a href="/html_css-experts">HTML/CSS</a>
+</span>
+<span class="cate">
+<a href="/mongodb-experts">MongoDB</a>
+</span>
+</span>
+
+                        <!-- %div{:style=>"color: #888;"} -->
+                    </p><div class="content">
+                        <p class="meta muted">
+                            <a href="/goshakkk" style="color:#8e979b;" title="About Gosha Arinich">
+                                Software developer, consultant.
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class="schedule directory" style="background:transparent;">
+
+                    </div>
+
+                    <p></p>
+                </div>
+                <div class="span2">
+                    <a class="btn btn-success" href="#" ng-click="Chat.openChatroom({'id': '047a829076994936aacb74fe322dce13', 'chatroomFirebaseId': '7b2cb4610efd14641a6fe205669ebd70', 'contact': {'name': 'Gosha Arinich', 'username': 'goshakkk', 'avatarUrl': 'https://www.gravatar.com/avatar/477dc65c2083c0aea87485b399372db0?d=mm&amp;s=200'}})">
+                        <i class="icon-envelope"></i>
+                        Message
+                    </a>
+                    <button class="btn btnSchedule" ng-click="Schedule.showScheduleForm({mentor:{name:'Gosha Arinich', username:'goshakkk'}, from:'find-mentor'})" style="margin-top:10px;">
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="actions span8" ng-class="{bottom:bottom}" ng-hide="loading>0">
+            <hr>
+            <div class="muted center ng-hide" ng-show="step == 1">
+                Don't need to connect with someone now?
+                <br>
+                <b>
+                    <a href="#" ng-click="goStep(2)">
+                        Find more experts with upcoming availability ❯❯
+                    </a>
+                </b>
+            </div>
+            <div class="muted center" ng-show="step == 2">
+                Your request has also been broadcasted and you will hear back from available experts soon.
+                <br>
+                <b>
+                    <a href="https://www.codementor.io/dashboard/#/active-requests/7659868537">
+                        Go back to dashboard ❯❯
+                    </a>
+                </b>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            $(document).ready(function() {
+                return mixpanel.track("/questions/find_mentor loaded");
+            });
+
+        }).call(this);
+    </script>
+
+</div>

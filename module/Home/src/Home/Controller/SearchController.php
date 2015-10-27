@@ -1,169 +1,88 @@
 <?php
-/**
- * Home\Controller
- *
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
- */
 
 namespace Home\Controller;
 
-use Zend\View\Model\JsonModel;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use \stdClass;
 
-class SearchController extends AbstractActionController
+use Expert\Model\Expert;
+use Home\Form\Search\Search;
+use Home\Form\Search\SearchDetail;
+use Home\Model\DateBase;
+use Home\Service\Uri;
+use User\Model\User;
+
+class SearchController extends ControllerBase
 {
 	public function indexAction()
-	{
-        /* @var $request \Zend\Http\Request */
-        $request = $this->getRequest();
-
-        $ps = new \Product\Model\Store();
-        $ps->setServiceLocator($this->getServiceLocator());
-
-        if (in_array($this->getServiceLocator()->get('Store\Service\Store')->getStoreId(), [66, 224, 81])) {
-            $ps->setCategoryBaseId(12); // @todo fixed attrCategoryId for default store
+    {
+        if(!$this->getRequest()->isPost()){
+            return $this->page404();
         }
-
-        $variables = $ps->prepareSearch();
-
-        $page = (int)$request->getQuery('page', 1);
-        $icpp = (int)$request->getQuery('icpp', 20);
-
-		$order = urldecode($request->getQuery('order','id desc'));
-		$options = array(
-			'page' => $page > 0 ? $page : 1,
-			'icpp' => $icpp > 0 ? ($icpp > 100 ? 100 : $icpp) : 20,
-			'order' => (strlen($order) > 0 ? $order : 'id desc')
-		);
-		/* @var $mapper \Product\Model\StoreMapper */
-		$mapper = $this->getServiceLocator()->get('Product\Model\StoreMapper');
-		$paginator = $mapper->search($ps, $options);
-
-        $viewModel = new ViewModel();
-        // switch to json view mode
-        if($request->getQuery('format') == 'json') {
-            $products = array();
-            foreach($paginator as $p) {
-                /* @var $p \Product\Model\Store */
-                $products[] = $p->toStd();
+        $data = $this->getRequest()->getPost();
+        $form = new Search($this->getServiceLocator());
+        $form->setData($data);
+        if($form->isValid()){
+            $formSearchDetail = new SearchDetail($this->getServiceLocator());
+            $dataSearch  = $data['search'];
+            $dataSearchs = preg_split('/[\s,.-]+/', $dataSearch);
+            /** @var \Subject\Model\SubjectMapper $subjectMapper */
+            $subjectMapper = $this->getServiceLocator()->get('Subject/Model/SubjectMapper');
+            $subjects = $subjectMapper->fetchSearch($dataSearchs);
+            $subjectIds = [];
+            foreach($subjects as $subject){
+                $subjectIds[] = $subject->getId();
             }
-            return new JsonModel(array(
-                'products' => $products,
-            	'maxPage' => count($paginator),
-            	'totalProduct' => $paginator->getTotalItemCount(),
-            ));
+            $expert = new Expert();
+            $expert->addOption('subjectIds',$subjectIds);
+            /** @var \Expert\Model\Expert\SubjectMapper $expertSubjectMapper */
+            $expertSubjectMapper = $this->getServiceLocator()->get('Expert/Model/Expert/SubjectMapper');
+            $mentors = $expertSubjectMapper->featchAll($expert);
+            $this->getViewModel()->setVariables(['expert' => $mentors]);
+            $this->getViewModel()->setVariables(['searchContent' => $dataSearch]);
+            $this->getViewModel()->setVariables(['subjects' => $subjects]);
+            $this->getViewModel()->setVariables(['form'=>$formSearchDetail]);
+            return $this->getViewModel();
         }
-        if($request->getPost('template')){
-            $viewModel->setTemplate($request->getPost('template'));
-            $viewModel->setTerminal($request->getPost('terminal', false));
-        }
-
-        $viewModel->setVariables(array(
-            'paginator' => $paginator,
-            'query' => urldecode($request->getQuery('q')),
-            'order' => urldecode($request->getQuery('order'))
-        ));
-        $viewModel->setVariables($variables);
-
-		return $viewModel;
     }
 
-    /**
-     * @uses autocomplete
-     */
-    public function suggestionAction()
-    {
-        /* @var $request \Zend\Http\Request */
-        $request = $this->getRequest();
-
-        $data = array();
-        if (!($q = urldecode(trim($request->getQuery('q'))))) {
-            return new JsonModel($data);
+    public function findmentorAction(){
+        if(!$this->getRequest()->isPost()){
+            return $this->page404();
         }
-        $ps = new \Product\Model\Store();
-        $ps->setServiceLocator($this->getServiceLocator());
-
-        /* @var $psMapper \Product\Model\StoreMapper */
-        $psMapper = $this->getServiceLocator()->get('Product\Model\StoreMapper');
-        /* @var $categoryMapper \Product\Model\CategoryMapper */
-        $categoryMapper = $this->getServiceLocator()->get('Product\Model\CategoryMapper');
-
-        $data['searchOptions'] = $ps->prepareSearch();
-        $limit = trim($request->getQuery('limit'));
-        $options['limit'] = $limit > 0 ? $limit : 20;
-        $products = $psMapper->search($ps, $options);
-
-        if (is_array($products) && count($products)) {
-            $cIds = [];
-            /* @var $ps \Product\Model\Store */
-            foreach ($products as $ps) {
-                $data['products'][] = $ps->toStd();
-                if($ps->getCategoryId()){
-                    $cIds[$ps->getCategoryId()] = $ps->getCategoryId();
-                }
+        $data = $this->getRequest()->getPost();
+        $form = new SearchDetail($this->getServiceLocator());
+        $form->setData($data);
+        vdump($data);
+        if($form->isValid()){
+            $user = new User();
+            $user->setEmail($data['email']);
+            $activeKey = md5($user->getEmail().DateBase::getCurrentDateTime());
+            $user->setActiveKey($activeKey);
+            $user->setRole(User::ROLE_MEMBER);
+            $user->setCreatedDateTime(DateBase::getCurrentDateTime());
+            $user->setCreatedDate(DateBase::getCurrentDate());
+            /** @var \User\Model\UserMapper $userMapper */
+            $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+            if(!$userMapper->isExistedEmail($user)){
+                $userMapper->save($user);
+                Uri::autoLink('/user/user/sendemail',['email'=>$data['email'],'activeKey'=>$user->getActiveKey()]);
+                $this->getJsonModel()->setVariables(
+                    [
+                        'code' => 2,
+                        'data'=>'Email kích hoạt tài khoản đã được gửi đến địa chỉ email của bạn. Kiểm tra hòm thư và làm theo hướng dẫn đễ kích hoạt tài khoản.'
+                    ]
+                );
+                return $this->getJsonModel();
             }
-            if($request->getQuery('showMore') && $request->getQuery('showMore') == 'category'){
-                $category = new \Product\Model\Category();
-                $category->setStoreId($ps->getStoreId());
-                $category->setChilds($cIds);
-                $categories = $categoryMapper->search($category, ['limit' => 5]);
-                if (count($categories)) {
-                    foreach ($categories as $c) {
-                        $data['categories'][] = $c->toStd();
-                    }
-                }
-            }
+            return $this->getViewModel();
+        }else{
+            $this->getJsonModel()->setVariables(
+                [
+                    'code' => 1,
+                    'data'=>$form->getErrorMessagesList()
+                ]
+            );
         }
-        return new JsonModel($data);
-    }
-
-    public function noresultAction()
-    {
-        /* @var $request \Zend\Http\Request */
-        $request = $this->getRequest();
-
-        $layoutMode = trim($request->getQuery('layout', null));
-    	$view = new ViewModel();
-    	if($layoutMode == 'false') {
-    		$view->setTerminal(true);
-    	}
-    	return $view;
-    }
-
-    public function albumAction()
-    {
-        /* @var $request \Zend\Http\Request */
-        $request = $this->getRequest();
-
-        $album = new \Album\Model\Album();
-        $album->setServiceLocator($this->getServiceLocator());
-
-        $page = (int)$request->getQuery('page', 1);
-        $icpp = (int)$request->getQuery('icpp', 20);
-
-        $options = array(
-            'page' => $page > 0 ? $page : 1,
-            'icpp' => $icpp > 0 ? ($icpp > 100 ? 100 : $icpp) : 20,
-        );
-
-        $variables = $album->searchOptions($options);
-        /* @var $AlbumMapper \Album\Model\AlbumMapper */
-        $AlbumMapper = $this->getServiceLocator()->get('Album\Model\AlbumMapper');
-        $paginator = $AlbumMapper->search($album, $options);
-
-        $viewModel = new ViewModel();
-
-        $viewModel->setVariables(array(
-            'paginator' => $paginator,
-            'query' => urldecode($request->getQuery('q')),
-        ));
-        $viewModel->setVariables($variables);
-
-        return $viewModel;
+        return $this->getJsonModel();
     }
 
 }

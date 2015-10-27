@@ -1,0 +1,64 @@
+<?php
+$this->headLink()->prependStylesheet('\css\user\auth_confirm.css');
+$this->headLink()->prependStylesheet('\css\user\customize.css');
+$form = $this->form;
+$this->formElementErrors()
+    ->setMessageOpenFormat('<div class="alert alert-error flash-message topAlert">')
+    ->setMessageSeparatorString('</div><div class="alert aler-error">')
+    ->setMessageCloseString('</div>');
+?>
+<div class="topBlock">
+    <center>
+        <div class="customizeContainer auth_confirm">
+            <div class="module_new">
+                <h4 class="title">
+                    Account Activation for
+                    <?=$this->email?>
+                </h4>
+                <p>
+                    Please confirm your Codementor account and you
+                    will be connected with an expert mentor soon.
+                </p>
+
+                <div class="session">
+                    <div class="row-fluid">
+                        <div class="span6 info">
+                            <div class="hd center">
+                                <img class="codementor-only" src="/assets/icon_001_6.png">
+                            </div>
+                            <div class="bd center">
+                                <p class="center">
+                                    <b>
+                                        Codementor
+                                    </b>
+                                    your instant 1:1 expert mentor helping you in real time.
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="span6 left-split-line">
+                            <form class="simple_form form-horizontal account-confirm-form ng-pristine ng-valid" id="edit_user" accept-charset="UTF-8" method="post">
+                                    <div class="customizeLabel">Your Name:</div>
+                                    <?=$this->formelement($form->get('fullName'))?>
+                                <?=$this->formelementerrors($form->get('fullName'))?>
+                                    <div class="customizeLabel">Choose a username:</div>
+                                    <?=$this->formelement($form->get('username'))?>
+                                <?=$this->formelementerrors($form->get('username'))?>
+                                    <div class="customizeLabel">Choose a Password:</div>
+                                    <?=$this->formelement($form->get('password'))?>
+                                <?=$this->formelementerrors($form->get('password'))?>
+                                    <div class="customizeLabel">Password Confirmation:</div>
+                                    <?=$this->formelement($form->get('password2'))?>
+                                <?=$this->formelementerrors($form->get('password2'))?>
+                                    <br>
+                                    <br>
+                                    <input type="submit" name="commit" value="Activate" class="btn btn-primary submitBtn">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</div>

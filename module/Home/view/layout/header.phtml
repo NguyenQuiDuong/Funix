@@ -10,11 +10,12 @@ $subjectCategories = array();
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </div>
-            <a class='brand' href='/'>
-                <img alt="Funix" src="/images/funix-logo.png"/>
+            <a class='brand' href='/' style="padding: 0px;margin-left: 0px">
+                <img alt="Funix" src="http://funix.edu.vn/wp-content/uploads/2015/10/Logo_FUNIX_update_9102015_convert-012.png"/>
             </a>
             <!-- Unsign Up User -->
             <div class='nav-collapse collapse'>
+                <?php if($_SERVER['REQUEST_URI'] != '/home/search'){?>
                 <ul class='nav'>
                     <!-- Expert Part / -->
                     <li class='showMobile'>
@@ -100,6 +101,7 @@ $subjectCategories = array();
                         <a href='/experts/index/apply'>Trở thành codementor</a>
                     </li>
                 </ul>
+                <?php }?>
                 <ul class='nav pull-right'>
                 <?php if ($this->user()->getIdentity()){
                     ?>
