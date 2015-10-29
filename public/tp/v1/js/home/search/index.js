@@ -122,6 +122,7 @@ $('#submit').click(function(){
                         }
                     )
                 }
+                $('#submit').prop('disabled', true);
             }
         }
     )

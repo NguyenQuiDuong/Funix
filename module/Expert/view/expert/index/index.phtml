@@ -62,48 +62,60 @@ Expert Mentors
     <div class="row-fluid">
         <?php foreach($subjectsCategory as $category=>$subjects){ ?>
             <div class="span4">
-            <div class="topicBlock">
-                <a class="link" href="/experts/web-programming">
-                    <center>
-                        <img alt="<?=explode('-',$category)[1]?>" class="imgBlock" src="/images/topic/web-programming.png">
-                        <span class="titleBlock"><?=explode('-',$category)[1]?></span>
-                    </center>
-                </a>
-
-                <div class="moreLink">
-                    <?php
-                    $count = 0;
-                    foreach($subjects as $subject){
-                        $count++;
-                        if($count == 1){
-                            ?>
-                        <div class="row-fluid">
-                            <div class="span6">
-                                <img class="catImg" src="/images/experts/ruby-expert-help.png">
-                                <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
-                                    <?=$subject['name']?>
-                                </a>
-                            </div>
+                <div class="topicBlock">
+                    <a class="link" href="/experts/index/list?id=<?=explode('-',$category)[0]?>">
+                        <center>
+                            <img alt="<?=explode('-',$category)[1]?>" class="imgBlock" src="/images/topic/web-programming.png">
+                            <span class="titleBlock"><?=explode('-',$category)[1]?></span>
+                        </center>
+                    </a>
+                    <div class="moreLink">
                         <?php
-                        }elseif($count == 2) {
-                            $count = 0;
-                            ?>
-                            <div class="span6">
-                                <img class="catImg" src="/images/experts/ruby-expert-help.png">
-                                <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
-                                    <?= $subject['name'] ?>
-                                </a>
-                            </div>
-                            </div>
-                            <?php
-                        }
-                        ?>
+                        $count = 0;
+                        foreach($subjects as $subject){
+                            $count++;
+                            if($count == 1){
+                                if(count($subjects) > 1){
+                                ?>
+                                <div class="row-fluid">
+                                <div class="span6">
+                                    <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                    <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
+                                        <?=$subject['name']?>
+                                    </a>
+                                </div>
+                                <?php
+                                }else{
+                                    ?>
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                            <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
+                                                <?=$subject['name']?>
+                                            </a>
+                                        </div>
+                                     </div>
+                                    <?php
+                                }
+                            }elseif($count == 2) {
+                                $count = 0;
+                                ?>
+                                <div class="span6">
+                                    <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                    <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
+                                        <?= $subject['name'] ?>
+                                    </a>
+                                </div>
+                                </div>
+                                <?php
+                            }
 
-                        <?php } ?>
+                         } ?>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php } ?>
     </div>
 </div>
 </div>
+    </div>

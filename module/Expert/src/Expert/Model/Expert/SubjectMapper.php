@@ -76,25 +76,29 @@ class SubjectMapper extends BaseMapper
 
     /**
      * @author DuongNQ
-     * @param \Expert\Model\Expert $exp
+     * @param \Expert\Model\Expert\Subject $expertsub
      */
-    public function search($exp, $options)
+    public function search($expertsub, $options)
     {
         $select = $this->getDbSql()->select(array(
-            'e' => self::TABLE_NAME
+            'es' => self::TABLE_NAME
         ));
 
+        if($expertsub->getSubjectId()){
+            $select->where(['es.subjectId'=>$expertsub->getSubjectId()]);
+        }
         $select->order([
-            'e.id' => 'DESC'
+            'es.id' => 'DESC'
         ]);
-        $paginator = $this->preparePaginator($select, $options, new Expert());
+        $select->group('es.expertId');
+        $paginator = $this->preparePaginator($select, $options, new Subject());
         $userIds = array();
         $users =  array();
-        /** @var Expert/Model/Expert $expert */
-        foreach($paginator as $expert){
-            $userIds[] = $expert->getId();
+        /** @var \Expert\Model\Expert\Subject $es */
+        foreach($paginator as $es){
+            $userIds[] = $es->getExpertId();
         }
-
+        $subjects = $this->fetchAllSubject($expertsub->addOption('expertIds',$userIds));
         if($userIds){
             $select = $this->getDbSql()->select(['u'=>UserMapper::TABLE_NAME]);
             $select->where(['u.id'=>$userIds]);
@@ -109,10 +113,11 @@ class SubjectMapper extends BaseMapper
             }
         }
 
-        /** @var /Expert/Model/Expert $expert */
-        foreach($paginator->getCurrentModels() as $expert){
-            $userId = $expert->getId();
-            $expert->addOption('user',isset($users[$userId])?$users[$userId]:null);
+        /** @var \Expert\Model\Expert\Subject $expertsub */
+        foreach($paginator->getCurrentModels() as $expertsub){
+            $userId = $expertsub->getExpertId();
+            $expertsub->addOption('subject',isset($subjects[$userId])?$subjects[$userId]:null);
+            $expertsub->addOption('user',isset($users[$userId])?$users[$userId]:null);
         }
 
 
@@ -122,52 +127,61 @@ class SubjectMapper extends BaseMapper
     /**
      * @author DuongNQ
      * @param \Expert\Model\Expert\Subject $exp
+     * todo lay tat ca mon hoc ma mentor care
      */
-    public function featchAll($exp)
-    {
-        $select = $this->getDbSql()->select(array(
-            'es' => self::TABLE_NAME
-        ));
-        $select->columns(['subjectId']);
-        $select->join(['e'=>ExpertMapper::TABLE_NAME],'e.id=es.expertId',array('id'));
-        $select->join(['s'=>\Subject\Model\SubjectMapper::TABLE_NAME],'s.id=es.subjectId',['subjectName'=>'name']);
-        $select->order([
-            'e.id' => 'DESC'
+    public function fetchAllSubject($exp){
+        $select = $this->getDbSql()->select([
+            'es'    =>  self::TABLE_NAME
         ]);
-        if($exp->getOption('subjectIds')){
-            $select->where(['subjectId'=>$exp->getOption('subjectIds')]);
-        }else{
-            $select->where(['subjectId'=>$exp->getSubjectId()]);
+        $select->join(['s'=>\Subject\Model\SubjectMapper::TABLE_NAME],'s.id=es.subjectId','name');
+        if($exp->getExpertId()){
+            $select->where(['es.expertId' => $exp->getExpertId()]);
+        }
+        if($exp->getOption('expertIds')){
+            $select->where(['es.expertId' => $exp->getOption('expertIds')]);
         }
         $query = $this->getDbSql()->buildSqlString($select);
-        $results = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
-        $subjects = [];
-        if(count($results)){
-            $results = $results->toArray();
-            foreach($results as $r){
-                $subjects[$r['id']][] = $r['subjectName'];
-                $expertIds[] = $r['id'];
+        $rows = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
+        $rows = $rows->toArray();
+        $result = [];
+        if(count($rows)){
+            foreach($rows as $r){
+                $result[$r['expertId']][$r['subjectId']] = $r['name'];
             }
         }
-        unset($select);
-        $select = $this->getDbSql()->select(array(
-            'e' =>  ExpertMapper::TABLE_NAME
-        ));
-        $select->columns(['id','description','rating','rate','extraContent']);
-        $select->where(['e.id' => $expertIds]);
-        $select->join(['u' => UserMapper::TABLE_NAME],'e.userId = u.id',['username','fullName']);
-        $query = $this->getDbSql()->buildSqlString($select);
-        $results = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
-        if(count($results)){
-            $results = $results->toArray();
-            foreach($results as $r){
-                if(isset($subjects[$r['id']])){
-                    $r['subject'] = $subjects[$r['id']];
-                }
-                $mentors[] = $r;
-            }
-        }
-
-        return $mentors;
+        return $result;
     }
+
+
+    /**
+     * @author DuongNQ
+     * @param \\Model\Expert\Subject $exp
+     */
+//    public function featchAll($exp)
+//    {
+//        $select = $this->getDbSql()->select(array(
+//            'es' => self::TABLE_NAME
+//        ));
+//        $select->columns(['subjectId']);
+//        $select->join(['u'=>UserMapper::TABLE_NAME],'u.id=es.expertId');
+//        $select->join(['s'=>\Subject\Model\SubjectMapper::TABLE_NAME],'s.id=es.subjectId',['subjectName'=>'name']);
+//        $select->order([
+//            'u.id' => 'DESC'
+//        ]);
+//        if($exp->getOption('subjectIds')){
+//            $select->where(['subjectId'=>$exp->getOption('subjectIds')]);
+//        }else{
+//            $select->where(['subjectId'=>$exp->getSubjectId()]);
+//        }
+//        $query = $this->getDbSql()->buildSqlString($select);
+//        $rows = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
+//        $rows = $rows->toArray();
+//        if(count($rows)){
+//            foreach($rows as $row){
+//                $user = new User();
+//                $user->exchangeArray($row);
+//            }
+//        }
+//
+//    }
 }

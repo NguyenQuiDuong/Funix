@@ -49,6 +49,9 @@ class UserMapper extends BaseMapper
             'createdById' => $user->getCreatedById()?:null,
             'createdDate' => $user->getCreatedDate(),
             'createdDateTime' => $user->getCreatedDateTime(),
+            'description' => $user->getDescription()?:null,
+            'rate'  =>  $user->getRate()?:null,
+            'rating'    =>  $user->getRating()?:null,
         );
 
         $results = false;
@@ -392,8 +395,7 @@ class UserMapper extends BaseMapper
             $select->where(['u.role'=>$item->getRole()]);
         }
         $select->order(['u.id' => 'DESC']);
-        /* $query = $this->getDbSql()->buildSqlString($select);
-        vdump($query);die; */
+
         $paginator = $this->preparePaginator($select, $options, new User());
 
         $userIds = [];
@@ -474,6 +476,8 @@ class UserMapper extends BaseMapper
         }
         return $paginator;
     }
+
+
 
     /**
      * @param \User\Model\User $item
@@ -558,7 +562,7 @@ class UserMapper extends BaseMapper
     /**
      * @return array|null
      * @param \User\Model\User $user
-     * todo l?y user theo email và activeCode
+     * todo l?y user theo email vÃ  activeCode
      */
     public function getUserNotActive($user){
         if (! $user->getEmail() || !$user->getActiveKey()) {

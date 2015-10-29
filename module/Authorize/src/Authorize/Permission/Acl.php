@@ -72,6 +72,8 @@ class Acl extends ZendAcl
         $this->allow('Member', 'user:profile');
         $this->allow('Member', 'user:user', ['updatecode']);
         $this->allow('Member', 'system:user', ['suggest']);
+        $this->allow('Member', 'expert:index');
+        $this->allow('Member', 'subject:subject');
 
         $this->allow('Admin', null);
         $this->allow('Super Admin', null);

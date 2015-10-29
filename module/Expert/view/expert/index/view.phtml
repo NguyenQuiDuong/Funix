@@ -73,9 +73,11 @@ Ruby
                     <div class="span9">
                         <div>
                             <?php
-                            if($experts){
-                                foreach($experts as $mentor){
-
+                            if(count($experts->getCurrentModels())){
+                                foreach($experts->getCurrentModels() as $expertsub){
+                                    /** @var \User\Model\User $mentor */
+                                    $mentor = $expertsub->getOption('user');
+                                    $subjects = $expertsub->getOption('subject');
                             ?>
                             <div class="mentorModule">
                                 <div class="fake-mentor">
@@ -98,7 +100,7 @@ Ruby
                                             <img class="img-circle headImg" alt="Chưa có avatar" src="">
                                         </div>
                                         <div class="rate">
-                                            <?=$mentor['rate']?>
+                                            <?=$mentor->getRate()?>
                                         </div>
 <!--                                        <a class="btn btn-success messageBtn" href="#">-->
 <!--                                            Message Paulo-->
@@ -106,12 +108,12 @@ Ruby
                                     </div>
                                     <div class="span9 mentor-details">
                                         <a class="name" href="/">
-                                            <?=$mentor['fullName']?$mentor['fullName']:$mentor['username']?>
+                                            <?=$mentor->getFullName()?$mentor->getFullName():$mentor->getUsername()?>
                                         </a>
-                                            <span class="ratingNum"><?$mentor['rating']?>   </span>
+                                            <span class="ratingNum"><?=$mentor->getRating()?>   </span>
                                         <div class="rating">
-                                            <?php if((int)$mentor['rating']){
-                                                for($i=1;$i<=(int)$mentor['rating'];$i++){
+                                            <?php if((int)$mentor->getRating()){
+                                                for($i=1;$i<=(int)$mentor->getRating();$i++){
                                                     echo '<span> ★ </span>';
                                                 }
                                             }?>
@@ -124,7 +126,7 @@ ONLINE
                                         </sup>
                                         <div class="headLine">
                                             <small>
-                                                Tôi có hiểu biết về <?=$mentor['extraContent']?>
+                                                Tôi có hiểu biết về <?=$mentor->getDescription()?>
                                             </small>
                                         </div>
 <!--                                        <div class="language">-->
@@ -140,12 +142,12 @@ ONLINE
 <!--                                            </div>-->
 <!--                                        </div>-->
                                         <div class="about">
-                                            <?=$mentor['description']?>
+                                            <?=$mentor->getDescription()?>
                                         </div>
                                         <div class="expertise">
-                                            <?php foreach(explode(',',trim($mentor['extraContent'],'"')) as $nameSubject){?>
+                                            <?php foreach($subjects as $subId=>$nameSubject){?>
                                             <div class="badge customizeBadge">
-                                                <a class="removeDec">
+                                                <a class="removeDec" href="view?id=<?=$subId?>">
                                                     <?=$nameSubject?>
                                                 </a>
                                             </div>

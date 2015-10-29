@@ -3,6 +3,8 @@
 // if(!isset($_GET['test'])) {
 //     die("Hệ thống đang nâng cấp, xin vui lòng thử lại sau ít phút nữa");
 // }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if (function_exists('header_remove')) { // PHP 5.3+
 	header_remove('X-Powered-By');
 	header_remove('Server');

@@ -178,6 +178,20 @@ class User extends Base
      */
     protected $createdDateTime;
 
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var int
+     */
+    protected $rate;
+
+    /**
+     * @var int
+     */
+    protected $rating;
 
     /**
      * @return the $createdById
@@ -628,6 +642,53 @@ class User extends Base
         return "/user/active/?username={$this->getUsername()}&activeKey={$this->getActiveKey()}";
     }
 
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param int $rate
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * @param int $rating
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
     /**
      * convert model to stdClass
      */

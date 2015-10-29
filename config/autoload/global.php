@@ -47,8 +47,8 @@ return array(
 	    'port'              => 587,
 	    'connection_class'  => 'login',
 	    'connection_config' => array(
-	    	'username' => 'no-reply@nhanh.vn',
-	    	'password' => '0M1s-zQ3uakA',
+	    	'username' => 'duongnqse02934@fpt.edu.vn',
+	    	'password' => 'jindo720',
 	        'ssl'      => 'tls',
 	    ),
 	),

@@ -83,7 +83,7 @@ class IndexController extends ControllerBase
 
         /** @var \Expert\Model\Expert\SubjectMapper $subjectExpertMapper */
         $subjectExpertMapper = $this->getServiceLocator()->get('Expert\Model\Expert\SubjectMapper');
-        $this->getViewModel()->setVariables(['experts'=>$subjectExpertMapper->featchAll($subjectExpert)]);
+        $this->getViewModel()->setVariables(['experts'=>$subjectExpertMapper->search($subjectExpert,null)]);
         $this->getViewModel()->setVariables(['subject'=>$subject]);
         return $this->getViewModel();
     }

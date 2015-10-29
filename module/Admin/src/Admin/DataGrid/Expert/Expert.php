@@ -63,14 +63,14 @@ class Expert extends DataGrid
                 // name
                 $row->addColumn(array(
                     'name' => 'name',
-                    'content' => $item->getOption('user')->getFullName(),
+                    'content' => $item->getFullName(),
                     'attributes' => [
                     ]
                 ));
 
                 $row->addColumn(array(
                     'name' => 'email',
-                    'content' => $item->getOption('user')->getEmail(),
+                    'content' => $item->getEmail(),
                     'attributes' => [
                     ]
                 ));
@@ -82,7 +82,7 @@ class Expert extends DataGrid
                 ));
                 $row->addColumn(array(
                     'name' => 'birthdate',
-                    'content' => DateBase::toDisplayDate($item->getOption('user')->getBirthdate()),
+                    'content' => DateBase::toDisplayDate($item->getBirthdate()),
                     'attributes' => [
                     ]
                 ));

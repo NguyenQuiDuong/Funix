@@ -51,7 +51,6 @@ class SearchController extends ControllerBase
         $data = $this->getRequest()->getPost();
         $form = new SearchDetail($this->getServiceLocator());
         $form->setData($data);
-        vdump($data);
         if($form->isValid()){
             $user = new User();
             $user->setEmail($data['email']);
