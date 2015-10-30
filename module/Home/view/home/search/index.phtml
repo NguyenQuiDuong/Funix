@@ -8,7 +8,7 @@ $this->headLink()->prependStylesheet('/css/home/directory_new_for_clients.css');
 $this->headScript()->appendFile('/min?f=/tp/v1/js/home/search/index.js');
 $form = $this->form;
 $subjects = $this->subjects;
-$expert = $this->expert;
+$expertsubPaginator = $this->expert;
 ?>
 
 <div class="alerts">
@@ -149,7 +149,13 @@ $expert = $this->expert;
                             </div>
                         </div>
                         <div class="expert-list" ng-hide="loaded" style="margin-top: 204px;">
-                            <?php foreach($expert as $mentor){?>
+                            <?php
+                            if($expertsubPaginator->getCurrentModels()){
+                            foreach($expertsubPaginator->getCurrentModels() as $expertsub){
+                                /** @var \User\Model\User $mentor */
+                                $mentor = $expertsub->getOption('user');
+                                $subs = $expertsub->getOption('subject');
+                                ?>
                             <div class="mentorModule">
                                 <div class="row-fluid mentor-item-row">
                                     <div class="span3 text-center mentor-info">
@@ -166,7 +172,7 @@ $expert = $this->expert;
                                     </div>
                                     <div class="span9 mentor-details">
                                         <a class="name" href="/consultwithmike" target="consultwithmike">
-                                            <?=$mentor['username']?>
+                                            <?=$mentor->getUserName()?>
                                         </a>
                                         <span class="ratingNum">4.9</span>
                                         <div class="rating">
@@ -181,12 +187,12 @@ $expert = $this->expert;
                                             </small>
                                         </div>
                                         <div class="about">
-                                            <?=$mentor['description']?>
+                                            <?=$mentor->getDescription()?>
                                         </div>
                                         <div class="expertise">
-                                            <?php foreach($mentor['subject'] as $sid=>$sname){?>
+                                            <?php foreach($subs as $sid=>$sname){?>
                                             <div class="badge customizeBadge">
-                                                <a class="removeDec">
+                                                <a class="removeDec" href="/experts/index/view?id=<?=$sid?>">
                                                     <?=$sname?>
                                                 </a>
                                             </div>
@@ -198,7 +204,7 @@ $expert = $this->expert;
                                     </div>
                                 </div>
                             </div>
-                            <?php } ?>
+                            <?php }} ?>
                         </div>
                         <div class="signupModule">
                             <div class="row-fluid">

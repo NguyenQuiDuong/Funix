@@ -782,7 +782,8 @@ class User extends Base
             'districtId' => $this->getDistrictId(),
             'address' => $this->getAddress(),
             'mobile' => $this->getMobile(),
-            'role' => $this->getRole()
+            'role' => $this->getRole(),
+            'description'   =>  $this->getDescription(),
         );
         if($this->getBirthdate()){
             $data['birthdate'] = DateBase::toDisplayDate($this->getBirthdate());

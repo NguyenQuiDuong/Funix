@@ -76,5 +76,25 @@ class ExpertController extends ControllerBase
         return $this->getViewModel();
     }
 
+    public function editAction(){
+        $id = $this->params()->fromQuery('id');
+        $user = new User();
+        $user->setId($id);
+        $user->setRole(User::ROLE_MENTOR);
+        /** @var \User\Model\UserMapper $userMapper */
+        $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+        if(!$user->getId() || !$userMapper->getUser($user)){
+            return $this->page404();
+        }
+        $form = new \Admin\Form\Expert\Expert($this->getServiceLocator());
+        $form->remove('afterSubmit');
+        $form->getInputFilter()->remove('userName');
+        $form->remove('userName');
+        $form->remove('userId');
+        $form->setData($user->toFormValues());
+        $this->getViewModel()->setVariables(['form' =>  $form]);
+        return $this->getViewModel();
+    }
+
 
 }

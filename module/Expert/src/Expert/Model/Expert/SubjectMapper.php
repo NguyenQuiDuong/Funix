@@ -87,6 +87,9 @@ class SubjectMapper extends BaseMapper
         if($expertsub->getSubjectId()){
             $select->where(['es.subjectId'=>$expertsub->getSubjectId()]);
         }
+        if($expertsub->getOption('subjectIds')){
+            $select->where(['es.subjectId'=>$expertsub->getOption('subjectIds')]);
+        }
         $select->order([
             'es.id' => 'DESC'
         ]);

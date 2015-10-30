@@ -200,6 +200,12 @@ class UserMapper extends BaseMapper
             ]);
         }
 
+        if($user->getRole()){
+            $select->where([
+            'u.role'    =>  $user->getRole(),
+            ]);
+        }
+
 
         $select->limit(1);
 

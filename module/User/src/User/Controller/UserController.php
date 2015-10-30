@@ -461,6 +461,46 @@ class UserController extends AbstractActionController
 
     }
 
+    public function signupemailAction(){
+        $viewModels = new ViewModel();
+        if(!$this->getRequest()->isPost()){
+            $viewModels->setTemplate('error/404');
+            return $viewModels;
+        }
+        if($this->getRequest()->isPost()){
+            $email = $this->getRequest()->getPost('email');
+            $user = new User();
+            $user->setEmail($email);
+            $activeKey = md5($user->getEmail().DateBase::getCurrentDateTime());
+            $user->setActiveKey($activeKey);
+            $user->setRole(User::ROLE_MEMBER);
+            $user->setCreatedDateTime(DateBase::getCurrentDateTime());
+            $user->setCreatedDate(DateBase::getCurrentDate());
+            /** @var \User\Model\UserMapper $userMapper */
+            $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+            $jsonModel = new JsonModel();
+            if(!$userMapper->isExistedEmail($user)){
+                $userMapper->save($user);
+                Uri::autoLink('/user/user/sendemail',['email'=>$email,'activeKey'=>$user->getActiveKey()]);
+                $jsonModel->setVariables(
+                    [
+                        'code' => 2,
+                        'data'=>'Email kích hoạt tài khoản đã được gửi đến địa chỉ email của bạn. Kiểm tra hòm thư và làm theo hướng dẫn đễ kích hoạt tài khoản.'
+                    ]
+                );
+            }else{
+                $jsonModel->setVariables(
+                    [
+                        'code' => 1,
+                        'data'=>'Email này đã được đăng ký, bạn vui lòng đăng nhập.'
+                    ]
+                );
+            }
+
+        }
+        return $jsonModel;
+    }
+
     /**
      * active user
      */

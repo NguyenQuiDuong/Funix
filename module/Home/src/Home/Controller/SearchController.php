@@ -3,7 +3,7 @@
 namespace Home\Controller;
 
 
-use Expert\Model\Expert;
+use Expert\Model\Expert\Subject;
 use Home\Form\Search\Search;
 use Home\Form\Search\SearchDetail;
 use Home\Model\DateBase;
@@ -31,11 +31,11 @@ class SearchController extends ControllerBase
             foreach($subjects as $subject){
                 $subjectIds[] = $subject->getId();
             }
-            $expert = new Expert();
-            $expert->addOption('subjectIds',$subjectIds);
+            $expertsub = new Subject();
+            $expertsub->addOption('subjectIds',$subjectIds);
             /** @var \Expert\Model\Expert\SubjectMapper $expertSubjectMapper */
             $expertSubjectMapper = $this->getServiceLocator()->get('Expert/Model/Expert/SubjectMapper');
-            $mentors = $expertSubjectMapper->featchAll($expert);
+            $mentors = $expertSubjectMapper->search($expertsub);
             $this->getViewModel()->setVariables(['expert' => $mentors]);
             $this->getViewModel()->setVariables(['searchContent' => $dataSearch]);
             $this->getViewModel()->setVariables(['subjects' => $subjects]);

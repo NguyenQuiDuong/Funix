@@ -30,6 +30,7 @@ class Acl extends ZendAcl
         $this->addResource('admin:subject');
         $this->addResource('admin:user');
         $this->addResource('admin:expert');
+        $this->addResource('admin:theme');
 
         $this->addResource('expert:index');
 

@@ -5,7 +5,8 @@ return array(
             'Admin\Controller\Index' => 'Admin\Controller\IndexController',
             'Admin\Controller\Subject' => 'Admin\Controller\SubjectController',
             'Admin\Controller\User'     =>  'Admin\Controller\UserController',
-            'Admin\Controller\Expert'   =>  'Admin\Controller\ExpertController'
+            'Admin\Controller\Expert'   =>  'Admin\Controller\ExpertController',
+            'Admin\Controller\Theme'    =>  'Admin\Controller\ThemeController',
 
         )
     ),
