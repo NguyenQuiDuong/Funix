@@ -94,6 +94,7 @@ class SubjectMapper extends BaseMapper
             'es.id' => 'DESC'
         ]);
         $select->group('es.expertId');
+//        vdump($this->getDbSql()->buildSqlString($select));die;
         $paginator = $this->preparePaginator($select, $options, new Subject());
         $userIds = array();
         $users =  array();
@@ -152,6 +153,7 @@ class SubjectMapper extends BaseMapper
                 $result[$r['expertId']][$r['subjectId']] = $r['name'];
             }
         }
+//        vdump($result);die;
         return $result;
     }
 

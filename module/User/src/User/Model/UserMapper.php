@@ -552,17 +552,35 @@ class UserMapper extends BaseMapper
         }
     }
 
+    /**
+     * @return array
+     * todo list use boxchat
+     */
     public  function getMentor(){
         $select = $this->getDbSql()->select(array('u'=> self::TABLE_NAME));
+
+        $select->join(['es'=>\Expert\Model\Expert\SubjectMapper::TABLE_NAME],'u.id=es.expertId',['expertId','subjectId']);
+        $select->join(['s'=>\Subject\Model\SubjectMapper::TABLE_NAME],'s.id=es.subjectId',['name']);
+
         $select->columns(['username']);
         $select->where(['u.role'=>User::ROLE_MENTOR]);
         $query = $this->getDbSql()->buildSqlString($select);
+        //vdump($query);die;
         $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        $rows = $rows->toArray();
         $result = [];
-        if($rows->count()){
-            $result = $rows->toArray();
+        if(count($rows)){
+            foreach($rows as $row)
+            {
+                $result[$row['name']][]=$row['username'];
+                //get id
+                //$result[$row['subjectId'].'-'.$row['name']][]=$row['username'];
+            }
         }
+//        vdump($result);die;
         return $result;
+
+
     }
 
     /**
