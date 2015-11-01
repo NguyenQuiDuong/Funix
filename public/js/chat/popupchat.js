@@ -28,9 +28,9 @@ $(document).ready(function(){
 
 
 });
-function showChat(){
+function showChat(id){
+        //$('#'+'id'+'.msg_wrap').slideToggle('slow');
         $('.msg_wrap').slideToggle('slow');
-
 
 }
 function closeChat(id){
