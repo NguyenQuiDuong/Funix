@@ -25,4 +25,19 @@ class ThemeController extends ControllerBase
 
         return $this->getViewModel();
     }
+
+    public function expertAction()
+    {
+        $fileIndex = TEMPLATES_PATH.'\html\expert.html';
+        $f = fopen($fileIndex,'rt');
+        $contentIndex = fread($f,filesize($fileIndex));
+        $this->getViewModel()->setVariables(['content' => $contentIndex]);
+        if($this->getRequest()->isPost()){
+            $content = $this->getRequest()->getPost('content');
+            $i = file_put_contents($fileIndex,$content);
+            $this->getViewModel()->setVariables(['content' => $content]);
+        }
+
+        return $this->getViewModel();
+    }
 }

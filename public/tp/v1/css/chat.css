@@ -1,3 +1,6 @@
+.chat_body{
+    display: none;
+}
 
 .chat_box{
     /*height: 400px;*/

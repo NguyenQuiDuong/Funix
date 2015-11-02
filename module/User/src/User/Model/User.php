@@ -1,9 +1,4 @@
 <?php
-/**
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
- */
 
 namespace User\Model;
 
@@ -19,6 +14,13 @@ class User extends Base
 
     const ROLE_MEMBER		= 200;
     const ROLE_GUEST 		= 255;
+
+    const LEVEL_BEGINNER = 1;
+    const LEVEL_INTERMEDIATE = 2;
+    const LEVEL_ADVANCED    =   3;
+
+    const STATUS_ONLINE = 1;
+    const STATUS_OFFLINE = 2;
 
     protected $roles = array(
         self::ROLE_SUPERADMIN 	=> 'Super Admin',
@@ -192,6 +194,11 @@ class User extends Base
      * @var int
      */
     protected $rating;
+
+    /**
+     * @var int
+     */
+    protected $level;
 
     /**
      * @return the $createdById
@@ -688,6 +695,22 @@ class User extends Base
     public function getRating()
     {
         return $this->rating;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
     }
     /**
      * convert model to stdClass

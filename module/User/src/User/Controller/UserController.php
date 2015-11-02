@@ -2,9 +2,7 @@
 /**
  * User\Controller
  *
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+
  */
 
 namespace User\Controller;
@@ -524,23 +522,29 @@ class UserController extends AbstractActionController
         $user->setActiveKey($activeKey);
         $user->setEmail($email);
         $user = $userMapper->getUserNotActive($user);
-
+        $viewModel = new ViewModel();
+        if(!$user){
+            return $viewModel->setTemplate('error/404');
+        }
         if($this->getRequest()->isPost()){
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if($form->isValid()){
                 $user->exchangeArray((array)$data);
+                $user->setActiveKey(null);
                 /** @var \User\Service\User $userService */
                 $userService = $this->getServiceLocator()->get('User\Service\User');
                 $userService->signup($user);
-
+vdump($user);die;
                 if($userService->authenticate($user->getEmail(),$data['password'])){
-                    return $this->redirect()->toUrl('/');
+                    return $this->forward()->dispatch('Home\Controller\Index',[
+                        'action'    =>  'index',
+                        'user'  =>  $user,
+                    ]);
                 }
             }
         }
 
-        $viewModel = new ViewModel();
         $viewModel->setVariables(['email'=>$email]);
         $viewModel->setVariables(['form' => $form]);
 

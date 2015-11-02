@@ -1,9 +1,4 @@
 <?php
-/**
- * @category    ERP library
- * @copyright   http://nhanh.vn
- * @license     http://nhanh.vn/license
- */
 
 namespace Home\Model;
 use DateTime;

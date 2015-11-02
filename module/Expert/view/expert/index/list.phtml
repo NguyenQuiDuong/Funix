@@ -65,7 +65,7 @@ Coding
                 <div class="span3">
                     <span class="catBlock">
                         <span class="imgBlock">
-                            <img alt="Ruby" src="/assets/topic/category/352x352/ruby.png">
+                            <img alt="Ruby" src="/images/topic/352x352/<?=preg_replace('/#/', 'sharp', strtolower($subject->getName()))?>.png">
                         </span>
                         <span class="catName"><?= $subject->getName() ?></span>
                         <p class="description">
@@ -80,13 +80,13 @@ Coding
                 <div class="span3">
                     <span class="catBlock">
                         <span class="imgBlock">
-                            <img alt="Ruby" src="/assets/topic/category/352x352/ruby.png">
+                            <img alt="Ruby" src="/images/topic/352x352/<?=strtolower($subject->getName())?>.png">
                         </span>
                         <span class="catName"><?=$subject->getName()?></span>
                         <p class="description">
                             <?= $subject->getDescription()?>
                         </p>
-                        <a class="linkBtn" href="/experts/index/view?id=<?=$subject->getId()?>"><?=$subject->getName().' EXPERTS'?></a>
+                        <a class="linkBtn" href="/images/index/view?id=<?=$subject->getId()?>"><?=$subject->getName().' EXPERTS'?></a>
                     </span>
                 </div>
             </div>
@@ -95,7 +95,7 @@ Coding
                 <div class="span3">
                     <span class="catBlock">
                         <span class="imgBlock">
-                            <img alt="Ruby" src="/assets/topic/category/352x352/ruby.png">
+                            <img alt="Ruby" src="/images/topic/352x352/<?=strtolower($subject->getName())?>.png">
                         </span>
                         <span class="catName"><?=$subject->getName()?></span>
                         <p class="description">

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-use Work\Model\Task;
 use Zend\Validator\InArray;
 ?>
 <head>
@@ -55,6 +54,10 @@ use Zend\Validator\InArray;
 				'Danh sách mentor'		=>	'/admin/expert',
 				'Thêm mentor'			=>	'/admin/expert/add',
 			);
+			$themeAction = array(
+				'Trang chủ'				=>	'/admin/theme',
+				'Trang expert'			=>	'/admin/theme/expert',
+			);
 			$urlArray = explode('/',$_SERVER['REDIRECT_URL']);
 				if($urlArray[1]=='admin'){
 					if($urlArray[2] == 'subject'){
@@ -85,6 +88,19 @@ use Zend\Validator\InArray;
 					}
 					if($urlArray[2] == 'expert'){
 						foreach($expertAction as $titleAction => $link){
+							if($urlArray[3] == explode('/',$link)[3]){
+								echo '<li class="active">';
+								echo '<a href="'.$link.'"/>'.$titleAction.'</a>';
+								echo '</li>';
+							}else{
+								echo '<li>';
+								echo '<a href="'.$link.'"/>'.$titleAction.'</a>';
+								echo '</li>';
+							}
+						}
+					}
+					if($urlArray[2] == 'theme'){
+						foreach($themeAction as $titleAction => $link){
 							if($urlArray[3] == explode('/',$link)[3]){
 								echo '<li class="active">';
 								echo '<a href="'.$link.'"/>'.$titleAction.'</a>';

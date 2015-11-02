@@ -2233,7 +2233,6 @@ body.minibar .navbar-inner .nav li.active a:hover {
 }
 
 .cm-notify {
-    width: 17px;
     height: 18px;
     padding: 10px 10px;
     font-size: 18px;
@@ -2278,7 +2277,7 @@ body.minibar .navbar-inner .nav li.active a:hover {
 
 .inboxNotification, .chatNotification {
     position: relative;
-    width: 60px
+    /*width: 60px*/
 }
 
 .inboxNotification .notification-list, .chatNotification .notification-list {

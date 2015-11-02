@@ -1,9 +1,7 @@
 <?php
 /**
  * @author KienNN
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+
  * class sử dụng để tạo và duyệt cấu trúc cây cho danh mục, project... Tất tần tật các thứ có parentId
  */
 namespace Home\Model;

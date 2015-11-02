@@ -2,9 +2,7 @@
 /**
  * Home\Controller
  *
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+
  */
 
 namespace Home\Controller;
@@ -44,105 +42,9 @@ class MediaController extends ControllerBase{
 				$file = BASE_PATH.'/public/media/contracts/'.$fileContract->getContractId().'/'.$fileContract->getFileName();
 				$fileName = $fileContract->getFileName();
 				break;
-			case Media::TYPE_WORK_PROJECT_FILE:
-				$d = $this->getRequest()->getQuery('d');
-				$document = new \Work\Model\Document();
-				$documentFile = new \Work\Model\DocumentFile();
-				$documentFile->setId($f);
-				$document->setId($d);
-				$documentMapper = $this->getServiceLocator()->get('\Work\Model\DocumentMapper');
-				$documentFileMapper = $this->getServiceLocator()->get('\Work\Model\DocumentFileMapper');
-				if(!$documentMapper->get($document) || !$documentFileMapper->get($documentFile)){
-						return $this->page404();
-						}
-
-				$createdDate = $documentFileMapper->get($documentFile)->getCreatedDateTime();
-				$createdDateFolder = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $createdDate)->format('Ymd');
-				$file = MEDIA_PATH.'/projects/documents/'.$createdDateFolder.'/'.$documentFile->getFileName();
-				$fileName = $documentFile->getFileName();
-				break;
-			case Media::TYPE_CRM_ACITITY_PHONECALL:
-				$phoneCall = new \Crm\Model\Activity();
-				$phoneCall->setId($f);
-				$activityMapper = $this->getServiceLocator()->get('\Crm\Model\ActivityMapper');
-				if(!$activityMapper->get($phoneCall)
-					|| $phoneCall->getType() != \Crm\Model\Activity::TYPE_PHONECALL
-					|| !$phoneCall->getFileName()){
-					return $this->page404();
-				}
-				$file = BASE_PATH.'/public/media/phonecall/'.$phoneCall->getFilePath().'/'.$phoneCall->getFileName();
-				$fileName = $phoneCall->getFileName();
-				break;
-			case Media::TYPE_WORK_TASK_FILE:
-				$attachFile = new \Work\Model\TaskFile();
-				$attachFile->setId($f);
-				$attachFileMapper = $this->getServiceLocator()->get('\Work\Model\TaskFileMapper');
-				if(!$attachFileMapper->get($attachFile)){
-					return $this->page404();
-				}
-
-				//Check oldfile
-				$file = Uri::getSavePath($attachFile).'/'.$attachFile->getFileName();
-				$fileName = $attachFile->getFileName();
-				break;
-			case Media::TYPE_DOCUMENT_DOCUMENT_FILE:
-				$documentFile = new \Document\Model\DocumentFile();
-				$documentFile->setId($f);
-				$documentFileMapper = $this->getServiceLocator()->get('\Document\Model\DocumentFileMapper');
-				if(!$documentFile->getId() || !$documentFileMapper->get($documentFile)){
-					return $this->page404();
-				}
-
-				$file = Uri::getSavePath($documentFile).'/'.$documentFile->getFileName();
-				$fileName = $documentFile->getFileName();
-				break;
-			case Media::TYPE_COMPANY_ANNOUNCEMENT_FILE:{
-				$d = $this->getRequest()->getQuery('d');
-				$announcementFile=new \Company\Model\AnnouncementFile();
-				$announcement=new \Company\Model\Announcement();
-				$announcementFile->setId($f);
-				$announcement->setId($d);
-				$announcementMapper = $this->getServiceLocator()->get('\Company\Model\AnnouncementMapper');
-				$announcementFileMapper = $this->getServiceLocator()->get('\Company\Model\AnnouncementFileMapper');
-				if (!$announcementMapper->get($announcement) || !$announcementFileMapper->get($announcementFile)) {
-					return null;
-				}
-				$createdDate=$announcementFileMapper->get($announcementFile)->getCreatedDateTime();
-				$createdDateFolder= DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $createdDate)->format('Ymd');
-				$file = Uri::getSavePath($announcementFile).'/'.$announcementFile->getFileName();
-				$fileName= $announcementFile->getFileName();
-				break;
-			}
-			case Media::TYPE_WORK_MEETING_FILE:
-			    $d = $this->getRequest()->getQuery('d');
-			    $meeting = new \Work\Model\Meeting();
-			    $meetingFile = new \Work\Model\MeetingFile();
-			    $meetingFile->setId($f);
-			    $meeting->setId($d);
-			    $meetingMapper = $this->getServiceLocator()->get('\Work\Model\MeetingMapper');
-			    $meetingFileMapper = $this->getServiceLocator()->get('\Work\Model\MeetingFileMapper');
-			    if(!$meetingMapper->get($meeting) || !$meetingFileMapper->get($meetingFile)){
-			        return $this->page404();
-			    }
-                $meetingFile->setMeetingId($meeting->getId());
-			    $createdDate = $meetingFileMapper->get($meetingFile)->getCreatedDateTime();
-			    $createdDateFolder = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $createdDate)->format('Ymd');
-			    $file = Uri::getSavePath($meetingFile).'/'.$meetingFile->getFileName();
-			    $fileName = $meetingFile->getFileName();
-			    break;
 		    case Media::TYPE_HRM_TEST_TEMPLATE_EXCEL:
 		        $file = BASE_PATH . '/public/media/test/'.$f;
 		        $fileName = $f;
-		        break;
-		    case Media::TYPE_IDEA_FILE:
-		        $fileModel = new \Idea\Model\File();
-		        $fileModel->setId($f);
-		        $fileMapper = $this->getServiceLocator()->get('\Idea\Model\FileMapper');
-		        if(!$fileMapper->get($fileModel)){
-		            return $this->page404();
-		        }
-		        $file = \Home\Service\Uri::getSavePath($fileModel);
-		        $fileName = $fileModel->getFileName();
 		        break;
 
 		}

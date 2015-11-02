@@ -3,9 +3,7 @@
  * Home\Filter\HTMLPurifier
  *
  * @author      VanCK
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+
  */
 namespace Home\Filter;
 

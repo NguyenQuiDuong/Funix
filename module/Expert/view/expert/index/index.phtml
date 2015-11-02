@@ -5,29 +5,15 @@ $subjectsCategory = $this->subjects;
 ?>
 <div class="topBlock">
     <div class="customizeContainer">
-        <?php if(!$this->user()->getIdentity()){?>
-        <div class="row-fluid">
-            <div class="span10 offset1 text-center">
-                <h1 class="h1Title">Codementor Software Expert Help</h1>
-                <p class="h1Description">Get instant 1:1 help from expert developers on Codementor.
-                    Experts on Codementor include book authors, creators of
-                    popular open source libraries, programming tutors, and engineers at well-known
-                    tech companies.</p>
-                <a class="actionLink" data-target="#signup-modal" data-toggle="modal" role="button">
-                    Get Help Now
-                </a>
-            </div>
-        </div>
-        <?php }else{
-            ?>
+
             <div class="row-fluid">
-                <div class="span9">
-                    <h1 class="h1Title">Codementor Software Expert Help</h1>
-                    <p class="h1Description">Get instant 1:1 help from expert developers on Codementor. Experts on Codementor include book authors, creators of popular open source libraries, and engineers at well-known tech companies.</p>
-                </div>
+                <?php include(TEMPLATES_PATH.'\html\expert.html')?>
+                <?php if(!$this->user()->getIdentity()){?>
+                    <a class="actionLink" data-target="#signup-modal" data-toggle="modal" role="button">
+                        Nhận sự giúp đỡ luôn
+                    </a>
+                <?php }?>
             </div>
-            <?php
-        }?>
     </div>
 </div>
 <div class="breadcrumb">

@@ -3,9 +3,7 @@
  * Home\Validator\Mobile
  *
  * @author      KienNN
- * @category   	ERP library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+
  */
 namespace Home\Validator;
 use Zend\Validator\AbstractValidator;
