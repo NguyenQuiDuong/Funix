@@ -22,6 +22,8 @@ class Acl extends ZendAcl
         $this->addRole(new Role('Admin'), 'Member');
         $this->addRole(new Role('Super Admin'), 'Member');
 
+        $this->addRole(new Role('Call Center'),'Member');
+
         $this->addResource('home:index');
         $this->addResource('home:media');
         $this->addResource('home:search');
@@ -60,7 +62,7 @@ class Acl extends ZendAcl
         $this->allow('Guest', 'address:district', ['load']);
         $this->allow('Guest', 'address:city', ['load']);
         $this->allow('Guest', 'user:user', ['signin', 'signout', 'signup',
-        		 'active', 'getactivecode', 'getpassword', 'ajaxsignup', 'ajaxsignin', 'resetpassword','sendemail','activeaccount']);
+        		 'active', 'getactivecode', 'getpassword', 'ajaxsignup', 'ajaxsignin', 'resetpassword','sendemail','activeaccount','signupemail']);
         $this->allow('Guest', 'user:signin', ['index', 'google', 'facebook']);
         $this->allow('Guest', 'user:manage');
         // deploy code
@@ -71,10 +73,11 @@ class Acl extends ZendAcl
         $this->allow('Guest', 'subject:subject',['suggest','fetchall']);
 
         $this->allow('Member', 'user:profile');
-        $this->allow('Member', 'user:user', ['updatecode']);
+        $this->allow('Member', 'user:user', ['updatecode','loaduserajaxchat']);
         $this->allow('Member', 'system:user', ['suggest']);
         $this->allow('Member', 'expert:index');
         $this->allow('Member', 'subject:subject');
+
 
         $this->allow('Admin', null);
         $this->allow('Super Admin', null);

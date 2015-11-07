@@ -2,7 +2,6 @@
 /**
  * Home\Filter\HTMLPurifier
  *
- * @author      VanCK
 
  */
 namespace Home\Filter;

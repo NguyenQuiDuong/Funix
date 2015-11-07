@@ -13,11 +13,11 @@ $(function(){
 			}
 		});
 	});
-	$(".topMenuToggle").clickToggle(function() {
-        $(".topMenu").slideDown(200);
-    }, function() {
-    	$(".topMenu").slideUp(200);
-    });
+    //$(".topMenuToggle").toggle(function() {
+    //    $(".topMenu").slideDown(200);
+    //}, function() {
+    //	$(".topMenu").slideUp(200);
+    //});
 	
 	$('.datepicker').each(function(){
 		  var option = { 

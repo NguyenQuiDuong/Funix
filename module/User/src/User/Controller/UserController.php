@@ -535,7 +535,7 @@ class UserController extends AbstractActionController
                 /** @var \User\Service\User $userService */
                 $userService = $this->getServiceLocator()->get('User\Service\User');
                 $userService->signup($user);
-vdump($user);die;
+
                 if($userService->authenticate($user->getEmail(),$data['password'])){
                     return $this->forward()->dispatch('Home\Controller\Index',[
                         'action'    =>  'index',
@@ -549,6 +549,42 @@ vdump($user);die;
         $viewModel->setVariables(['form' => $form]);
 
         return $viewModel;
+    }
+
+    /**
+     * @author Duongnq
+     *
+     */
+    public function loaduserajaxchatAction(){
+        $json = new JsonModel();
+        $q = $this->params()->fromQuery('q');
+        if(!$q){
+            $json->setVariables([
+                'code' => 0,
+                'data' => 'Dữ liệu không hợp lệ'
+            ]);
+        }
+        /** @var $userMapper \User\Model\UserMapper */
+        $userMapper = $this->getServiceLocator()->get('User/Model/UserMapper');
+        if($q != 'e' && $q != 'c'){
+            $json->setVariables([
+                'code' => 0,
+                'data' =>   'Dữ liệu không hợp lệ'
+            ]);
+        }
+        if($q == 'c'){
+            $json->setVariables([
+                'code' => 1,
+                'data' =>   $userMapper->getCallCenter()
+            ]);
+        }
+        if($q == 'e'){
+            $json->setVariables([
+                'code' => 1,
+                'data' =>   $userMapper->getMentor()
+            ]);
+        }
+        return $json;
     }
 
 

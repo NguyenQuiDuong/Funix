@@ -50,6 +50,8 @@
                                         'class' =>  'inputBox',
                                         'placeholder'   =>  'Email',
                                     )));
+                                    echo $this->formelement($form->get('description'));
+                                    echo $this->formelement($form->get('birthday'));
                                     echo $this->formelement($form->get('submit')->setAttributes(array(
                                         'class' =>  'btn btn-red submitBtn',
 

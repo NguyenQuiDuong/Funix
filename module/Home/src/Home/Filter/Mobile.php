@@ -2,7 +2,6 @@
 /**
  * Home\Filter\Mobile
  *
- * @author      KienNN
 
  */
 namespace Home\Filter;

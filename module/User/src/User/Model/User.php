@@ -11,6 +11,7 @@ class User extends Base
     const ROLE_SUPERADMIN  	= 1;
     const ROLE_ADMIN  		= 2;
     const ROLE_MENTOR		= 5;
+    const ROLE_CALLCENTER   = 10;
 
     const ROLE_MEMBER		= 200;
     const ROLE_GUEST 		= 255;
@@ -25,6 +26,7 @@ class User extends Base
     protected $roles = array(
         self::ROLE_SUPERADMIN 	=> 'Super Admin',
         self::ROLE_ADMIN 		=> 'Admin',
+        self::ROLE_CALLCENTER   => 'Call Center',
         self::ROLE_MENTOR 		=> 'Mentor',
         self::ROLE_MEMBER		=> 'Member',
         self::ROLE_GUEST 		=> 'Guest',
@@ -34,6 +36,7 @@ class User extends Base
     protected $roleDisplays = array(
         self::ROLE_SUPERADMIN 	=> 'Super Admin',
         self::ROLE_ADMIN 		=> 'Admin',
+        self::ROLE_CALLCENTER   => 'Call Center',
         self::ROLE_MENTOR		=> 'Mentor',
     );
 
@@ -256,6 +259,18 @@ class User extends Base
     public function getActive()
     {
         return $this->active;
+    }
+     public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
     }
 
     /**

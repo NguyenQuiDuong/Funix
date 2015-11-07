@@ -1,7 +1,17 @@
 .chat_body{
     display: none;
 }
-
+.mentorlist .chat_body{
+    display: block;
+}
+.mentorlist {
+    position: absolute;
+    top: 0;
+    left: -189px;
+    z-index: 999;
+    color: black;
+    width: 186px;
+}
 .chat_box{
     /*height: 400px;*/
     position:fixed;
@@ -35,10 +45,22 @@
     border-radius:5px 5px 0px 0px;
     /*z-index: 999;*/
     overflow: auto;
+    float: right;
+    margin-right: 10px;
 }
 
 .msg_head{
     background:#3498db;
+}
+.msg_title{
+    margin-left: 15px;
+    display: inline-block;
+    width: 182px;
+    overflow: hidden;
+}
+.msg_tool{
+    float: right;
+    margin-left: 5px;
 }
 .msg_head::after{
     content:'';
@@ -69,9 +91,15 @@
     box-sizing: border-box;
 }
 
-.close{
+.msg_close{
     float:right;
     cursor:pointer;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
 }
 .minimize{
     float:right;
@@ -166,6 +194,7 @@
     position: fixed;
     bottom: -10px;
     z-index: 999;
+    right: 270px;
 }
 
 /*.chat_avatar{*/

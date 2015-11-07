@@ -26,13 +26,26 @@ class User extends DataGrid
                     'content' => 'Email'
                 ),
                 array(
-                    'name' => 'status',
-                    'content' => 'Trạng thái'
+                    'name' => 'facebook',
+                    'content' => 'Link Facebook'
                 ),
                 array(
                     'name' => 'createdDateTime',
                     'content' => 'Ngày đăng kí'
                 ),
+                 array(
+                    'name' => 'role',
+                    'content' => 'Quyền'
+                ),
+                  array(
+                    'name' => 'status',
+                    'content' => 'Trạng thái'
+                ),
+                 array(
+                    'name' => 'setrole',
+                    'content' => 'Set Role'
+                ),
+                
 
             )
 
@@ -70,17 +83,11 @@ class User extends DataGrid
                     'attributes' => [
                     ]
                 ));
-
-                // Status
-//                if($item->getStatus()==1){
-//                    $status = '<i style="color:green;font-size:14px;" class="fa fa-check-circle"></i>';
-//                }else{
-//                    $status = '<div class="label label-warning">Khóa</div>';
-//                }
-                $row->addColumn(array(
-                    'name' => 'status',
-                    'content' => $status,
-                    'attributes' => ['style' => 'width:30px;']
+                 $row->addColumn(array(
+                    'name' => 'facebook',
+                    'content' => $item->getFacebook(),
+                    'attributes' => [
+                    ]
                 ));
 
 
@@ -90,6 +97,42 @@ class User extends DataGrid
                     'attributes' => [
                         'style' => 'position: relative'
                     ]
+                ));
+                //role
+                $role="";
+                 if($item->getRole()==200){
+                    $role = '<span class="label label-success">User</span>';
+                }elseif($item->getRole()==5){
+                     $role = '<span class="label label-info">Mentor</span>';
+                }elseif($item->getRole()==1){
+                     $role = '<span class="label label-danger">Admin</span>';
+                }
+                $row->addColumn(array(
+                    'name' => 'role',
+                    'content' => $role,
+                    'attributes' => ['style' => 'width:40px;']
+                ));
+                 // Status
+                if($item->getActive()==1){
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" checked>';
+                }else{
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" >';
+                }
+                $row->addColumn(array(
+                    'name' => 'status',
+                    'content' => $status,
+                    'attributes' => ['style' => 'width:30px;']
+                ));
+                
+                 if($item->getRole()==200||$item->getRole()==5){
+                    $setrole = '<button class="btn btn-info" id="change-role-'.$item->getId().'" data-email="'.$item->getEmail().'" data-facebook="'.$item->getFacebook().'" data-role="'.$item->getRole().'" onclick="setMentor('.$item->getId().');" >Thay đổi quyền user</button>';
+                }else{
+                    $setrole = '';
+                }
+                $row->addColumn(array(
+                    'name' => 'setrole',
+                    'content' => $setrole,
+                    'attributes' => ['style' => 'width:30px;']
                 ));
 
             }

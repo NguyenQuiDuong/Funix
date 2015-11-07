@@ -10,7 +10,7 @@ $('#signupemail').click(function(){
         function(rs){
             if(rs.code ==  1){
                 $('#errorModal').empty();
-                $('#errorModal').append('<div> class="center alert alert-error flash-message topAlert"><div id="flash_alert">'+rs.data+'</div></div>');
+                $('#errorModal').append('<div class="center alert alert-error flash-message topAlert"><div id="flash_alert">'+rs.data+'</div></div>');
             }
             if(rs.code == 2){
                 $('#errorModal').empty();

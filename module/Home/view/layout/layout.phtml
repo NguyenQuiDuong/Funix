@@ -50,12 +50,12 @@ $js = array(
 	'/js/jquery/jquery-ui.min.js',
 // 	'/js/jquery/bootstrap.min.js',
 	'/js/jquery/modernizr.js',
-//	'/js/daterangepicker/moment.js',
-//	'/js/daterangepicker/daterangepicker.js',
-//	'/js/combodate.js',
-//	'/js/notification/jquery.gritter.min.js',
-//	'/js/bootstrap-datetimepicker.js',
-    '/js/chat/socket.io.js',
+	'/js/daterangepicker/moment.js',
+	'/js/daterangepicker/daterangepicker.js',
+	'/js/combodate.js',
+	'/js/notification/jquery.gritter.min.js',
+	'/js/bootstrap-datetimepicker.js',
+    '/js/chat/socket.io-1.3.7.js',
     '/js/chat/chat.js',
     '/js/jquery/select2.min.js',
     '/js/application.js',
@@ -64,6 +64,9 @@ $js = array(
 );
 echo '<script type="text/javascript" src="/min/f=' . implode(',', $js) . '?2"></script>';
 echo '<script type="text/javascript" src="/tool/ckeditor/ckeditor.js"></script>';
+echo '<script type="text/javascript" src="/min/f=' . implode(',', [
+        '/tp/v1/js/a.js',
+    ]) . '?19"></script>';
 echo $this->headScript();
 echo $this->inlineScript();
 ?>

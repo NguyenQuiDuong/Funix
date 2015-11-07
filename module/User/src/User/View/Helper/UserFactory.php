@@ -1,6 +1,5 @@
 <?php
 /**
- * @author VanCK
 
  */
 namespace User\View\Helper;

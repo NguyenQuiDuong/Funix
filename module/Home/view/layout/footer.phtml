@@ -27,9 +27,51 @@ $mytoken = '';
 if ($this->user()->getIdentity()) {
 $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime()); ?>
 
+    <?php if($this->user()->getUser($this->user()->getIdentity())->getRole() != \User\Model\User::ROLE_CALLCENTER){ ?>
 <div id="chat_boxid" class="chat_box">
+    <div class="chat_head">Trợ giúp</div>
+    <div class="chat_body"><?php
+        foreach ($this->user()->getCallCenter() as $callcenter) { ?>
+            <?php
+                if ($callcenter != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
+                    ?>
+                    <div id="chat_list">
+                        <!--                        <div id="chat_avatar">-->
+                        <!--                            <img src="https://www.gravatar.com/avatar/590ffe5b72621194f8759180d6d49440?d=mm&s=200"">-->
+                        <!--                        </div>-->
+                        <div class="user" style="cursor:pointer;" onclick="popupchat('<?=$callcenter ?>')"><?=$callcenter ?></div>
+                    </div>
+                    <?php
+                }
+        } ?>
+    </div>
+</div>
+<?php } ?>
+
+<div id="chat-area"></div>
+<?php if($this->user()->getUser($this->user()->getIdentity())->getRole() == \User\Model\User::ROLE_CALLCENTER){ ?>
+<div id="chat_boxmentor" class="chat_box">
     <div class="chat_head">Mentor</div>
     <div class="chat_body"><?php
+        foreach ($this->user()->getMentor() as $sub=>$mentor) { ?>
+            <h4 class="subject_mentor"><?=$sub?></h4>
+            <?php
+            foreach ($mentor as $name) {
+                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
+                    ?>
+                    <div id="chat_list">
+                        <div class="user" style="cursor:pointer;" onclick="popupchat('<?=$name ?>')"><?=$name ?></div>
+                    </div>
+                    <?php
+                }
+            }
+        } ?>
+    </div>
+</div>
+
+<div class="mentorlist" style="display: none">
+    <div class="chat_head">Mentor</div>
+    <div class="chat_body" style="height: 248px;"><?php
         foreach ($this->user()->getMentor() as $subjectname => $mentor) { ?>
             <h4 class="subject_mentor"><?= $subjectname ?></h4>
             <?php
@@ -37,17 +79,13 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
                 if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
                     ?>
                     <div id="chat_list">
-<!--                        <div id="chat_avatar">-->
-<!--                            <img src="https://www.gravatar.com/avatar/590ffe5b72621194f8759180d6d49440?d=mm&s=200"">-->
-<!--                        </div>-->
-                        <div class="user" style="cursor:pointer;" onclick="popupchat('<?= $name ?>//')"><?= $name ?></div>
+                        <div class="user <?=$name?>" style="cursor:pointer;" onclick="updateuserchat(this,'<?=$name ?>')"><?=$name ?></div>
                     </div>
-
                     <?php
                 }
             }
         } ?>
     </div>
-    <?php } ?>
 </div>
-<div id="chat-area"></div>
+<?php }
+} ?>

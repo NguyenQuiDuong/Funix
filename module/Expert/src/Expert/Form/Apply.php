@@ -79,10 +79,79 @@ class Apply extends FormBase
                     'break_chain_on_failure' => true,
                     'options' => array(
                         'messages' => array(
-                            'isEmpty' => 'Bạn chưa nhập tên'
+                            'isEmpty' => 'Bạn chưa nhập email'
+                        )
+                    )
+                ),
+                array(
+                    'name'    => 'EmailAddress',
+                    'break_chain_on_failure' => true,
+                    'options' => array(
+                        'messages' => array(
+                            'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ'
+                        )
+                    )
+                ),
+            )
+        ));
+
+        $description = new Textarea('description');
+        $description->setLabel('Mô tả:');
+        $description->setAttributes([
+            'class' => ' inputBox',
+            'style' => 'min-height: 300px;',
+            'placeholder'   =>  'Mô tả'
+        ]);
+        $this->add($description);
+        $group->addElement($description);
+        $filter->add(array(
+            'name' => 'description',
+            'required' => false,
+            'filters' => array(
+                array(
+                    'name' => 'StringTrim'
+                )
+            ),
+            'validators' => array(
+                array(
+                    'name' => 'NotEmpty',
+                    'break_chain_on_failure' => true,
+                    'options' => array(
+                        'messages' => array(
+                            'isEmpty' => 'Bạn chưa nhập mô tả về bạn'
                         )
                     )
                 )
+            )
+        ));
+
+        $birthday = new Text('birthday');
+        $birthday->setLabel('Tên danh mục:');
+        $birthday->setAttributes([
+            'maxlength' => 255,
+            'placeholder' => 'Ngày sinh',
+            'class' =>  'datepicker inputBox'
+        ]);
+        $this->add($birthday);
+        $group->addElement($birthday);
+        $filter->add(array(
+            'name' => 'birthday',
+            'required' => false,
+            'filters' => array(
+                array(
+                    'name' => 'StringTrim'
+                )
+            ),
+            'validators' => array(
+                array(
+                    'name' => 'NotEmpty',
+                    'break_chain_on_failure' => true,
+                    'options' => array(
+                        'messages' => array(
+                            'isEmpty' => 'Bạn chưa nhập ngày sinh'
+                        )
+                    )
+                ),
             )
         ));
 

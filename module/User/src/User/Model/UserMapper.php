@@ -50,6 +50,7 @@ class UserMapper extends BaseMapper
             'description' => $user->getDescription()?:null,
             'rate'  =>  $user->getRate()?:null,
             'rating'    =>  $user->getRating()?:null,
+            'facebook'=>$user->getFacebook()?:null,
         );
 
         $results = false;
@@ -90,6 +91,7 @@ class UserMapper extends BaseMapper
             'resetKey' => $user->getResetKey() ?: null,
             'active' => $user->getActive(),
             'registeredDate' => $user->getRegisteredDate() ?: null,
+            'facebook'=>$user->getFacebook()?:null,
         );
         $updateArray = array_filter($updateArray,'strlen');
         $updateArray = array_filter($updateArray);
@@ -561,9 +563,11 @@ class UserMapper extends BaseMapper
         $select->join(['s'=>\Subject\Model\SubjectMapper::TABLE_NAME],'s.id=es.subjectId',['name']);
 
         $select->columns(['username']);
-        $select->where(['u.role'=>User::ROLE_MENTOR]);
+        $select->where([
+            'u.role'=>User::ROLE_MENTOR,
+            'u.status'  =>  User::STATUS_ONLINE
+        ]);
         $query = $this->getDbSql()->buildSqlString($select);
-        //vdump($query);die;
         $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
         $rows = $rows->toArray();
         $result = [];
@@ -579,6 +583,32 @@ class UserMapper extends BaseMapper
         return $result;
 
 
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCallCenter(){
+        $select = $this->getDbSql()->select(array('u'=> self::TABLE_NAME));
+
+        $select->columns(['username']);
+        $select->where([
+            'u.role'=>User::ROLE_CALLCENTER,
+            'u.status'  =>  User::STATUS_ONLINE
+        ]);
+        $query = $this->getDbSql()->buildSqlString($select);
+        $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        $rows = $rows->toArray();
+        $result = [];
+        if(count($rows)){
+            foreach($rows as $row)
+            {
+                $result[]=$row['username'];
+                //get id
+                //$result[$row['subjectId'].'-'.$row['name']][]=$row['username'];
+            }
+        }
+        return $result;
     }
 
     /**

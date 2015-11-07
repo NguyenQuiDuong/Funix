@@ -492,5 +492,13 @@ class User implements ServiceLocatorAwareInterface
 
     }
 
+    public function getCallCenter(){
+        /** @var $userMapper \User\Model\UserMapper */
+        $userMapper = $this->getServiceLocator()->get('User/Model/UserMapper');
+
+        return $userMapper->getCallCenter();
+
+    }
+
 
 }
