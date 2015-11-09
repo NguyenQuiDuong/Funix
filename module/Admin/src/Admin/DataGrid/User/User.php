@@ -100,12 +100,22 @@ class User extends DataGrid
                 ));
                 //role
                 $role="";
-                 if($item->getRole()==200){
-                    $role = '<span class="label label-success">User</span>';
-                }elseif($item->getRole()==5){
-                     $role = '<span class="label label-info">Mentor</span>';
-                }elseif($item->getRole()==1){
-                     $role = '<span class="label label-danger">Admin</span>';
+                switch($item->getRole()){
+                    case \User\Model\User::ROLE_MEMBER:
+                        $role = '<span class="label label-success">'.$item->getRoleDisplayName().'</span>';
+                        break;
+                    case \User\Model\User::ROLE_MENTOR:
+                        $role = '<span class="label label-info">'.$item->getRoleDisplayName().'</span>';
+                        break;
+                    case \User\Model\User::ROLE_CALLCENTER:
+                        $role = '<span class="label label-warning">'.$item->getRoleDisplayName().'</span>';
+                        break;
+                    case \User\Model\User::ROLE_ADMIN:
+                        $role = '<span class="label label-danger">'.$item->getRoleDisplayName().'</span>';
+                        break;
+                    case \User\Model\User::ROLE_SUPERADMIN:
+                        $role = '<span class="label label-danger">'.$item->getRoleDisplayName().'</span>';
+                        break;
                 }
                 $row->addColumn(array(
                     'name' => 'role',
