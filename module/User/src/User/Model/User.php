@@ -38,6 +38,7 @@ class User extends Base
         self::ROLE_ADMIN 		=> 'Admin',
         self::ROLE_CALLCENTER   => 'Call Center',
         self::ROLE_MENTOR		=> 'Mentor',
+        self::ROLE_MEMBER		=> 'Member',
     );
 
     /**
