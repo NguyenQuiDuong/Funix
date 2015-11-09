@@ -51,4 +51,30 @@ class SubjectController extends AbstractActionController
         $jsonModel->setVariables($subjectMapper->suggest(null));
         return $jsonModel;
     }
+
+    /**
+     * @author DuongNQ
+     * $return \zend\View\Model\JsonModel
+     */
+    public function loadsubjectAction(){
+        if ($this->getRequest()->isPost()) {
+            if ($this->getRequest()->getPost()->toArray()['subjectId'] != ''){
+                $subjectIds = explode(',', $this->getRequest()->getPost()->toArray()['subjectId']);
+            }
+            /** @var \Subject\Model\SubjectMapper $subjectMapper */
+            $subjectMapper = $this->getServiceLocator()->get('\Subject\Model\SubjectMapper');
+            $subjectNames=[];
+            if(count($subjectIds)>0){
+                foreach ($subjectIds as $subjectId){
+                    $subject = new Subject();
+                    $subject->setId($subjectId);
+                    $subject = $subjectMapper->get($subject);
+                    $subjectNames[$subjectId] = $subject->getName();
+                }
+            }
+            return new JsonModel(
+                $subjectNames
+            );
+        }else return null;
+    }
 }
