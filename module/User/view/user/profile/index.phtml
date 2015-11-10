@@ -1,370 +1,248 @@
 <?php
-use Home\Model\DateBase;
-use Home\Model\Consts;
-$this->headScript()->appendFile('/min/f=/assets/js/dropzone.min.js');
-$this->headscript()->appendFile('/min/f=/js/bootstrap-editable.min.js');
-$this->headScript()->appendFile('/min/f=/assets/js/select2.min.js');
-$this->headScript ()->appendFile ( '/min/f=/tp/v1/js/user/profile/city.js' );
-$this->headScript ()->appendFile ( '/min/f=/tp/v1/js/user/profile/jquery.maskedinput.min.js' );
-$this->headScript()->appendFile('/min/f=/assets/js/bootstrap-progressbar.js');
-$this->headScript ()->appendFile ( '/min/f=/tp/v1/js/user/profile/index.js?01' );
-$this->headLink()->appendStylesheet('/css/dropzone.css');
-
+$this->headLink()->appendStylesheet('\css\user\font-awesome.css');
+$this->headLink()->appendStylesheet('\css\user\mentee-profile.css');
+/** @var \User\Model\User $user */
 $user = $this->user;
 ?>
-<!-- main -->
-<style>
-.select2-chosen{
-	padding-right: 10px !important;
-}
-.editable-input {
-	width:200px;
-	padding-right: 10px;
-}
-#uploadFile {
-	height: 80px;
-	border: 2px dashed #ccc;
-	border-radius: 5px;
-}
-
-#uploadFile .uploadDescription {
-	margin: auto;
-	margin-top: 12px;
-	text-align: center;
-	cursor: pointer;
-}
-
-#previewsContainer .item {
-	min-height: 150px;
-	display: block;
-	border: 1px solid #ccc;
-}
-
-#previewsContainer .item .item-preview {
-	height: 100px;
-	border-bottom: 1px solid #ccc;
-	text-align: center;
-}
-
-#previewsContainer .item .item-info {
-	padding: 5px 3px;
-	text-align: center;
-}
-
-#previewsContainer .item .name {
-	word-wrap: break-word;
-}
-</style>
-<div class="content">
-	<div class="main-header">
-		<h2>Thông tin cá nhân</h2>
-		<em>Trang thông tin người dùng</em>
-	</div>
-
-	<div class="main-content">
-		<!-- NAV TABS -->
-		<ul class="nav nav-tabs">
-<!-- 			<li class="active"><a data-toggle="tab" href="#profile-tab"><i -->
-<!-- 					class="fa fa-user"></i> Profile</a></li> -->
-<!-- 			<li class=""><a data-toggle="tab" href="#activity-tab"><i -->
-<!-- 					class="fa fa-rss"></i> Recent Activity</a></li> -->
-<!-- 			<li class=""><a data-toggle="tab" href="#settings-tab"><i -->
-<!-- 					class="fa fa-gear"></i> Settings</a></li> -->
-		</ul>
-		<!-- END NAV TABS -->
-
-		<div class="tab-content profile-page">
-			<!-- PROFILE TAB CONTENT -->
-			<div id="profile-tab" class="tab-pane profile active">
-				<div class="row">
-					<div class="col-md-3">
-						<div class="user-info-left">
-							<img alt="Không có ảnh đại diện" src="<?= \Home\Service\Uri::getViewPath($user)?>">
-							<h2>
-								<?php echo	$user->getUserName(); ?> <i class="fa fa-circle green-font online-icon"></i><sup
-									class="sr-only">online</sup>
-							</h2>
-<!-- 							<div class="contact"> -->
-<!-- 								<a class="btn btn-block btn-custom-primary" href="#"><i -->
-<!-- 									class="fa fa-envelope-o"></i> Send Message</a> <a -->
-<!-- 									class="btn btn-block btn-custom-secondary" href="#"><i -->
-<!-- 									class="fa fa-book"></i> Add To Contact</a> -->
-<!-- 								<ul class="list-inline social"> -->
-<!-- 									<li><a title="Facebook" href="#"><i -->
-<!-- 											class="fa fa-facebook-square"></i></a></li> -->
-<!-- 									<li><a title="Twitter" href="#"><i class="fa fa-twitter-square"></i></a></li> -->
-<!-- 									<li><a title="Google Plus" href="#"><i -->
-<!-- 											class="fa fa-google-plus-square"></i></a></li> -->
-<!-- 								</ul> -->
-<!-- 							</div> -->
-						</div>
-					</div>
-					<div class="col-md-9">
-						<div class="user-info-right">
-							<div class="basic-info">
-								<h3>
-									<i class="fa fa-square"></i> Thông tin cơ bản
-								</h3>
-								<div style="float: right; margin-bottom: 10px">
-            						<button id="enable" class="btn btn-default">sửa thông tin</button>
-            					</div>
-								<input type="text" value="<?= $user->getId()?>" style="display: none" id="userId">
-								<p class="data-row">
-									<span class="data-name">Tên đầy đủ</span>
-									<a href="#" id="fullname" data-name="fullName" data-type="text" data-placement="right" data-title="Nhập tên họ"><?=$user->getFullName()?></a>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Ngày sinh</span>
-									<a href="#" id="birthdate" data-name="birthdate" data-type="combodate" data-template="D / MM / YYYY" data-viewformat="DD/MM/YYYY" data-placement="right" data-title="Enter ngày sinh"><?php
-									 if($user->getBirthdate()){
-											echo DateBase::toDisplayDate($user->getBirthdate());
-														}else {
-															echo 'Empty';
-														}
-									 ?></a>
-								</p>
-								<p class="data-row">
-                                
-									<span class="data-name">Giới tính</span>
-									<a href="#" id="gender" data-name ="gender" data-type="select" data-placement="right" data-title="Chọn giới tính"><?=Consts::getGenderName($user->getGender())?></a>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Đăng nhập lần cuối</span> <span
-										class="data-value"><?= $user->getLastAccess() ?></span>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Ngày đăng kí</span> <span
-										class="data-value"><?php
-										if($user->getcreatedDate()){
-											echo DateBase::toDisplayDate($user->getcreatedDate());
-										}else {
-											echo 'Empty';
-										}
-										?></span>
-								</p>
+<div class="menteeProfile ng-scope">
+	<div class="form">
+		<div class="personalInfoPart">
+			<div class="customizeContainer">
+				<div class="row-fluid">
+					<div class="span8">
+						<div class="row-fluid">
+							<div class="span3">
+								<center>
+									<div class="profileImageWrapper">
+										<a class="imageHover" href="/profile/edit">
+											<img class="menteeImage img-circle img-rounded" src="https://www.gravatar.com/avatar/e396607e917deb8ab2306669cbede5f9?d=mm&amp;s=200">
+											<div class="textOnHover">
+												Update Photo
+											</div>
+										</a>
+									</div>
+								</center>
 							</div>
-							<div class="contact_info">
-								<h3>
-									<i class="fa fa-square"></i> Liên hệ
-								</h3>
-								<p class="data-row">
-									<span class="data-name">Thành Phố</span>
-									<a href="#" id="cityId" data-type="select2" data-value="<?=$user->getCityId()?>" data-placement="right" data-title="Chọn tỉnh/thành phố"><?=$user->getCity()->getName() ?></a>
-									<input id="cityIdhidden" type="text" value="<?=$user->getCityId()?>" hidden>
-									<input id="cityIdhidden1" type="text" value="" hidden>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Quận huyện</span>
-									<a href="#" id="districtId" data-type="select2" data-placement="right" data-title="Chọn quận/huyện"><?=$user->getDistrict()->getName()?></a>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Địa chỉ</span>
-									<a href="#" id="address" data-name="address" data-type="text" data-placement="right" data-title="Nhập địa chỉ"><?=$user->getAddress()?></a>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Điện thoại</span>
-									<a href="#" id="mobile" data-type="text" data-placement="right" data-title="Nhập số điện thoại"><?=$user->getMobile()?></a>
-								</p>
-								<p class="data-row">
-									<span class="data-name">Email</span>
-									<a href="#" id="email" data-type="email" data-placement="right" data-title="Nhập Email"><?=$user->getEmail()?></a>
-								</p>
-<!-- 													<p class="data-row"> -->
-<!-- 									<span class="data-name">Email</span> -->
-<!-- 									<a href="#" id="avatar" data-type="file" data-placement="right" data-title="Enter email"> -->
-<!-- 									</a> -->
-<!-- 								</p> -->
-								<p class="data-row">
-			<!-- Upload file drop zone -->
-		<div class="col-md-12">
-			<fieldset>
-				<legend>Upload avatar</legend>
-				<div class="form-group">
-					<div class="col-md-12">
-						<form action="/media/manage/upload" method="post"
-							enctype="multipart/form-data" id="uploadFile"
-							style="height: 80px; overflow: hidden;">
-							<div class="uploadDescription dz-clickable dz-message">
-								<span class="fontsize-130 text-muted"><i class="fa fa-upload"></i>
-									<b>Click vào để upload</b></span><br /> <span
-									class="fonsize-100 text-muted">(Chỉ nhận file <i>'jpg', 'jpeg',
-										'gif', 'png'</i> và dung lượng nhỏ hơn 1Mb)
-								</span>
-							</div>
-						</form>
-					</div>
-					<div class="col-md-12" id="previewsContainer"></div>
-					<br />
-
-				</div>
-			</fieldset>
-		</div>
-
-		<div id="preview-template" style="display: none;">
-			<div class="dz-preview dz-file-preview col-md-3 status-uploading">
-				<div class="item">
-					<div class="item-preview">
-						<div class="dz-image">
-							<img data-dz-thumbnail="">
-						</div>
-					</div>
-					<div class="item-info">
-						<div class="dz-details">
-							<div class="size">
-								<div class="dz-size">
-									<span data-dz-size=""></span>
+							<div class="span9">
+								<div class="nameBlock">
+									<h1 class="menteeName ng-binding"><?=$user->getFullName()?$user->getFullName():$user->getUsername()?></h1>
 								</div>
-							</div>
-							<div class="name fontsize-85">
-								<div class="dz-filename">
-									<span data-dz-name=""></span>
+								<div class="timezone">
+									<div class="displaySection">
+										<i class="fa fa-clock-o"></i>
+										<span ng-bind="mentee.time_zone_str" class="ng-binding">Bangkok (+07:00)</span>
+										<span class="editorText editSection">
+											<i class="icon-edit"></i>
+										</span>
+									</div>
+									<div class="formSection ng-hide" ng-show="isEditingSection(&quot;time_zone&quot;);">
+										<select ng-model="mentee.time_zone" name="user[time_zone]" id="user_time_zone" class="ng-pristine ng-untouched ng-valid"><option value="Hawaii">(GMT-10:00) Hawaii</option>
+											<option value="Bangkok">(GMT+07:00) Bangkok</option>
+											<option value="Hanoi">(GMT+07:00) Hanoi</option>
+											<option value="Jakarta">(GMT+07:00) Jakarta</option>
+											<option value="Krasnoyarsk">(GMT+07:00) Krasnoyarsk</option>
+										</select>
+										<span class="editorText">
+											<div class="btn saveButton btn-primary">Save</div>
+										</span>
+										<span class="editorText">
+											<div class="btn btn-link cancelButton">Cancel</div>
+										</span>
+									</div>
+								</div>
+								<div class="needCategories">
+									<div class="needCatTitle">
+										<i class="fa fa-tags"></i>
+										Topic I need help with:
+										<span class="editorText"><i class="icon-edit"></i></span>
+										<span class="formSection ng-hide">
+											<span class="editorText">
+												<div class="btn saveButton btn-primary">Save</div>
+											</span>
+											<span class="editorText">
+												<div class="btn btn-link cancelButton">Cancel</div>
+											</span>
+										</span>
+									</div>
+								</div>
+								<div class="row-fluid">
+									<div class="span10 needCatContent">
+										<span class="badge customizeBadge ng-binding ng-scope">JavaScript</span>
+									</div>
+									<div class="formSection ng-hide">
+										<div class="control-group text tagInput ng-scope">
+											<div class="controls">
+												<tags-input min-length="1" placeholder="Search Categories..." class="ng-pristine ng-untouched ng-valid ng-isolate-scope ng-valid-max-tags ng-valid-min-tags ng-valid-leftover-text">
+													<div class="host" tabindex="-1">
+														<div class="tags">
+															<ul class="tag-list">
+																<li class="tag-item ng-scope">
+																	<ti-tag-item data="tag" class="ng-isolate-scope skrollable skrollable-between">
+																		<ng-include src="$$template" class="ng-scope">
+																			<span ng-bind="$getDisplayText()" class="ng-binding ng-scope">JavaScript</span>
+																			<a class="remove-button ng-binding ng-scope">×</a>
+																		</ng-include>
+																	</ti-tag-item></li>
+															</ul>
+															<input class="input ng-pristine ng-untouched ng-valid" autocomplete="off"  type="text" placeholder="Search Categories..." style="width: 138px;">
+															<span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">Search Categories...</span>
+														</div>
+														<auto-complete min-length="1" class="ng-scope ng-isolate-scope">
+
+														</auto-complete>
+													</div>
+												</tags-input>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="progress progress-striped active" role="progressbar"
-							aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-							<div class="progress-bar progress-bar-success" style="width: 0%;"
-								data-dz-uploadprogress></div>
-						</div>
-
-						<div class="dz-error-message">
-							<span data-dz-errormessage=""></span>
-						</div>
-						<div class="dz-success-mark">
-							<i class="fa-fa-check color-green"></i>
-						</div>
-						<div class="dz-error-mark">
-							<i class="fa-fa-times color-red"></i>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="menuPart skrollable skrollable-before" data-50-top="position:fixed;" data-bottom-top="position:relative;" data-emit-events="" style="position: relative; top: auto; box-shadow: none;">
+			<div class="customizeContainer">
+				<div class="menuTab active">
+					<a class="menuLink tabQuestion">
+						Overview
+					</a>
+				</div>
+				<span class="aboutMe red">* Your profile is not public and is only visible to mentors on Codementor</span>
+			</div>
+		</div>
+		<div class="contentPart secondPart skrollable skrollable-before" data-104-top="padding-top:55px;" data-105-top="padding-top:0px;" data-emit-events="" style="padding-top: 0px;">
+			<div class="customizeContainer">
+				<div class="row-fluid">
+					<div class="span8">
+						<div id="overview">
+							<div class="block">
+								<h2 class="subTitle">
+									About Me
+									<span class="editSection editorText">
+										<i class="icon-edit"></i>
+									</span>
+									<span class="formSection ng-hide">
+										<span class="editorText">
+											<div class="btn saveButton btn-primary">Save</div>
+										</span>
+										<span class="editorText">
+											<div class="btn btn-link cancelButton">Cancel</div>
+										</span>
+									</span>
+								</h2>
+								<div class="blockDecoration whyUse">
+									<ul class="editorText"></ul>
+									<ul class="use_text ng-hide">
+										<li class="ng-scope">
+											<label for="why_use_0" class="ng-binding">
+												<input id="why_use_0"type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'm working on a side project
+											</label>
+										</li>
+										<li class="ng-scope">
+											<label for="why_use_1" class="ng-binding">
+												<input id="why_use_1"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'm building a startup
+											</label>
+										</li>
+										<li class="ng-scope">
+											<label for="why_use_2" class="ng-binding">
+												<input id="why_use_2" type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'm a freelance developer
+											</label>
+										</li>
+										<li class="ng-scope">
+											<label for="why_use_3" class="ng-binding">
+												<input id="why_use_3"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'm a student
+											</label>
+										</li>
+										<li class="ng-scope">
+											<label for="why_use_4" class="ng-binding">
+												<input id="why_use_4" type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'd like to find a job as a developer
+											</label>
+										</li>
+										<li class="ng-scope">
+											<label for="why_use_5" class="ng-binding">
+												<input id="why_use_5"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
+												I'm working as a full-time developer at a company
+											</label>
+										</li>
+										<li class="other">
+											Other:
+											<input style="display:inline;" type="text" class="ng-pristine ng-untouched ng-valid">
+										</li>
+									</ul>
+									<ul class="use_text">
+										<li class="ng-binding ng-scope">I'm a student</li>
+									</ul>
+								</div>
+							</div>
+							<div class="block">
+								<h2 class="subTitle">
+									Requests
+								</h2>
+								<div class="blockDecoration">
+									<div class="request">
+										<div class="requestDetail">
+											<h4 class="qTitle">
+												<a href="/questions/7659868537">
+													html ruby
+												</a>
+											</h4>
+											<p class="qBody">
 
-<!-- End upload file -->
-						</p>
-							<div class="about">
-								<h3>
-									<i class="fa fa-square"></i> Về tôi
-								</h3>
+											</p>
+										</div>
+										<div class="requestSign solved">
+											<div class="signText">
+												Solved
+											</div>
+										</div>
+										<a class="tags" href="/html_css-experts">
+											HTML/CSS
+										</a>
+										<a class="tags" href="/html-experts">
+											Html
+										</a>
+										<a class="tags" href="/ruby-experts">
+											Ruby
+										</a>
+									</div>
+									<div class="request">
+										<div class="requestDetail">
+											<h4 class="qTitle">
+												<a href="/questions/8560876903">
+													nodejs, socket-io
+												</a>
+											</h4>
+											<p class="qBody">
 
+											</p>
+										</div>
+										<div class="requestSign solved">
+											<div class="signText">
+												Solved
+											</div>
+										</div>
+										<a class="tags" href="/nodejs-experts">
+											Node.js
+										</a>
+										<a class="tags" href="/socket-io-experts">
+											Socket io
+										</a>
+										<a class="tags" href="/nodejs-dup-experts">
+											Nodejs
+										</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- END PROFILE TAB CONTENT -->
-
-			<!-- ACTIVITY TAB CONTENT -->
-<!-- 			<div id="activity-tab" class="tab-pane activity"> -->
-<!-- 				<ul class="list-unstyled activity-list"> -->
-<!-- 					<li><i class="fa fa-shopping-cart activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> commented on <a href="#">Special Deal -->
-<!-- 								2013</a> <span class="timestamp">12 minutes ago</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-pencil activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> posted <a href="#">a new blog post</a> <span -->
-<!-- 								class="timestamp">4 hours ago</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-user activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> edited his profile <span -->
-<!-- 								class="timestamp">11 hours ago</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-pencil activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> has added review on <a href="#">jQuery -->
-<!-- 								Complete Guide</a> book <span class="timestamp">Yesterday</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-thumbs-up activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> liked <a href="#">a post</a> <span -->
-<!-- 								class="timestamp">December 12</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-tasks activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> has completed one task <span -->
-<!-- 								class="timestamp">December 11</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-picture-o activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> uploaded <a href="#">new photos</a> <span -->
-<!-- 								class="timestamp">December 5</span> -->
-<!-- 						</p></li> -->
-<!-- 					<li><i class="fa fa-credit-card activity-icon pull-left"></i> -->
-<!-- 						<p> -->
-<!-- 							<a href="#">Jonathan</a> has updated his credit card info <span -->
-<!-- 								class="timestamp">September 28</span> -->
-<!-- 						</p></li> -->
-
-<!-- 				</ul> -->
-<!-- 				<p class="text-center more"> -->
-<!-- 					<a class="btn btn-custom-primary" href="#">View more <i -->
-<!-- 						class="fa fa-long-arrow-right"></i></a> -->
-<!-- 				</p> -->
-<!-- 			</div> -->
-			<!-- END ACTIVITY TAB CONTENT -->
-
-			<!-- SETTINGS TAB CONTENT -->
-<!-- 			<div id="settings-tab" class="tab-pane settings"> -->
-<!-- 				<form role="form" class="form-horizontal"> -->
-<!-- 					<fieldset> -->
-<!-- 						<h3> -->
-<!-- 							<i class="fa fa-square"></i> Change Password -->
-<!-- 						</h3> -->
-<!-- 						<div class="form-group"> -->
-<!-- 							<label class="col-sm-3 control-label" for="old-password">Old -->
-<!-- 								Password</label> -->
-<!-- 							<div class="col-sm-4"> -->
-<!-- 								<input type="password" class="form-control" name="old-password" -->
-<!-- 									id="old-password"> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<hr> -->
-<!-- 						<div class="form-group"> -->
-<!-- 							<label class="col-sm-3 control-label" for="password">New Password</label> -->
-<!-- 							<div class="col-sm-4"> -->
-<!-- 								<input type="password" class="form-control" name="password" -->
-<!-- 									id="password"> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="form-group"> -->
-<!-- 							<label class="col-sm-3 control-label" for="password2">Repeat -->
-<!-- 								Password</label> -->
-<!-- 							<div class="col-sm-4"> -->
-<!-- 								<input type="password" class="form-control" name="password2" -->
-<!-- 									id="password2"> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</fieldset> -->
-
-<!-- 				</form> -->
-
-<!-- 				<p class="text-center"> -->
-<!-- 					<a class="btn btn-custom-primary" href="#"><i -->
-<!-- 						class="fa fa-floppy-o"></i> Save Changes</a> -->
-<!-- 				</p> -->
-
-			</div>
-			<!-- END SETTINGS TAB CONTENT -->
-		</div>
-
-	</div>
-	<!-- /main-content -->
-</div>
-<!-- /main -->
-<!-- Dialog bootstrap -->
-<div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Thông báo</h4>
-			</div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
 			</div>
 		</div>
 	</div>

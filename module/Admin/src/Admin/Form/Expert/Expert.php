@@ -31,11 +31,14 @@ class Expert extends FormBase
         $userName->setAttributes([
             'maxlength' => 255
         ]);
+        if($options == 'edit'){
+            $userName->setAttribute('disabled','disabled');
+        }
         $this->add($userName);
         $group->addElement($userName);
         $filter->add(array(
             'name' => 'userName',
-            'required' => true,
+            'required' => $options=='edit'?false:true,
             'filters' => array(
                 array(
                     'name' => 'StringTrim'
@@ -58,7 +61,7 @@ class Expert extends FormBase
         $group->addElement($userId);
         $filter->add(array(
             'name' => 'userId',
-            'required' => true,
+            'required' => $options=='edit'?false:true,
             'filters' => array(
                 array(
                     'name' => 'StringTrim'

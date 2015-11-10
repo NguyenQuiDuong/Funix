@@ -86,12 +86,55 @@ class ExpertController extends ControllerBase
         if(!$user->getId() || !$userMapper->getUser($user)){
             return $this->page404();
         }
-        $form = new \Admin\Form\Expert\Expert($this->getServiceLocator());
+        $form = new \Admin\Form\Expert\Expert($this->getServiceLocator(),'edit');
         $form->remove('afterSubmit');
-        $form->getInputFilter()->remove('userName');
-        $form->remove('userName');
-        $form->remove('userId');
         $form->setData($user->toFormValues());
+        $expertsubject = new Expert\Subject();
+        $expertsubject->setExpertId($user->getId());
+        /** @var \Expert\Model\Expert\SubjectMapper $subjectExpertmapper */
+        $subjectExpertmapper = $this->getServiceLocator()->get('Expert\Model\Expert\SubjectMapper');
+        $subjects = $subjectExpertmapper->fetchAllSubject($expertsubject);
+        $subjectIdbs = [];
+        if($subjects){
+            $subjectIdbs = array_keys($subjects[$user->getId()]);
+        }
+        $form->get('subjectId')->setValue(implode(',',$subjectIdbs));
+        $form->get('userId')->setValue($user->getId());
+        $userName = $user->getFullName()?$user->getUsername().' - '.$user->getFullName():$user->getUsername();
+        $form->get('userName')->setValue($userName);
+        if($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $user->setDescription($data['description']);
+                if (!$data['subjectId']) {
+                    $es = new Expert\Subject();
+                    $es->setExpertId($user->getId());
+                    $subjectExpertmapper->delete($es);
+                }
+                if ($data['subjectId']) {
+                    $subjectIdas = explode(',', $data['subjectId']);
+                    $subjectIdns = array_diff($subjectIdas, $subjectIdbs);
+                    foreach ($subjectIdns as $subjId) {
+                        $es = new Expert\Subject();
+                        $es->setExpertId($user->getId());
+                        $es->setSubjectId($subjId);
+                        $es->setCreatedById($this->user()->getIdentity());
+                        $es->setCreatedDateTime(DateBase::getCurrentDateTime());
+                        $subjectExpertmapper->save($es);
+                    }
+                    $subjectIdds = array_diff($subjectIdbs, $subjectIdas);
+                    foreach ($subjectIdds as $subjId) {
+                        $es = new Expert\Subject();
+                        $es->setExpertId($user->getId());
+                        $es->setSubjectId($subjId);
+                        $subjectExpertmapper->delete($es);
+                    }
+                }
+                $userMapper->updateUser($user);
+                return $this->redirect()->toUrl('/admin/expert');
+            }
+        }
         $this->getViewModel()->setVariables(['form' =>  $form]);
         return $this->getViewModel();
     }

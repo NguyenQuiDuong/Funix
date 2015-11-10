@@ -182,7 +182,6 @@ function updateuserchat(el,usrname){
 //	console.log(usrname);
 }
 socket.on('updateroom',function(data){
-	console.log(123123123123123);
 	$('#'+data.room).find('.'+data.username).css('color','red');
 	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
 })

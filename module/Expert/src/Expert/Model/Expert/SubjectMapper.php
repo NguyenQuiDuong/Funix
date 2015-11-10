@@ -189,4 +189,20 @@ class SubjectMapper extends BaseMapper
 //        }
 //
 //    }
+    /**
+     * @param $es \Expert\Model\Expert\Subject
+     */
+    public function delete($es){
+        if(!$es->getExpertId()){
+            return null;
+        }
+        $delete = $this->getDbSql()->delete(self::TABLE_NAME);
+        $delete->where(['expertId' => $es->getExpertId()]);
+        if($es->getSubjectId()){
+            $delete->where(['subjectId' => $es->getSubjectId()]);
+        }
+        $query = $this->getDbSql()->buildSqlString($delete);
+        $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
+        return true;
+    }
 }

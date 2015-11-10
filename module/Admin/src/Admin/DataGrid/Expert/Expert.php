@@ -38,7 +38,10 @@ class Expert extends DataGrid
                     'name' => 'createdDateTime',
                     'content' => 'Ngày đăng kí'
                 ),
-
+                array(
+                    'name'  =>  'edit',
+                    'content'   =>  '',
+                )
             )
 
         ]);
@@ -95,14 +98,18 @@ class Expert extends DataGrid
 //                    $status = '<div class="label label-warning">Khóa</div>';
 //                }
 
-
-
                 $row->addColumn(array(
                     'name' => 'createdDateTime',
                     'content' => DateBase::toDisplayDateTime($item->getCreatedDateTime()),
                     'attributes' => [
                         'style' => 'position: relative'
                     ]
+                ));
+
+                $row->addColumn(array(
+                    'name' 			=> 'edit',
+                    'content' 		=> '<a href="/admin/expert/edit?id='. $item->getId().'" class="fa fa-edit"></a>',
+                    'attributes' 	=> ['class' => 'colControls']
                 ));
 
             }

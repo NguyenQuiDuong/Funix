@@ -92,6 +92,7 @@ class UserMapper extends BaseMapper
             'active' => $user->getActive(),
             'registeredDate' => $user->getRegisteredDate() ?: null,
             'facebook'=>$user->getFacebook()?:null,
+            'description'   =>$user->getDescription()?:null,
         );
         $updateArray = array_filter($updateArray,'strlen');
         $updateArray = array_filter($updateArray);

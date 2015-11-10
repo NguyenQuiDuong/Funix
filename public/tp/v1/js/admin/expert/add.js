@@ -94,3 +94,14 @@ $(function () {
     };
 });
 
+//-----------------------------------load subjectId---------------------
+$(document).ready(function(){
+    $.post('/subject/subject/loadsubject',
+        {subjectId:$('#subjectId').val()?$('#subjectId').val():null},
+        function(u){
+            $.map(u,function(i,v){
+                $('.bootstrap-tagsinput').prepend('<span class="tag label label-info"><input type="hidden" class="subjectIdtag" value="'+v+'">'+i+'<span data-role="remove" class="removeTag"></span></span>');
+            });
+        });
+});
+
