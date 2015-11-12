@@ -17,7 +17,7 @@ class Acl extends ZendAcl
     {
         $this->addRole(new Role('Guest'));
         $this->addRole(new Role('Member'), 'Guest');
-        $this->addRole(new Role('Mentor'), 'Guest');
+        $this->addRole(new Role('Mentor'), 'Member');
 
         $this->addRole(new Role('Admin'), 'Member');
         $this->addRole(new Role('Super Admin'), 'Member');
