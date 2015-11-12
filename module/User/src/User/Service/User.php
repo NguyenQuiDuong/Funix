@@ -318,7 +318,7 @@ class User implements ServiceLocatorAwareInterface
         $body .= "<br/><br/>";
         $body .= 'Xin cảm ơn!';
         $body .= "<br/>";
-        $body .= "<a href='http://erp.nhanh.vn'>http://erp.nhanh.vn</a>";
+        $body .= "<a href='http://funix.nhanh.vn'>http://funix.nhanh.vn</a>";
         $html = new MimePart($body);
         $html->type = 'text/html';
         $content = new MimeMessage();

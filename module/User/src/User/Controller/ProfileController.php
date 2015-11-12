@@ -7,6 +7,8 @@
 
 namespace User\Controller;
 
+use Expert\Model\Expert\Subject;
+use Home\Controller\ControllerBase;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -18,7 +20,7 @@ use Zend\Validator\File\ImageSize;
 use User\Controller\gifresizer;
 use User\Model\User;
 use Home\Model\DateBase;
-class ProfileController extends AbstractActionController
+class ProfileController extends ControllerBase
 {
     public function indexAction()
     {
@@ -45,12 +47,20 @@ class ProfileController extends AbstractActionController
             }
         }
         $message = '';
+        if($user->getRole() == User::ROLE_MENTOR){
+            /** @var \Expert\Model\Expert\Subject $ex */
+            $exsub = new Subject();
+            $exsub->setExpertId($user->getId());
+            /** @var \Expert\Model\Expert\SubjectMapper $expertSubjectMapper */
+            $expertSubjectMapper = $this->getServiceLocator()->get('Expert\Model\Expert\SubjectMapper');
+            $subjects = $expertSubjectMapper->fetchAllSubject($exsub);
+            $viewModel->setVariables([
+                'subjects' => $subjects,
+            ]);
+        }
         $viewModel->setVariables([
         		'userService' => $userService,
         		'user' => $user,
-//         		'form' => $form,
-                'fileavatar'=>$fileavatar,
-                'avatar' =>$avatar,
         		'message' => $message,
 					]);
         return $viewModel;
@@ -64,66 +74,31 @@ class ProfileController extends AbstractActionController
 	}
     public function editAction()
     {
-    	$sl = $this->getServiceLocator();
-    	$userService = $sl->get('User\Service\User');
-    	/* @var $userService \User\Service\User */
-    	$user = $userService->getUser();
-    	$userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
-    	$data = $this->getRequest()->getPost()->toArray();
-    	$json = new JsonModel();
-    	if ($data['name'] == 'fullName') {
-    		$fullName = strip_tags($data['value']);
-    		$user->setFullName(trim($fullName))	;
-    		$userMapper->updateUser($user);
-    	}
-    	if ($data['name'] == 'birthdate') {
-    		$brithday  = strip_tags($data['value']);
-    		$validator  = new \Zend\Validator\Date();
-    		if ($validator->isValid($brithday)) {
-    			$user->setBirthdate($brithday);
-    			$userMapper->updateUser($user);
-    		}else $json->setVariables([
-						'code' => 1,
-						'messages' => ['Sai định dạng ngày tháng file.']
-				]);
+        /** @var \User\Service\User $userService */
+        $userService = $this->getServiceLocator()->get('User\Service\User');
+        /** @var \User\Model\User $user */
+        $user = $userService->getUser();
+        $form = new \User\Form\EditProfile($this->getServiceLocator(),[
+ 				'cityId' => $user->getCityId(),
+ 			]);
 
-    	}
-    	if ($data['name'] == 'gender') {
-    		$user->setGender(strip_tags($data['value']))	;
-    		$userMapper->updateUser($user);
-    	}
-    	if ($data['name'] == 'cityId') {
-    		return $json->setVariables([
-				'code' => 1,
-    			'messages' => strip_tags($data['value']),
-    		]);
-    	}
-    	if ($data['name'] == 'districId') {
-    		$user->setDistrictId(strip_tags($data['value']));
-    		if (!empty($data['city'])) {
-    			$user->setCityId(strip_tags($data['city']));
-    		}
-    		$userMapper->updateUser($user);
-    	}
-    	if ($data['name'] == 'address') {
-    		$user->setAddress(strip_tags($data['value']))	;
-    		$userMapper->updateUser($user);
-    	}
-    	if ($data['name'] == 'mobile') {
-    	    $validator = new \Zend\Validator\Digits();
-    	    if ($validator->isValid($data['value'])){
-    		  $user->setMobile(strip_tags($data['value']))	;
-    		  $userMapper->updateUser($user);
-    	    }
-    	}
-    	if ($data['name'] == 'email') {
-    	    $validator = new \Zend\Validator\EmailAddress();
-    	    if ($validator->isValid($data['value'])){
-    	       $user->setEmail(strip_tags($data['value']))	;
-    	       $userMapper->updateUser($user);
-    	      }
-    	}
-    	return '';
+        $form->setData($user->toFormValues());
+        if($this->getRequest()->isPost()){
+            $form->setData($this->getRequest()->getPost());
+            if($form->isValid()){
+                $data = $form->getData();
+                $user->exchangeArray($data);
+                $user->setPassword(null);
+                $userService->updateUser($user);
+                $this->redirect()->toUrl('/profile');
+            }
+        }
+        $this->getViewModel()->setVariables([
+            'userService' => $userService,
+            'user' => $user,
+            'form'  =>  $form
+        ]);
+    	return $this->getViewModel();
     }
     /**
      * easy image resize function
@@ -283,7 +258,7 @@ class ProfileController extends AbstractActionController
          */
 		public function avatarAction(){
 		$formData = $this->getRequest()->getPost()->toArray();
-		
+            /** @var \User\Model\User $user */
 		$user = new User();
 		$userMapper= $this->getServiceLocator()->get('User\Model\UserMapper');
 		$user = $userMapper->get($this->user()->getIdentity());
@@ -303,7 +278,7 @@ class ProfileController extends AbstractActionController
 		
 		$avatarFiles = scandir($uri->getSavePath($user));
 		for($i=2;$i<count($avatarFiles);$i++){
-		    if($this->user()->getIdentity() == explode('.', $avatarFiles[$i])[0]){
+		    if($user->getAvatar() != $avatarFiles[$i]){
 		        unlink(MEDIA_PATH.'/user/avatar/'.$avatarFiles[$i]);
 		    }
 		}
@@ -311,7 +286,7 @@ class ProfileController extends AbstractActionController
 		$file = $this->params()->fromFiles();
 		$form = new \User\Form\ProfileFile('fileUpload');
 		$form->addInputFilter($user);
-		
+
 		$tempFile = null;
 			foreach ($file as $key => $fileInfo) {
 			    $fileInfo['name'] = time().rand(1, 1000).'.'.pathinfo($fileInfo['name'],PATHINFO_EXTENSION);
@@ -321,7 +296,7 @@ class ProfileController extends AbstractActionController
 				        $json = new JsonModel();
 				        $json->setVariables([
 				            'code' => 1,
-				            'messages' => 'Ảnh bị lỗi',
+				            'messages' => 'Ảnh bị lỗi, mời bạn thử ảnh khác',
 				        ]);
 				        return $json;
 				    }

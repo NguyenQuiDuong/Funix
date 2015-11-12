@@ -161,6 +161,7 @@ class Signin extends FormBase
 	public function isValid(){
 		$isValid = parent::isValid();
 		if($isValid){
+			/** @var \User\Service\User $userService */
 			$userService = $this->getServiceLocator()->get('User\Service\User');
 			$data = parent::getData();
 			if(!$userService->authenticate($data['mail'], $data['password'])){

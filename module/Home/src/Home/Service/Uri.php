@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright   http://erp.nhanh.vn
- * @license		http://erp.nhanh.vn/license
+ * @copyright   http://funix.nhanh.vn
+ * @license		http://funix.nhanh.vn/license
  */
 
 namespace Home\Service;
@@ -80,40 +80,6 @@ class Uri
     public static function getViewPath($obj, $thumbnail = null)
     {
         switch ($obj) {
-            case $obj instanceof \Crm\Model\Contract\File:
-            	if ($obj->getFileName()) {
-            		return '/media/contracts/'.$obj->getContractId().'/'.$obj->getFileName();
-            	}
-            	break;
-            case $obj instanceof \Hrm\Model\Recruitment\Candidate:
-                $filePath = DateBase::createFromFormat(DateBase::COMMON_DATE_FORMAT, $obj->getCreatedDate())->format('Ymd');
-                return '/media/hrm/candidate/'.$filePath.'/'.$obj->getFileName();
-                break;
-
-            case $obj instanceof \Work\Model\TaskFile:
-            	$filePath = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $obj->getCreatedDateTime())->format('Ymd');
-            	return '/media/work/attachfile/'. $filePath . '/' . $obj->getTaskId() . '/' . $obj->getFileName();
-            	break;
-            case $obj instanceof \Work\Model\MeetingFile:
-           	    $filePath = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $obj->getCreatedDateTime())->format('Ymd');
-           	    return '/media/projects/meetings/'. $filePath .'/'.$obj->getMeetingId().'/'  . $obj->getFileName();
-           	    break;
-           	case $obj instanceof \Company\Model\AnnouncementFile:
-           	    //return '/media/company/announcement/'.$obj->getOption('companyId').'/'.$obj->getAnnouncementId().'/'.$obj->getFileName();
-           	    if(!$obj->getFilePath()){
-           	    	return '/media/announcement/temp/'.$obj->getAnnouncementId();
-           	    } else {
-           	    	return '/media/announcement/'.$obj->getFilePath().'/'.$obj->getAnnouncementId();
-           	    }
-           		break;
-           	case $obj instanceof \Document\Model\DocumentFile:
-           	    $filePath = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $obj->getCreatedDateTime())->format('Ymd');
-           	    return '/media/document/documents/'.$filePath.'/'.$obj->getDocumentId().'/'.$obj->getFileName();
-           	    break;
-           	case $obj instanceof \Idea\Model\File:
-           	    $filePath = DateBase::createFromFormat(DateBase::COMMON_DATETIME_FORMAT, $obj->getCreatedDateTime())->format('Ymd');
-           	    return '/media/idea/'.$obj->getFilePath().'/'. $obj->getIdeaId().'/'.$obj->getFileName();
-           	    break;
            	case $obj instanceof \User\Model\User:
            	    if (!$obj->getCreatedDateTime()){
            	        return '/media/users/default/'.$obj->getId().'/';

@@ -3933,7 +3933,7 @@ class ToolController extends ControllerBase
 		// tạo danh mục tài liệu
 		list($adapter, $sql) = $this->createOfficeAdapter();
 
-		// tìm kiếm user trên erp tương ứng
+		// tìm kiếm user trên funix tương ứng
 		$select = $sql->select(['d' => 'documents']);
 		$select->join(['u' => 'users'], 'd.created_by_id = u.ID', ['personnel_id']);
 		$select->where(['folder' => 'USER']);
