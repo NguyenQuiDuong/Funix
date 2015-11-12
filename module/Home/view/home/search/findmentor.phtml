@@ -1,17 +1,19 @@
-<div class="container"><div class="center alert flash-message topAlert alert-success" id="broadcastSuccess"><a class="close" data-dismiss="alert">×</a><div class="msg">Your request has been broadcasted to Codementor experts. In the mean time, you are also free to connect with one of the expert mentors below.</div></div>
-    <!-- ngIf: !User.hasWebRTC -->
-    <div check-time-zone=""></div>
-
-    <div class="alerts ng-scope" ng-controller="AlertCtrl as alertCtrl">
-        <!-- ngRepeat: alert in Alert.alerts --><div class="center alert flash-message topAlert ng-scope alert-success cookie-alert" ng-class="alert.type" ng-repeat="alert in Alert.alerts">
-            <a class="close" data-dismiss="alert">×</a>
-            <span class="ng-binding"></span>
-            <span msg-html-unsafe="alert.msgHtmlUnsafe"><span class="ng-scope">Make sure you're properly set up!  Please </span><a href="/session?intro=true" target="_blank" class="ng-scope">try a test session</a><span class="ng-scope"> and </span><a href="#" ng-click="openPaymentSettingForm()" class="ng-scope">set up billing info</a><span class="ng-scope">.</span></span>
-            <a class="never-ask-again muted" href="#" ng-click="Alert.neverAskAgain(alert.name)" style="padding-left:10px;text-decoration:underline;">
-                Never ask again
-            </a>
-        </div><!-- end ngRepeat: alert in Alert.alerts -->
-    </div>
+<div class="container">
+<!--    <div class="center alert flash-message topAlert alert-success" id="broadcastSuccess"><a class="close" data-dismiss="alert">×</a><div class="msg">Your request has been broadcasted to Codementor experts. In the mean time, you are also free to connect with one of the expert mentors below.</div></div>-->
+<!--    <!-- ngIf: !User.hasWebRTC -->
+<!--    <div check-time-zone=""></div>-->
+<!---->
+<!--    <div class="alerts ng-scope" ng-controller="AlertCtrl as alertCtrl">-->
+<!--<!--        <!-- ngRepeat: alert in Alert.alerts -->
+<!--    <div class="center alert flash-message topAlert ng-scope alert-success cookie-alert" ng-class="alert.type" ng-repeat="alert in Alert.alerts">-->
+<!--<!--            <a class="close" data-dismiss="alert">×</a>-->
+<!--<!--            <span class="ng-binding"></span>-->
+<!--<!--            <span msg-html-unsafe="alert.msgHtmlUnsafe"><span class="ng-scope">Make sure you're properly set up!  Please </span><a href="/session?intro=true" target="_blank" class="ng-scope">try a test session</a><span class="ng-scope"> and </span><a href="#" ng-click="openPaymentSettingForm()" class="ng-scope">set up billing info</a><span class="ng-scope">.</span></span>-->
+<!--<!--            <a class="never-ask-again muted" href="#" ng-click="Alert.neverAskAgain(alert.name)" style="padding-left:10px;text-decoration:underline;">-->
+<!--<!--                Never ask again-->
+<!--<!--            </a>-->
+<!--<!--        </div><!-- end nRepeat: alert in Alert.alerts -->
+<!--    </div>-->
 
     <div class="offset2 recommended_mentors span8 ng-scope" ng-controller="findMentorsCtrl" ng-init="init({step:2,online_mentor_count:0,offline_mentor_count:40,budget:15,isBroadcasted:false, broadcastUrl:'/questions/7659868537/broadcast'})" ng-show="show">
         <div class="question_show_title ng-hide" ng-show="loading==1">

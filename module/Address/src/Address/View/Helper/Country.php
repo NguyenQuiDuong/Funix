@@ -1,8 +1,8 @@
 <?php
 /**
  * @Address   	Shop99 library
- * @copyright  	http://erp.nhanh.vn
- * @license    	http://erp.nhanh.vn/license
+ * @copyright  	http://funix.nhanh.vn
+ * @license    	http://funix.nhanh.vn/license
  */
 
 namespace Address\View\Helper;

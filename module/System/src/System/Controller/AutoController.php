@@ -350,7 +350,7 @@ class AutoController extends ControllerBase{
 	}
 
 	public function testAction(){
-	    $curl = curl_init('https://erp.nhanh.vn/system/auto/freelead');
+	    $curl = curl_init('https://funix.nhanh.vn/system/auto/freelead');
 	    $result = curl_exec($curl);
 	    echo $result;
 	    curl_close($curl);
