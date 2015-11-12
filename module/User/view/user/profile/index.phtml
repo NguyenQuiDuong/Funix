@@ -1,8 +1,12 @@
 <?php
-$this->headLink()->appendStylesheet('\css\user\font-awesome.css');
-$this->headLink()->appendStylesheet('\css\user\mentee-profile.css');
+$this->headLink()->appendStylesheet('/css/user/font-awesome.css');
+$this->headLink()->appendStylesheet('/css/user/mentee-profile.css');
 /** @var \User\Model\User $user */
 $user = $this->user;
+$subjects = '';
+if(isset($this->subjects)){
+	$subjects = $this->subjects;
+}
 ?>
 <div class="menteeProfile ng-scope">
 	<div class="form">
@@ -15,7 +19,7 @@ $user = $this->user;
 								<center>
 									<div class="profileImageWrapper">
 										<a class="imageHover" href="/profile/edit">
-											<img class="menteeImage img-circle img-rounded" src="https://www.gravatar.com/avatar/e396607e917deb8ab2306669cbede5f9?d=mm&amp;s=200">
+											<img class="menteeImage img-circle img-rounded" src="<?= \Home\Service\Uri::getViewPath($user)?>">
 											<div class="textOnHover">
 												Update Photo
 											</div>
@@ -30,45 +34,25 @@ $user = $this->user;
 								<div class="timezone">
 									<div class="displaySection">
 										<i class="fa fa-clock-o"></i>
-										<span ng-bind="mentee.time_zone_str" class="ng-binding">Bangkok (+07:00)</span>
-										<span class="editorText editSection">
-											<i class="icon-edit"></i>
-										</span>
-									</div>
-									<div class="formSection ng-hide" ng-show="isEditingSection(&quot;time_zone&quot;);">
-										<select ng-model="mentee.time_zone" name="user[time_zone]" id="user_time_zone" class="ng-pristine ng-untouched ng-valid"><option value="Hawaii">(GMT-10:00) Hawaii</option>
-											<option value="Bangkok">(GMT+07:00) Bangkok</option>
-											<option value="Hanoi">(GMT+07:00) Hanoi</option>
-											<option value="Jakarta">(GMT+07:00) Jakarta</option>
-											<option value="Krasnoyarsk">(GMT+07:00) Krasnoyarsk</option>
-										</select>
-										<span class="editorText">
-											<div class="btn saveButton btn-primary">Save</div>
-										</span>
-										<span class="editorText">
-											<div class="btn btn-link cancelButton">Cancel</div>
-										</span>
+										<span ng-bind="mentee.time_zone_str" class="ng-binding"><?=$user->getAddress().' - '.$user->getDistrict()->getName().' - '.$user->getCity()->getName()?></span>
 									</div>
 								</div>
+								<?php if($user->getRole() == \User\Model\User::ROLE_MENTOR){ ?>
 								<div class="needCategories">
 									<div class="needCatTitle">
 										<i class="fa fa-tags"></i>
-										Topic I need help with:
-										<span class="editorText"><i class="icon-edit"></i></span>
-										<span class="formSection ng-hide">
-											<span class="editorText">
-												<div class="btn saveButton btn-primary">Save</div>
-											</span>
-											<span class="editorText">
-												<div class="btn btn-link cancelButton">Cancel</div>
-											</span>
-										</span>
+										Môn học mà tôi trợ giúp:
 									</div>
 								</div>
+								<?php } ?>
 								<div class="row-fluid">
+									<?php if(count($subjects[$user->getId()])){ ?>
 									<div class="span10 needCatContent">
-										<span class="badge customizeBadge ng-binding ng-scope">JavaScript</span>
+										<?php foreach($subjects[$user->getId()] as $s){?>
+										<span class="badge customizeBadge ng-binding ng-scope"><?=$s?></span>
+										<?php } ?>
 									</div>
+									<?php } ?>
 									<div class="formSection ng-hide">
 										<div class="control-group text tagInput ng-scope">
 											<div class="controls">
@@ -106,10 +90,10 @@ $user = $this->user;
 			<div class="customizeContainer">
 				<div class="menuTab active">
 					<a class="menuLink tabQuestion">
-						Overview
+						Tổng quan
 					</a>
 				</div>
-				<span class="aboutMe red">* Your profile is not public and is only visible to mentors on Codementor</span>
+<!--				<span class="aboutMe red">* Your profile is not public and is only visible to mentors on Codementor</span>-->
 			</div>
 		</div>
 		<div class="contentPart secondPart skrollable skrollable-before" data-104-top="padding-top:55px;" data-105-top="padding-top:0px;" data-emit-events="" style="padding-top: 0px;">
@@ -119,127 +103,71 @@ $user = $this->user;
 						<div id="overview">
 							<div class="block">
 								<h2 class="subTitle">
-									About Me
-									<span class="editSection editorText">
-										<i class="icon-edit"></i>
-									</span>
-									<span class="formSection ng-hide">
-										<span class="editorText">
-											<div class="btn saveButton btn-primary">Save</div>
-										</span>
-										<span class="editorText">
-											<div class="btn btn-link cancelButton">Cancel</div>
-										</span>
-									</span>
+									Giới thiệu bản thân
 								</h2>
 								<div class="blockDecoration whyUse">
-									<ul class="editorText"></ul>
-									<ul class="use_text ng-hide">
-										<li class="ng-scope">
-											<label for="why_use_0" class="ng-binding">
-												<input id="why_use_0"type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'm working on a side project
-											</label>
-										</li>
-										<li class="ng-scope">
-											<label for="why_use_1" class="ng-binding">
-												<input id="why_use_1"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'm building a startup
-											</label>
-										</li>
-										<li class="ng-scope">
-											<label for="why_use_2" class="ng-binding">
-												<input id="why_use_2" type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'm a freelance developer
-											</label>
-										</li>
-										<li class="ng-scope">
-											<label for="why_use_3" class="ng-binding">
-												<input id="why_use_3"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'm a student
-											</label>
-										</li>
-										<li class="ng-scope">
-											<label for="why_use_4" class="ng-binding">
-												<input id="why_use_4" type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'd like to find a job as a developer
-											</label>
-										</li>
-										<li class="ng-scope">
-											<label for="why_use_5" class="ng-binding">
-												<input id="why_use_5"  type="checkbox" class="ng-pristine ng-untouched ng-valid">
-												I'm working as a full-time developer at a company
-											</label>
-										</li>
-										<li class="other">
-											Other:
-											<input style="display:inline;" type="text" class="ng-pristine ng-untouched ng-valid">
-										</li>
-									</ul>
-									<ul class="use_text">
-										<li class="ng-binding ng-scope">I'm a student</li>
-									</ul>
+									<?= $user->getDescription()?>
 								</div>
 							</div>
-							<div class="block">
-								<h2 class="subTitle">
-									Requests
-								</h2>
-								<div class="blockDecoration">
-									<div class="request">
-										<div class="requestDetail">
-											<h4 class="qTitle">
-												<a href="/questions/7659868537">
-													html ruby
-												</a>
-											</h4>
-											<p class="qBody">
-
-											</p>
-										</div>
-										<div class="requestSign solved">
-											<div class="signText">
-												Solved
-											</div>
-										</div>
-										<a class="tags" href="/html_css-experts">
-											HTML/CSS
-										</a>
-										<a class="tags" href="/html-experts">
-											Html
-										</a>
-										<a class="tags" href="/ruby-experts">
-											Ruby
-										</a>
-									</div>
-									<div class="request">
-										<div class="requestDetail">
-											<h4 class="qTitle">
-												<a href="/questions/8560876903">
-													nodejs, socket-io
-												</a>
-											</h4>
-											<p class="qBody">
-
-											</p>
-										</div>
-										<div class="requestSign solved">
-											<div class="signText">
-												Solved
-											</div>
-										</div>
-										<a class="tags" href="/nodejs-experts">
-											Node.js
-										</a>
-										<a class="tags" href="/socket-io-experts">
-											Socket io
-										</a>
-										<a class="tags" href="/nodejs-dup-experts">
-											Nodejs
-										</a>
-									</div>
-								</div>
-							</div>
+<!--							<div class="block">-->
+<!--								<h2 class="subTitle">-->
+<!--									Requests-->
+<!--								</h2>-->
+<!--								<div class="blockDecoration">-->
+<!--									<div class="request">-->
+<!--										<div class="requestDetail">-->
+<!--											<h4 class="qTitle">-->
+<!--												<a href="/questions/7659868537">-->
+<!--													html ruby-->
+<!--												</a>-->
+<!--											</h4>-->
+<!--											<p class="qBody">-->
+<!---->
+<!--											</p>-->
+<!--										</div>-->
+<!--										<div class="requestSign solved">-->
+<!--											<div class="signText">-->
+<!--												Solved-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<a class="tags" href="/html_css-experts">-->
+<!--											HTML/CSS-->
+<!--										</a>-->
+<!--										<a class="tags" href="/html-experts">-->
+<!--											Html-->
+<!--										</a>-->
+<!--										<a class="tags" href="/ruby-experts">-->
+<!--											Ruby-->
+<!--										</a>-->
+<!--									</div>-->
+<!--									<div class="request">-->
+<!--										<div class="requestDetail">-->
+<!--											<h4 class="qTitle">-->
+<!--												<a href="/questions/8560876903">-->
+<!--													nodejs, socket-io-->
+<!--												</a>-->
+<!--											</h4>-->
+<!--											<p class="qBody">-->
+<!---->
+<!--											</p>-->
+<!--										</div>-->
+<!--										<div class="requestSign solved">-->
+<!--											<div class="signText">-->
+<!--												Solved-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<a class="tags" href="/nodejs-experts">-->
+<!--											Node.js-->
+<!--										</a>-->
+<!--										<a class="tags" href="/socket-io-experts">-->
+<!--											Socket io-->
+<!--										</a>-->
+<!--										<a class="tags" href="/nodejs-dup-experts">-->
+<!--											Nodejs-->
+<!--										</a>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
 						</div>
 					</div>
 				</div>
