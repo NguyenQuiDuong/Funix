@@ -65,7 +65,18 @@ return array(
                                 'action'     => 'index'
                             )
                         )
-                    )
+                    ),
+                    'callcenter'   => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/callcenter',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'Home\Controller',
+                                'controller'    => 'Index',
+                                'action'        => 'callcenter'
+                            )
+                        )
+                    ),
                 )
             ),
             // Search router

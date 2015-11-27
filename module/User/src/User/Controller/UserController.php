@@ -34,17 +34,17 @@ class UserController extends AbstractActionController
         $request = $this->getRequest();
 
         $redirect = trim($request->getQuery('redirect'));
-        if ($this->user()->hasIdentity()) {
-            if (!$redirect) {
-                $authorize = $this->getServiceLocator()->get('\Authorize\Service\Authorize');
-                if(!$authorize->isAllowed('company:announcement', 'index')){
-                    return $this->redirect()->toRoute('home');
-                }else{
-                    return $this->redirect()->toRoute('company');
-                }
-            }
-            return $this->redirect()->toUrl($redirect);
-        }
+//        if ($this->user()->hasIdentity()) {
+//            if (!$redirect) {
+//                $authorize = $this->getServiceLocator()->get('\Authorize\Service\Authorize');
+//                if(!$authorize->isAllowed('company:announcement', 'index')){
+//                    return $this->redirect()->toRoute('home');
+//                }else{
+//                    return $this->redirect()->toRoute('company');
+//                }
+//            }
+//            return $this->redirect()->toUrl($redirect);
+//        }
         $sl = $this->getServiceLocator();
 
         $form = new \User\Form\Signin($this->getServiceLocator());
@@ -573,16 +573,32 @@ class UserController extends AbstractActionController
             ]);
         }
         if($q == 'c'){
-            $json->setVariables([
-                'code' => 1,
-                'data' =>   $userMapper->getCallCenter()
-            ]);
+            if($userMapper->getCallCenter()){
+                $json->setVariables([
+                    'code' => 1,
+                    'data' =>   $userMapper->getCallCenter()
+                ]);
+            }else{
+                $json->setVariables([
+                    'code' => 2,
+                    'data' => 'Không có call center online'
+                ]);
+            }
+
         }
         if($q == 'e'){
-            $json->setVariables([
-                'code' => 1,
-                'data' =>   $userMapper->getMentor()
-            ]);
+            if($userMapper->getMentor()){
+                $json->setVariables([
+                    'code' => 1,
+                    'data' =>   $userMapper->getMentor()
+                ]);
+            }else{
+                $json->setVariables([
+                    'code' => 2,
+                    'data' => 'Không có mentor nào online'
+                ]);
+            }
+
         }
         return $json;
     }

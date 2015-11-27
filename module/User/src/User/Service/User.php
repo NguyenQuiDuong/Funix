@@ -17,7 +17,7 @@ use Zend\Mail\Transport\SmtpOptions;
 class User implements ServiceLocatorAwareInterface
 {
 
-    const DEFAULT_EMAIL_SENDER = '';
+    const DEFAULT_EMAIL_SENDER = 'duongnqse02934@fpt.edu.vn';
     const USERNAME_REQUIRED = 'Tên đăng ký phải có từ 6 ký tự';
     const PASSWORD_REQUIRED = 'Mật khẩu đăng ký phải có từ 6 ký tự ';
     const INVALID_EMAIL_FORMAT = 'Địa chỉ email không đúng định dạng';
@@ -318,7 +318,7 @@ class User implements ServiceLocatorAwareInterface
         $body .= "<br/><br/>";
         $body .= 'Xin cảm ơn!';
         $body .= "<br/>";
-        $body .= "<a href='http://funix.nhanh.vn'>http://funix.nhanh.vn</a>";
+        $body .= "<a href='".$_SERVER['HTTP_HOST']."'>".$_SERVER['HTTP_HOST']."</a>";
         $html = new MimePart($body);
         $html->type = 'text/html';
         $content = new MimeMessage();
@@ -326,7 +326,8 @@ class User implements ServiceLocatorAwareInterface
         $message->setBody($content);
         $smtp = new Smtp();
         $config = $sl->get('Config');
-        $smtp->setOptions(new SmtpOptions($config['smtpOptions']));
+        $options = new SmtpOptions($config['smtpOptions']);
+        $smtp->setOptions($options);
         $smtp->send($message);
     }
 
