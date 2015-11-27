@@ -54,4 +54,8 @@ class IndexController extends ControllerBase
     {
         return $this->getViewModel();
     }
+    public function callcenterAction(){
+        $this->getViewModel()->setTerminal(true);
+        return $this->getViewModel();
+    }
 }

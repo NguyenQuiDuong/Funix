@@ -1,5 +1,5 @@
 
-var userCurrent = new Object();
+var userCurrent = {};
 if (typeof my_username === 'undefined') {
 	userCurrent.userName='';
 }else{
@@ -39,7 +39,7 @@ var socket = io('127.0.0.1:8008');
 socket.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
 	if(my_username){
-		socket.emit('subscribe', my_username);
+		socket.emit('subscribe', my_username,my_role?my_role:'');
 	}
 });
 // listener, whenever the server emits 'msg_user_handle', this updates the chat body
@@ -51,7 +51,6 @@ socket.on('msg_user_handle', function (data) {
 				'<img class="appChatboxMessage-avatar" alt="'+data.usersender+'" src="">'+
 				'<div class="msg_a appChatboxMessage-content">'+data.message+'</div>'+
 			'</div>');
-		console.log('da12312312sd');
 	}else{
 		$('#chat-area').append(
 			'<div id="'+data.room+'" class="msg_box">'+
@@ -71,8 +70,8 @@ socket.on('msg_user_handle', function (data) {
 			'<input chatusers="'+data.room+'" onkeypress="send_individual_msg(event,\''+data.usersender+'\',this.getAttribute(\'chatusers\'),value)" type="text" class="msg_input" rows="1">'+
 			'</div>'+
 			'</div>'+
-			'</div>')
-		console.log('dadasdasd');
+			'</div>');
+		console.log(data.room);
 	}
 	var height = 0;
 	$('#'+data.room+' .appChatboxMessage').each(function(i, value){
@@ -85,25 +84,25 @@ socket.on('msg_user_handle', function (data) {
 
 
 // listener, whenever the server emits 'updateusers', this updates the username list
-socket.on('updatecallcenter', function(data) {
-	console.log('updatecallcenter');
-	$('#chat_boxid .chat_body').empty();
-	$.post(
-		'/user/user/loaduserajaxchat?q=c',
-		function(rs){
-			if(rs.code){
-				$.each(rs.data, function(key, value) {
-					console.log(value);
-					if(userCurrent.userName != value){
-						$('#chat_boxid .chat_body').append('<div class="user" style="cursor:pointer;" userchat="'+value+'" onclick="popupchat(this.getAttribute(\'userchat\'))">' + value + '</div>');
-					}
-				});
-			}
-		}
-	);
-});
+//socket.on('updatecallcenter', function(data) {
+//	console.log('updatecallcenter');
+//	$('#chat_boxid .chat_body').empty();
+//	$.post(
+//		'/user/user/loaduserajaxchat?q=c',
+//		function(rs){
+//			if(rs.code){
+//				$.each(rs.data, function(key, value) {
+//					console.log(value);
+//					if(userCurrent.userName != value){
+//						$('#chat_boxid .chat_body').append('<div class="user" style="cursor:pointer;" userchat="'+value+'" onclick="popupchat(this.getAttribute(\'userchat\'))">' + value + '</div>');
+//					}
+//				});
+//			}
+//		}
+//	);
+//});
 socket.on('updateexpert', function(data) {
-	console.log('updateexpert')
+	console.log('updateexpert');
 	$('.mentorlist .chat_body').empty();
 	$('#chat_boxmentor .chat_body').empty();
 	var contentchatbody = '';
@@ -131,18 +130,18 @@ socket.on('updateexpert', function(data) {
 });
 socket.on('updateroom',function(data){
 	$('#'+data.room).find('.msg_title').append(','+data.username);
-})
+});
 function popupchat(username){
 	//var classmentorlist = '';
 	//if($('.mentorlist').length != 0){
 	//	classmentorlist = '<div onclick="listmentor(this)"><a class="close" >+</a><div class="chatmentor"></div></div>';
 	//}
-	room = my_username+username;
+	room = my_username+'-'+username;
 			$('#chat-area').append(
 				'<div id="'+room+'" class="msg_box">'+
 				'<div class="msg_head"><div class="msg_title" onclick="showChat()">'+username+'</div>'+
 				classmentorlist+
-				'<div class="msg_close" onclick="closeChat(\''+username+'\')">x</div>'+
+				'<div class="msg_close" onclick="closeChat(\''+room+'\')">x</div>'+
 				'</div>'+
 				'<div class="msg_wrap">'+
 				'<div class="msg_body">'+
@@ -184,13 +183,13 @@ function updateuserchat(el,usrname){
 socket.on('updateroom',function(data){
 	$('#'+data.room).find('.'+data.username).css('color','red');
 	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
-})
+});
 socket.on('leaved',function(username,room){
 	$('#'+room).find('.'+username).css('color','black');
 	$('#'+room).find('.'+username).attr('onclick','updateuserchat(this,\''+username+'\')');
 	msg_titlearr = $('#'+room).find('.msg_title').text().split(',');
 	$('#'+room).find('.msg_title').text(msg_titlearr[0]);
-})
+});
 function leaveroom(username,room){
 	socket.emit('leaveroom',username,room);
 }

@@ -1,0 +1,243 @@
+<html>
+    <head>
+        <?php if($this->user()->getIdentity()){?>
+            <script>
+                var my_username = '<?= $this->user()->getUser($this->user()->getIdentity())->getUserName()?>';
+                var my_token = '<?= strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime())?>';
+                var my_role = '<?=$this->user()->getUser()->getRole() ?>'
+            </script>
+        <?php } ?>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+        <title>Funix Callcenter</title>
+
+        <link href="/css/callcenter/callcenter.css" media="all" rel="stylesheet">
+        <link href="https://dashboard.subiz.com/public/css/typeahead.tagging.css" media="all" rel="stylesheet">
+    </head>
+
+    <body>
+    <header id="header">
+        <section id="headtop">
+            <div id="topright">
+                <div class="bmember">
+                    <img src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>" class="avatar" alt="">
+                    <span class="welcome reset" username="datnguyen">Chào mừng, <?= $this->user()->getUser()->getUserName()?></span>
+                    <span class="iconstatus">
+                        <span>
+                            <i class="subizdasboard status" id="i-available"></i>
+                        </span>
+                        <i class="subizdasboard status" id="i-arrow"></i>
+                    </span>
+                </div>
+            </div>
+        </section>
+        <nav id="nav">
+            <ul class="menubar">
+                <li class="current" id="visitors_menu">
+                    <a title="Visitor" class="tab  parent"><b><i class="iconmenu icon-visitor"></i> Visitor</b></a>
+                </li>
+                <li class="onchange_menu" _url="https://dashboard.subiz.com/history" _controller="history">
+                    <a title="Lịch sử" class="tab parent"><b><i class="iconmenu icon-history"></i> Lịch sử</b></a>
+                </li>
+                <li class="onchange_menu menu_agent" _url="https://dashboard.subiz.com/agents" _controller="agents">
+                    <a title="Agent" class="tab parent"><b><i class="iconmenu icon-agents"></i> Agent</b></a>
+                </li>
+                <li class="onchange_menu" _url="https://dashboard.subiz.com/reports.html" _controller="reports">
+                    <a title="Thống kê" class="tab parent"><b><i class="iconmenu icon-reports"></i>Thống kê</b></a>
+                </li>
+            </ul>
+            <a href="javascript:void(0);" class="settinghome onchange_menu"   title="Setting"><i class="iconsetting subizdasboard"></i>Cài đặt</a>
+        </nav>
+    </header>
+    <div id="content_js_visistor">
+        <div id="body_0">
+            <article id="main">
+                <div id="check_f_content">
+
+                    <aside id="leftpanel">
+                        <ul class="sidebar" id="menushow">
+                            <li class="a_current">
+                                <a id="active">Active Visitors <span class="count_active">(1)</span></a>
+                            </li>
+                            <li>
+                                <a id="idle">Idle Visitors <span class="count_idle">(0)</span></a>
+                            </li>
+                            <li>
+                                <a id="request_chat">Yêu cầu Chat <span>(0)</span></a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <section id="rightpanel">
+                        <div class="content sub_body" id="content_1"> <!-- tab 1-->
+                            <h1 class="title">Active Visitors</h1>
+                            <div class="box maincontent">
+                                <div class="headerbox">
+                                    <div id="linksearch">
+                                        <div class="search-visitors_s" id="linkdropdown">Tìm kiếm visitor</div>
+                                        <div id="formsearch"> <span class="closesearch">Đóng <i class="subizdasboard iclose"></i></span>
+                                            <ul class="linesearch">
+                                                <li>
+                                                    <input id="visitor_name" placeholder="Visitor name" class="text" type="text">
+                                                </li>
+                                                <li>
+                                                    <input id="visitor_email" placeholder="Visitor email" class="text" type="text">
+                                                </li>
+                                                <li>
+                                                    <input id="visitor_agent" placeholder="Agent" class="text" type="text">
+                                                </li>
+                                                <li>
+                                                    <select name="type" class="op-search" id="visitor_type">
+                                                        <option selected="selected" value="0">Tất cả các loại</option>
+                                                        <option value="return">Quay lại</option>
+                                                        <option value="new">Mới</option>
+                                                    </select>
+                                                </li>
+                                                <li>
+                                                    <label>Online nhiều hơn</label>
+                                                    <select name="online" class="op-search time" id="visitor_time">
+                                                        <option selected="selected" value="0">Tổng số phút</option>
+                                                        <option value="1">1 phút</option>
+                                                        <option value="2">2 phút</option>
+                                                        <option value="5">5 phút</option>
+                                                        <option value="10">10 phút</option>
+                                                    </select>
+                                                </li>
+                                            </ul>
+                                            <div class="bottomsearch"> <span class="linksearch"><a id="search_visitor" href="javascript:void(0);">Tìm kiếm ngay <i class="subizdasboard icon-s"></i></a></span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table style="display: table;" id="tbl_visitor" class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <thead>
+                                    <tr class="top">
+                                        <td class="clumn1">&nbsp;</td>
+                                        <td class="clumn2">Visitor</td>
+                                        <td class="clumn3">Địa điểm</td>
+                                        <td class="clumn4">Online</td>
+                                        <td class="looking">Đang xem</td>
+                                        <td class="clumn5">Loại</td>
+                                        <td class="agent">Agent</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!--end tab 1-->
+                    </section>
+                </div>
+
+            </article>
+        </div>
+    </div>
+    <!-- InstanceEndEditable -->
+    <!-- open chat window -->
+    <div class="chatwindow" id="chatwindow" style="display: none; left: 50%; position: fixed; top: 15%;"></div>
+
+    <footer id="footer" style="display: none;">
+        <section id="chat-compressed" class="clearfix">
+            <ul class="chat-button"></ul>
+            <div class="btn-tabmore">
+                <div id="btnmorevisitor" class="more" style="display: none;">More <i class="i-btn imgchatwindow"></i></div>
+                <div class="more-visitor">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </footer>
+    <script>
+        var chat_data = {};
+    </script>
+    <script type="text/javascript" src="/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/min/f=/js/chat/socket.io-1.3.7.js"></script>
+    <script type="text/javascript" src="/js/chat/chatC.js"></script>
+    <script>
+        var noti_timeout = parseInt("5", 10);
+        var ready_play_message = false;
+
+        function set_ready_play_message() {
+            ready_play_message = true;
+        }
+
+        function set_ready_play_request() {
+            ready_play_request = true;
+        }
+    </script>
+    <audio id="notifyAudio_message" oncanplay="set_ready_play_message()">
+        <source src="https://dashboard.subiz.com/public/audio/alert.ogg" type="audio/ogg">
+    </audio>
+    <audio id="notifyAudio_request" oncanplay="set_ready_play_request()">
+        <source src="https://dashboard.subiz.com/public/audio/alert.ogg" type="audio/ogg">
+    </audio>
+
+
+    </body>
+
+    <div id="template-chatwindow" style="display: none">
+        <div class="chat-topbar">
+            <div class="chat-name" id="chat-name">
+            </div>
+            <div style="display:none;" id="id_chat_show"></div>
+            <div class="location">
+            </div>
+            <div class="chat-action">
+                <select class="op-search" id="op-search" name="change_action" onchange="actionchatwindow(this)">
+                    <option value="1">-- Chọn hành động --</option>
+                    <option value="transfer">Thêm mentor</option>
+                    <option value="end_chat">Kết thúc trò chuyện</option>
+                </select>
+                <a href="javascript:minimizechatwindow();" id="minimize" ><i class="i-minimize imgchatwindow"></i></a>
+                <a href="javascript:void(0);" id="closechat" ><i class="i-closechat imgchatwindow"></i></a>
+            </div>
+        </div>
+        <div class="chatwindow-left">
+            <div class="top-visitor-info">
+                <img src="" class="avatar" alt="avatar">
+                <div class="visitorname">
+                    <div class="lineinfo">
+                        <div class="name_show"><div id="username"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 736px;" class="chat-box ui-tabs ui-widget ui-widget-content ui-corner-all" id="chat-box">
+            <div id="list-mentor" style="display: none;"></div>
+            <div class="conversion">
+                <div class="today-chats">
+                    <div class="line-chat">
+                        <i class="imgchatwindow p-icon p-icon-chat"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="type_message_window type_message">
+                <div id="id-operator-typing">
+                    <i></i>
+                </div>
+                <p>
+                    <div class="mentions-input-box">
+                        <div class="mentions">
+                            <div></div>
+                        </div>
+                        <textarea style="height: 40px;" class="on typeahead" id="content_message" rows="2" placeholder="Gõ và nhấn Enter để chat"></textarea>
+                    </div>
+                </p>
+            </div>
+
+            <div class="endchat">
+                <p class="top">Kết thúc trò chuyện?</p>
+                <p>Để thu nhỏ cuộc hội thoại, ấn nút thu nhỏ hoặc thoát ra ngoài cửa sổ chat</p>
+                <p class="bt">
+                    <a class="btn btnsubmit" id="btnendchat" href="javascript:void(0);">Kết thúc trò chuyện</a>
+                    <a class="btn btncancel" href="javascript:void(0);">Hủy bỏ</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</html>

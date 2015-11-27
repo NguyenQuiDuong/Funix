@@ -117,7 +117,7 @@ $subjectCategories = array();
                       </li>
                       <li class="dropdown hideMobile pull-right">
                           <a class="dropdown-toggle profile-avatar ng-scope" data-toggle="dropdown" href="#" ng-class="{'show':profileMenu}" ng-controller="headerProfileAvatarCtrl" ng-init="init('https://www.gravatar.com/avatar/e396607e917deb8ab2306669cbede5f9?d=mm&amp;s=200')">
-                              <img ng-src="" src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>">
+                              <img src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>">
                           </a>
                           <ul class="dropdown-menu profile-avatar-menu">
                             <li class="item">
@@ -132,7 +132,15 @@ $subjectCategories = array();
                                       Admin
                                   </a>
                               </li>
-                              <?php }?>
+                          <?php }?>
+                          <?php if($this->user()->getUser()->getRole() == \User\Model\User::ROLE_CALLCENTER){?>
+                              <li class="item">
+                                  <a href="/home/callcenter">
+                                      <i class="fa fa-phone-square"></i>
+                                      CallCenter
+                                  </a>
+                              </li>
+                          <?php }?>
                               <li class="item">
                                   <a onclick="signout()" id="signout" clear-storage="" rel="nofollow" href="/user/signout"><i class="icon-signout"></i>
                                       Đăng xuất
