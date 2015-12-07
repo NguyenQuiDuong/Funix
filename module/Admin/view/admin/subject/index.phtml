@@ -17,10 +17,12 @@
     $dg = new \Admin\DataGrid\Subject\Subject ( [
         'dataSource' => $this->paginator
     ] );
+    $toButton = '<a href="/admin/subject/add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>Thêm môn học</a>    ';
+    $toButton .= '<a href="/admin/subject/index?list=true" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>Hiện danh sách</a>';
     echo $this->partial ( 'partial/dataGrid', [
         'dataGrid' => $dg,
         'title' => $this->translate ( "Danh sách môn học" ),
-        'topButtons' => '<a href="/admin/subject/add" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>Thêm môn học</a>'
+        'topButtons' => $toButton
     ] );
 
     ?>

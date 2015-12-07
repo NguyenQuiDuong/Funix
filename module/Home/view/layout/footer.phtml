@@ -36,43 +36,48 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 <?php } ?>
 
 <div id="chat-area"></div>
-<?php if($this->user()->getUser($this->user()->getIdentity())->getRole() == \User\Model\User::ROLE_CALLCENTER){ ?>
-<div id="chat_boxmentor" class="chat_box">
-    <div class="chat_head">Mentor</div>
-    <div class="chat_body"><?php
-        foreach ($this->user()->getMentor() as $sub=>$mentor) { ?>
-            <h4 class="subject_mentor"><?=$sub?></h4>
-            <?php
-            foreach ($mentor as $name) {
-                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
-                    ?>
-                    <div id="chat_list">
-                        <div class="user" style="cursor:pointer;" onclick="popupchat('<?=$name ?>')"><?=$name ?></div>
-                    </div>
-                    <?php
-                }
-            }
-        } ?>
-    </div>
-</div>
-
-<div class="mentorlist" style="display: none">
-    <div class="chat_head">Mentor</div>
-    <div class="chat_body" style="height: 248px;"><?php
-        foreach ($this->user()->getMentor() as $subjectname => $mentor) { ?>
-            <h4 class="subject_mentor"><?= $subjectname ?></h4>
-            <?php
-            foreach ($mentor as $name) {
-                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
-                    ?>
-                    <div id="chat_list">
-                        <div class="user <?=$name?>" style="cursor:pointer;" onclick="updateuserchat(this,'<?=$name ?>')"><?=$name ?></div>
-                    </div>
-                    <?php
-                }
-            }
-        } ?>
-    </div>
-</div>
-<?php }
+<?php //if($this->user()->getUser($this->user()->getIdentity())->getRole() == \User\Model\User::ROLE_CALLCENTER){ ?>
+<!--<div id="chat_boxmentor" class="chat_box">-->
+<!--    <div class="chat_head">Mentor</div>-->
+<!--    <div class="chat_body">--><?php
+//        foreach ($this->user()->getMentor() as $sub=>$mentor) { ?>
+<!--            <h4 class="subject_mentor">--><?//=$sub?><!--</h4>-->
+<!--            --><?php
+//            foreach ($mentor as $name) {
+//                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
+//                    ?>
+<!--                    <div id="chat_list">-->
+<!--                        <div class="user" style="cursor:pointer;" onclick="popupchat('--><?//=$name ?>//')"><?//=$name ?><!--</div>-->
+<!--                    </div>-->
+<!--                    --><?php
+//                }
+//            }
+//        } ?>
+<!--    </div>-->
+<!--</div>-->
+<!---->
+<!--<div class="mentorlist" style="display: none">-->
+<!--    <div class="chat_head">Mentor</div>-->
+<!--    <div class="chat_body" style="height: 248px;">--><?php
+//        foreach ($this->user()->getMentor() as $subjectname => $mentor) { ?>
+<!--            <h4 class="subject_mentor">--><?//= $subjectname ?><!--</h4>-->
+<!--            --><?php
+//            foreach ($mentor as $name) {
+//                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
+//                    ?>
+<!--                    <div id="chat_list">-->
+<!--                        <div class="user --><?//=$name?><!--" style="cursor:pointer;" onclick="updateuserchat(this,'--><?//=$name ?>//')"><?//=$name ?><!--</div>-->
+<!--                    </div>-->
+<!--                    --><?php
+//                }
+//            }
+//        } ?>
+<!--    </div>-->
+<!--</div>-->
+<?php //}
 } ?>
+<div id="template-report">
+    <input type="radio" name="rating" value="1">Tot<br>
+    <input type="radio" name="rating" value="2">Xau<br>
+    <textarea rows="4" cols="50" class="comment" ></textarea>
+</div>

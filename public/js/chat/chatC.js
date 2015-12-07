@@ -23,7 +23,7 @@ function send_individual_msg(event,username,room,messages)
 				'</div>');
 		$('#content_message').val('');
 		pushDatatoArray({room:room,usersender:my_username,message:messages});
-		socket.emit('send', {usersender:my_username,role:my_role, userreceiver:username,room: room, message: messages });
+			socket.emit('send', {usersender:my_username,role:my_role, userreceiver:username,room: room, message: messages });
 	}
 }
 
@@ -40,27 +40,36 @@ socket.on('connect', function(){
 	}
 });
 
-socket.on('updatevisitors',function(username){
-	console.log(username);
-	if($('#'+username).length == 0){
-		$('#tbl_visitor').find('tbody').append(
-			'<tr id="'+username+'" class="open_windows" onclick="popupchat(\''+username+'-'+my_username+'\',\''+'adduser'+'\')" style="cursor:pointer;"> ' +
-				'<td class="clumn1">' +
+socket.on('updatevisitors',function(users){
+	$.each(users,function(index, user){
+		if($('#'+user.username).length == 0){
+			type = '';
+			if(user.role == 5){
+				type = 'Mentor';
+			}
+			if(user.role == 200){
+				type = 'Student'
+			}
+			$('#tbl_visitor').find('tbody').append(
+					'<tr id="'+username+'" class="open_windows" onclick="popupchat(\''+user.username+'-'+my_username+'\',\''+'adduser'+'\')" style="cursor:pointer;"> ' +
+					'<td class="clumn1">' +
 					'<i class="icon-user subizdasboard"></i>' +
-				'</td> ' +
-				'<td class="clumn2">' +
-					'<a href="javascript:void(0)" title="Vietnam (Hanoi) #418197638">'+username+'</a>' +
-				'</td> ' +
-				'<td class="" title="Vietnam Hanoi">' +
+					'</td> ' +
+					'<td class="clumn2">' +
+					'<a href="javascript:void(0)">'+user.username+'</a>' +
+					'</td> ' +
+					'<td class="" title="Vietnam Hanoi">' +
 					'<i class="flag-all flag-vn"></i>Hanoi' +
-				'</td> ' +
-				'<td class=""></td> ' +
-				'<td class="">Funix</td>' +
-				'<td class="agent" title=""></td>' +
-				'<td></td>'+
-			'</tr>'
-		)
-	}
+					'</td> ' +
+					'<td class=""></td> ' +
+					'<td class="">Funix</td>' +
+					'<td>'+type+'</td>'+
+					'<td class="agent" title=""></td>' +
+					'</tr>'
+			)
+		}
+	})
+
 });
 
 // listener, whenever the server emits 'msg_user_handle', this updates the chat body
@@ -128,27 +137,57 @@ socket.on('msg_user_handle', function (data) {
 
 socket.on('updateroom',function(data){
 	$('#'+data.room).find('.msg_title').append(','+data.username);
+	$('#chatwindow .today-chats').append('<div class="line-notify">'+data.username+' đã tham gia</div>');
+	pushDatatoArray({usersender:'system',message:data.userName+' đã tham gia'})
+});
+
+socket.on('updatehistories',function(data){
+	chat_data = data;
 });
 function popupchat(room,option){
 	var nameuserinroom = "";
 	var contenthtmlmesg = "";
-	if (option == 'adduser'){
-		nameuserinroom = room.split('-')[0];
-		socket.emit('adduserroom',nameuserinroom,room,'popup');
-	}else{
-		if(typeof chat_data[room] != 'undefined'){
-			for(i=0;i<chat_data[room].length;i++){
-				name = chat_data[room][i].from;
-				if(!nameuserinroom.indexOf(name)){
+
+	if(typeof chat_data[room] != 'undefined'){
+		for(i=0;i<chat_data[room].length;i++){
+			name = chat_data[room][i].from;
+			if(nameuserinroom.indexOf(name) == -1){
+				if(nameuserinroom.length == 0){
+					nameuserinroom += name;
+				}else{
 					nameuserinroom += ','+name;
 				}
-				contenthtmlmesg += rendermesg(chat_data[room][i]);
 			}
-		}else{
-			nameuserinroom = room.split('-')[0];
+			contenthtmlmesg += rendermesg(chat_data[room][i]);
 		}
-
+	}else{
+		if (option == 'adduser'){
+			nameuserinroom = room.split('-')[0];
+			socket.emit('adduserroom',nameuserinroom,room,'popup');
+		}
 	}
+
+	//if (option == 'adduser'){
+	//	nameuserinroom = room.split('-')[0];
+	//	socket.emit('adduserroom',nameuserinroom,room,'popup');
+	//}else{
+	//	if(typeof chat_data[room] != 'undefined'){
+	//		for(i=0;i<chat_data[room].length;i++){
+	//			name = chat_data[room][i].from;
+	//			if(nameuserinroom.indexOf(name) == -1){
+	//				if(nameuserinroom.split(',').length == 1){
+	//					nameuserinroom += name;
+	//				}else{
+	//					nameuserinroom += ','+name;
+	//				}
+	//			}
+	//			contenthtmlmesg += rendermesg(chat_data[room][i]);
+	//		}
+	//	}else{
+	//		nameuserinroom = room.split('-')[0];
+	//	}
+    //
+	//}
 		$('#chatwindow').empty();
 		$('#chatwindow').attr('room',room);
 		var htmlchatwindow = $('#template-chatwindow').html();
@@ -193,10 +232,8 @@ socket.on('updateroom',function(data){
 	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
 });
 socket.on('leaved',function(username,room){
-	$('#'+room).find('.'+username).css('color','black');
-	$('#'+room).find('.'+username).attr('onclick','updateuserchat(this,\''+username+'\')');
-	msg_titlearr = $('#'+room).find('.msg_title').text().split(',');
-	$('#'+room).find('.msg_title').text(msg_titlearr[0]);
+	pushDatatoArray({usersender:'system',message:username+' đã rời khỏi phòng'});
+	$('#chatwindow .today-chats').append('<div class="line-notify">'+username+' đã rời khỏi phòng</div>');
 });
 function leaveroom(username,room){
 	if($('#chatwindow').html() != ''){
@@ -223,6 +260,9 @@ function rendermesg(data){
 						'<span class="datetime"></span> ' +
 					'</div> ' +
 				'</div>'
+	}
+	if(data.from == 'system'){
+		return '<div class="line-notify">'+data.mesg+'</div>'
 	}else{
 		return '' +
 				'<div class="line-chat visitor_chat_dash"> ' +

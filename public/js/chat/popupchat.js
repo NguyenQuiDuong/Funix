@@ -28,13 +28,4 @@ $(document).ready(function(){
 
 
 });
-function showChat(id){
-        //$('#'+'id'+'.msg_wrap').slideToggle('slow');
-        $('.msg_wrap').slideToggle('slow');
 
-}
-function closeChat(id){
-            $('#'+id).remove();
-    console.log($('.msg_box'))
-    console.log( $('#'+id));
-}

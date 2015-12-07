@@ -117,6 +117,9 @@ public function get($sub){
         $select = $this->getDbSql()->select(array(
             's' => self::TABLE_NAME
         ));
+        if($sub->getName()){
+            $select->where(['s.name like ?' => '%'.$sub->getName().'%']);
+        }
         $select->order([
             's.id' => 'DESC'
         ]);

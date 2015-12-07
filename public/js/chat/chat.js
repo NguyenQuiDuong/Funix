@@ -26,7 +26,7 @@ function send_individual_msg(event,username,room,messages)
 		height += '';
 
 		$('#'+room+' .msg_body').animate({scrollTop: height});
-		socket.emit('send', {usersender:my_username, userreceiver:username,room: room, message: messages });
+		socket.emit('send', {usersender:my_username,role:my_role, userreceiver:username,room: room, message: messages });
 		console.log(username);
 	}
 }
@@ -54,8 +54,8 @@ socket.on('msg_user_handle', function (data) {
 	}else{
 		$('#chat-area').append(
 			'<div id="'+data.room+'" class="msg_box">'+
-			'<div class="msg_head"><div class="msg_title" onclick="showChat()">'+data.usersender+'</div>'+
-			'<div class="msg_close msg_tool" onclick="closeChat(\''+data.usersender+'\')">x</div>'+
+			'<div class="msg_head"><div class="msg_title" onclick="showChat(\''+data.room+'\')">'+data.usersender+'</div>'+
+			'<div class="msg_close msg_tool" onclick="closeChat(\''+data.room+'\')">x</div>'+
 			classmentorlist+
 			'</div>'+
 			'<div class="msg_wrap">'+
@@ -130,6 +130,7 @@ socket.on('updateexpert', function(data) {
 });
 socket.on('updateroom',function(data){
 	$('#'+data.room).find('.msg_title').append(','+data.username);
+
 });
 function popupchat(username){
 	//var classmentorlist = '';
@@ -139,7 +140,7 @@ function popupchat(username){
 	room = my_username+'-'+username;
 			$('#chat-area').append(
 				'<div id="'+room+'" class="msg_box">'+
-				'<div class="msg_head"><div class="msg_title" onclick="showChat()">'+username+'</div>'+
+				'<div class="msg_head"><div class="msg_title" onclick="showChat(\''+room+'\')">'+username+'</div>'+
 				classmentorlist+
 				'<div class="msg_close" onclick="closeChat(\''+room+'\')">x</div>'+
 				'</div>'+
@@ -180,10 +181,10 @@ function updateuserchat(el,usrname){
 //console.log($(elementRoot).find('.msg_input').val());
 //	console.log(usrname);
 }
-socket.on('updateroom',function(data){
-	$('#'+data.room).find('.'+data.username).css('color','red');
-	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
-});
+//socket.on('updateroom',function(data){
+//	$('#'+data.room).find('.'+data.username).css('color','red');
+//	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
+//});
 socket.on('leaved',function(username,room){
 	$('#'+room).find('.'+username).css('color','black');
 	$('#'+room).find('.'+username).attr('onclick','updateuserchat(this,\''+username+'\')');
@@ -196,4 +197,24 @@ function leaveroom(username,room){
 function signout(){
 	console.log(my_username);
 	socket.emit('signout',my_username);
+}
+
+function closeChat(room){
+	$('#'+room).remove();
+	socket.emit('leaveroom',my_username,room);
+}
+
+function showChat(id){
+	if($('#'+id).css('position') == 'fixed'){
+		$('#'+id).removeAttr('style');
+	}else{
+		top = $('#'+id).offset().top;
+		left = $('#'+id).offset().left;
+		$('#'+id).css('position','fixed');
+		$('#'+id).css('top',top);
+		$('#'+id).css('left',left);
+		//$('.msg_wrap').slideToggle('slow');
+	}
+	$('#'+id+' .msg_wrap').slideToggle('slow');
+
 }

@@ -14,17 +14,21 @@ class SubjectController extends ControllerBase
     {
         $form = new \Admin\Form\Subject\CategoryFilter($this->getServiceLocator());
         $form->setData($this->params()->fromQuery());
-
+        $list = $this->params()->fromQuery('list');
         $this->getViewModel()->setVariable('form', $form);
 
         if ($form->isValid()) {
-            $subject = new Subject();
-            $subject->exchangeArray($form->getData());
+            if($form->getData()['name'] != null || $list){
+                $subject = new Subject();
+                $subject->exchangeArray($form->getData());
 
-            $subjectMapper = $this->getServiceLocator()->get('Subject\Model\SubjectMapper');
-            /** @var $categoryMapper \Subject\Model\Subject\CategoryMapper */
-            $paginator = $subjectMapper->search($subject);
-            $this->getViewModel()->setVariable('paginator', $paginator);
+                $subjectMapper = $this->getServiceLocator()->get('Subject\Model\SubjectMapper');
+                /** @var $subjectMapper \Subject\Model\SubjectMapper */
+                $paginator = $subjectMapper->search($subject);
+                $this->getViewModel()->setVariable('paginator', $paginator);
+            }else{
+                $this->getViewModel()->setVariable('paginator', '');
+            }
         }
         return $this->getViewModel();
         
