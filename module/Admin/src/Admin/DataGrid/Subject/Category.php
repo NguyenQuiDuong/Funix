@@ -98,7 +98,7 @@ class Category extends DataGrid
 
 
 
-                $edit = '<a href="#" class="fa fa-edit edit-item"></a>';
+                $edit = '<a href="/admin/subject/editcategory?id='.$item->getId().'" class="fa fa-edit edit-item"></a>';
                 $row->addColumn(array(
                     'name' => 'edit',
                     'content' => $edit . '<a href="#" value="' . $item->getId() . '" class="fa fa-trash-o deleteAccount del_Item mgleft5" ></a>',

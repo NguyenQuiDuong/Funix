@@ -104,4 +104,33 @@ class SubjectController extends ControllerBase
         return $this->getViewModel();
     }
 
+    public function editcategoryAction(){
+        /** @var $categoryMapper \Subject\Model\Subject\CategoryMapper */
+        $categoryMapper = $this->getServiceLocator()->get('Subject\Model\Subject\CategoryMapper');
+        $category = new Subject\Category();
+        $id = $this->params()->fromQuery('id');
+        $category->setId($id);
+        if(!$category->getId() || !$categoryMapper->get($category)){
+            return $this->page404();
+        }
+
+        $form = new \Admin\Form\Subject\Category($this->getServiceLocator());
+        $form->remove('afterSubmit');
+        $form->setData($category->toFormValues());
+
+        if($this->getRequest()->isPost()){
+            $form->setData($this->getRequest()->getPost());
+            if($form->isValid()){
+                $category->exchangeArray($form->getData());
+                $categoryMapper->save($category);
+                return $this->redirect()->toUrl('/admin/subject/category');
+            }
+        }
+
+        $this->getViewModel()->setVariables(['form' => $form]);
+
+        return $this->getViewModel();
+
+    }
+
 }
