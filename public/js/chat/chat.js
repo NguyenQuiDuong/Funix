@@ -17,14 +17,14 @@ function send_individual_msg(event,username,room,messages)
 		//alert(my_username);
 		//socket.emit('check_user', my_username, id);
 		$('#'+room+' .msg_body').append('<div class="appChatboxMessage clearfix from-self"><div class="msg_b appChatboxMessage-content">'+messages+'</div></div>');
-		$('#'+room+' input').val('');
+		$('#'+room+' textarea').val('');
 		var height = 0;
 		$('#'+room+' .appChatboxMessage').each(function(i, value){
 			height += parseInt($(this).height());
 		});
 
 		height += '';
-
+		pushDatatoArray({room:room,usersender:my_username,message:messages});
 		$('#'+room+' .msg_body').animate({scrollTop: height});
 		socket.emit('send', {usersender:my_username,role:my_role, userreceiver:username,room: room, message: messages });
 		console.log(username);
@@ -35,7 +35,7 @@ if($('.mentorlist').length != 0){
 	classmentorlist = '<div class="msg_tool" onclick="listmentor(this)"><a class="close" >+</a><div class="chatmentor"></div></div>';
 }
 //var socket = io('10.20.15.57:8008');
-var socket = io('127.0.0.1:8008')
+var socket = io('127.0.0.1:8008');
 if(!socket){
 	socket = io('10.20.15.57:8008')
 }
@@ -49,12 +49,18 @@ socket.on('connect', function(){
 // listener, whenever the server emits 'msg_user_handle', this updates the chat body
 socket.on('msg_user_handle', function (data) {
 	//console.log('<b>'+username + ':</b> ' + data + '<br>');
-	if($('#'+data.room).length > 0){
-		$('#'+data.room+' .msg_body').append(
-			'<div class="appChatboxMessage clearfix">'+
+	contentMesg = '<div class="appChatboxMessage clearfix">'+
+			'<img class="appChatboxMessage-avatar" alt="'+data.usersender+'" src="">'+
+			'<div class="msg_a appChatboxMessage-content">'+data.message+'</div>'+
+			'</div>';
+	if(data.imgPath){
+		contentMesg = '<div class="appChatboxMessage clearfix">'+
 				'<img class="appChatboxMessage-avatar" alt="'+data.usersender+'" src="">'+
-				'<div class="msg_a appChatboxMessage-content">'+data.message+'</div>'+
-			'</div>');
+				'<div class="msg_a appChatboxMessage-content"><img onclick="previewImg(\''+data.imgPath+'\')" src="'+data.imgPath+'"></div>'+
+				'</div>';
+	}
+	if($('#'+data.room).length > 0){
+		$('#'+data.room+' .msg_body').append(contentMesg);
 	}else{
 		$('#chat-area').append(
 			'<div id="'+data.room+'" class="msg_box">'+
@@ -64,14 +70,16 @@ socket.on('msg_user_handle', function (data) {
 			'</div>'+
 			'<div class="msg_wrap">'+
 			'<div class="msg_body">'+
-			'<div class="appChatboxMessage clearfix">'+
-				'<img class="appChatboxMessage-avatar" alt="'+data.usersender+'" src="">'+
-				'<div class="msg_a appChatboxMessage-content">'+data.message+'</div>'+
-			'</div>'+
+			contentMesg +
 			'<div class="msg_push"></div>'+
 			'</div>'+
 			'<div class="msg_footer">'+
-			'<input chatusers="'+data.room+'" onkeypress="send_individual_msg(event,\''+data.usersender+'\',this.getAttribute(\'chatusers\'),value)" type="text" class="msg_input" rows="1">'+
+			'<textarea chatusers="'+data.room+'" onkeypress="send_individual_msg(event,\''+data.usersender+'\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>'+
+			'<div class="tool-chat">' +
+			'<div class="inputWrapper"><i class="fa fa-camera"></i>' +
+			'<input accept="image/*|MIME_type"  onchange="uploadfile(event,this,\''+data.room+'\',\''+data.usersender+'\')" class="fileInput"  type="file">'+
+			'</div>'+
+			'</div>'+
 			'</div>'+
 			'</div>'+
 			'</div>');
@@ -83,7 +91,7 @@ socket.on('msg_user_handle', function (data) {
 	});
 
 	height += '';
-
+	pushDatatoArray(data);
 });
 
 
@@ -134,6 +142,7 @@ socket.on('updateexpert', function(data) {
 });
 socket.on('updateroom',function(data){
 	$('#'+data.room).find('.msg_title').append(','+data.username);
+	pushDatatoArray({usersender:'system',message:data.userName+' đã tham gia'})
 
 });
 function popupchat(username){
@@ -153,7 +162,12 @@ function popupchat(username){
 				'<div class="msg_push"></div>'+
 				'</div>'+
 				'<div class="msg_footer">'+
-				'<input chatusers="'+room+'" onkeypress="send_individual_msg(event,\''+username+'\',this.getAttribute(\'chatusers\'),value)" type="text" class="msg_input" rows="1">'+
+					'<textarea chatusers="'+room+'" onkeypress="send_individual_msg(event,\''+username+'\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>'+
+					'<div class="tool-chat">' +
+						'<div class="inputWrapper"><i class="fa fa-camera"></i>' +
+							'<input accept="image/*|MIME_type"  onchange="uploadfile(event,this,\''+room+'\',\''+username+'\')" class="fileInput"  type="file">'+
+						'</div>'+
+					'</div>'+
 				'</div>'+
 				'</div>'+
 				'</div>');
@@ -194,7 +208,50 @@ socket.on('leaved',function(username,room){
 	$('#'+room).find('.'+username).attr('onclick','updateuserchat(this,\''+username+'\')');
 	msg_titlearr = $('#'+room).find('.msg_title').text().split(',');
 	$('#'+room).find('.msg_title').text(msg_titlearr[0]);
+	pushDatatoArray({usersender:'system',message:username+' đã rời khỏi phòng'});
 });
+
+socket.on('updatehistories',function(data){
+	contentChat = '';
+	if(data.length > 0){
+		data.forEach(function(v,index){
+			pushDatatoArray({
+				'room': v.receiver,
+				'usersender': v.sender,
+				'message': v.msg,
+				'imgPath': v.imgPath,
+			});
+			contentMesg = rendermesg({from: v.sender,mesg: v.msg,imgPath: v.imgPath});
+			if($('#'+v.receiver).length > 0){
+				$('#'+v.receiver+' .msg_body').append(contentMesg);
+			}else{
+				$('#chat-area').append(
+						'<div id="'+v.receiver+'" class="msg_box">'+
+						'<div class="msg_head"><div class="msg_title" onclick="showChat(\''+v.room+'\')">'+v.sender+'</div>'+
+						'<div class="msg_close msg_tool" onclick="closeChat(\''+v.receiver+'\')">x</div>'+
+						classmentorlist+
+						'</div>'+
+						'<div class="msg_wrap">'+
+						'<div class="msg_body">'+
+						contentMesg +
+						'<div class="msg_push"></div>'+
+						'</div>'+
+						'<div class="msg_footer">'+
+						'<textarea chatusers="'+v.receiver+'" onkeypress="send_individual_msg(event,\''+v.sender+'\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>'+
+						'<div class="tool-chat">' +
+						'<div class="inputWrapper"><i class="fa fa-camera"></i>' +
+						'<input accept="image/*|MIME_type"  onchange="uploadfile(event,this,\''+v.receiver+'\',\''+v.sender+'\')" class="fileInput"  type="file">'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'</div>'+
+						'</div>');
+				console.log(data.room);
+			}
+		});
+	}
+});
+
 function leaveroom(username,room){
 	socket.emit('leaveroom',username,room);
 }
@@ -204,8 +261,11 @@ function signout(){
 }
 
 function closeChat(room){
-	$('#'+room).remove();
-	socket.emit('leaveroom',my_username,room);
+	//$('#'+room).remove();
+	//socket.emit('leaveroom',my_username,room);
+	$('#'+room).find('.msg_wrap').empty();
+	$('#'+room).find('.msg_wrap').html($('#template-report').html());
+	$('#'+room).find('.btnLeaveroom').attr()
 }
 
 function showChat(id){
@@ -221,4 +281,82 @@ function showChat(id){
 	}
 	$('#'+id+' .msg_wrap').slideToggle('slow');
 
+}
+
+function uploadfile(e,el,room,username){
+	elementRoot = $(el).parent().parent().parent().parent().parent();
+	msg_body = $(elementRoot).find('.msg_body');
+
+	var file = e.target.files[0],
+			reader = new FileReader();
+	reader.onload = function(evt){
+		$(msg_body).append('' +
+				'<div class="appChatboxMessage clearfix from-self">' +
+					'<div class="msg_b appChatboxMessage-content"><img src="'+evt.target.result+'"></div>' +
+				'</div>');
+		$('#imageSelected').attr('src', evt.target.result);
+		$('#selectedImageConainer').css('display', '');
+		var phoneNum = $('#phoneNumber').val();
+		today = new Date();
+		stringtoday = String(today.getFullYear())+String(today.getMonth())+String(today.getDate());
+		console.log(e);
+		var jsonObject = {
+			'imageData': evt.target.result,
+			'imageMetaData': stringtoday,
+			'imageType': file.type,
+			'imageName': file.name,
+			'usersender':my_username,
+			'role':my_role,
+			'userreceiver':username,
+			'room': room,
+		};
+
+		// send a custom socket message to server
+		socket.emit('user image', jsonObject);
+	};
+	reader.readAsDataURL(file);
+}
+
+function previewImg(src){
+	$('#imgModal').modal('show');
+	$('#imgModal img').attr('src',src);
+	$('#imgModal img').attr('href',src);
+}
+
+function rendermesg(data){
+	if(data.from == my_username){
+		if(data.imgPath){
+			return '' +
+					'<div class="appChatboxMessage clearfix">'+
+					'<div class="msg_b appChatboxMessage-content"><img onclick="previewImg(\''+data.imgPath+'\')" src="'+data.imgPath+'"></div>'+
+					'</div>';
+		}
+		return '' +
+				'<div class="appChatboxMessage clearfix from-self">' +
+					'<div class="msg_b appChatboxMessage-content">'+data.mesg+'</div>' +
+				'</div>';
+	}
+	if(data.from == 'system'){
+		return '<div class="line-notify">'+data.mesg+'</div>';
+	}else{
+		if(data.imgPath){
+			return '' +
+					'<div class="appChatboxMessage clearfix">'+
+					'<img class="appChatboxMessage-avatar" alt="'+data.from+'" src="">'+
+					'<div class="msg_a appChatboxMessage-content"><img onclick="previewImg(\''+data.imgPath+'\')" src="'+data.imgPath+'"></div>'+
+					'</div>';
+		}
+		return '' +
+				'<div class="appChatboxMessage clearfix">'+
+				'<img class="appChatboxMessage-avatar" alt="'+data.from+'" src="">'+
+				'<div class="msg_a appChatboxMessage-content">'+data.mesg+'</div>'+
+				'</div>';
+	}
+}
+
+function pushDatatoArray(data){
+	if(typeof chat_data[data.room] == 'undefined'){
+		chat_data[data.room] = [];
+	}
+	chat_data[data.room].push({from:data.usersender,mesg:data.message,imgPath:data.imgPath});
 }

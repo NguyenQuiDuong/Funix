@@ -41,6 +41,28 @@ class SubjectController extends AbstractActionController
         return $jsonModel;
     }
 
+
+    public function suggestcategoryAction(){
+        $q = $this->getRequest()->getPost('q');
+        $category = new Subject\Category();
+        $category->setName($q);
+        $jsonModel = New JsonModel();
+        if(!$q){
+            $jsonModel->setVariables([
+                'code' => 1,
+                'data' => []
+            ]);
+            return $jsonModel;
+        }
+        /** @var \Subject\Model\Subject\CategoryMapper $categoryMapper */
+        $categoryMapper = $this->getServiceLocator()->get('Subject\Model\Subject\CategoryMapper');
+        $jsonModel->setVariables([
+            'code' => 1,
+            'data' => $categoryMapper->suggest($category)
+        ]);
+        return $jsonModel;
+    }
+
     /**
      * todo lay ra môn học dùng cho tags ở search
      */

@@ -140,4 +140,33 @@ public function get($cate){
         }
         return null;
     }
+
+    /**
+     * @param \Subject\Model\Subject $item
+     * @return array
+     */
+    public function suggest($item){
+        $select = $this->getDbSql()->select(array('s' => self::TABLE_NAME), array(
+            'id', 'name'
+        ));
+        if($item != null){
+            $select->where([
+                '(s.name LIKE ?)' =>
+                    ['%'.$item->getName().'%']
+            ]);
+            $select->limit(20);
+        }
+        $query = $this->getDbSql()->buildSqlString($select);
+        $rows = $this->getDbAdapter()->query($query, Adapter::QUERY_MODE_EXECUTE);
+        $result = [];
+        if($rows->count()){
+            foreach ($rows as $row){
+                $row = (array) $row;
+                $row['id'] = (int)$row['id'];
+                $row['label'] = $row['name'];
+                $result[] = $row;
+            }
+        }
+        return $result;
+    }
 }

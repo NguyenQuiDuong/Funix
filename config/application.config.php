@@ -2,11 +2,11 @@
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
-        'EdpModuleLayouts',
+//        'EdpModuleLayouts',
     	'Home',
     	'User',
     	'Authorize',
-    	'System',
+//    	'System',
     	'Address',
     	'Website',
         'Subject',

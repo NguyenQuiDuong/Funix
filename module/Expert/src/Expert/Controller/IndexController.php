@@ -30,14 +30,38 @@ class IndexController extends ControllerBase
         /** @var \Subject\Model\Subject\CategoryMapper $categoryMapper */
         $categoryMapper = $this->getServiceLocator()->get('Subject\Model\Subject\CategoryMapper');
         /** @var \Subject\Model\Subject\Category $category */
-        $category = new Category();
-        $category->setId($categoryId);
-        if(!$category->getId() || !$categoryMapper->get($category)){
+
+        if(!$categoryId){
             return $this->page404();
         }
         /** @var  \Subject\Model\Subject $subject */
         $subject = new Subject();
-        $subject->setCategoryId($category->getId());
+        if(count(explode(',',$categoryId))>1){
+            $count = 0;
+            foreach(explode(',',$categoryId) as $sId){
+                $category = new Category();
+                $category->setId($sId);
+                if(!$categoryMapper->get($category)){
+                    $count++;
+                }else{
+                    $categoryIds[] = $sId;
+                }
+            }
+            if($count == count(explode(',',$categoryId))){
+                return $this->page404();
+            }
+            $subject->addOption('categoryIds',$categoryIds);
+        }else{
+
+            $category = new Category();
+            $category->setId($categoryId);
+            if(!$category->getId() || !$categoryMapper->get($category)){
+                return $this->page404();
+            }
+
+            $subject->setCategoryId($category->getId());
+        }
+
         /** @var  \Subject\Model\SubjectMapper $subjectMapper */
         $subjectMapper = $this->getServiceLocator()->get('Subject\Model\SubjectMapper');
         $subjects = $subjectMapper->featchAll($subject);

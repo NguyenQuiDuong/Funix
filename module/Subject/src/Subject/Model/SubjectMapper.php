@@ -166,8 +166,13 @@ public function get($sub){
         if($options == 'category'){
             $select->join(['c'=>Subject\CategoryMapper::TABLE_NAME],'s.categoryId = c.id',['categoryName'=>'name']);
         }
-        if($options instanceof Subject && $options->getCategoryId() ){
-            $select->where(['s.categoryId' => $options->getCategoryId()]);
+        if($options instanceof Subject){
+            if($options->getCategoryId()){
+                $select->where(['s.categoryId' => $options->getCategoryId()]);
+            }
+            if($options->getOption('categoryIds')){
+                $select->where(['s.categoryId' => $options->getOption('categoryIds')]);
+            }
         }
 
         $select->order([

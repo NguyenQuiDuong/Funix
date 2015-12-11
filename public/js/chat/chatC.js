@@ -51,7 +51,7 @@ socket.on('updatevisitors',function(users){
 				type = 'Student'
 			}
 			$('#tbl_visitor').find('tbody').append(
-					'<tr id="'+username+'" class="open_windows" onclick="popupchat(\''+user.username+'-'+my_username+'\',\''+'adduser'+'\')" style="cursor:pointer;"> ' +
+					'<tr id="'+user.username+'" class="open_windows" onclick="popupchat(\''+user.username+'-'+my_username+'\',\''+'adduser'+'\')" style="cursor:pointer;"> ' +
 					'<td class="clumn1">' +
 					'<i class="icon-user subizdasboard"></i>' +
 					'</td> ' +
@@ -102,14 +102,28 @@ socket.on('msg_user_handle', function (data) {
 	pushDatatoArray(data);
 
 	if($('#chatwindow').html()){
-		$('#chatwindow .today-chats').append('' +
+		if(data.imgPath){
+			$('#chatwindow .today-chats').append('' +
+					'<div class="line-chat visitor_chat_dash"> ' +
+					'<p class="s_name"><strong>'+data.usersender+'</strong></p> ' +
+					'<div class="msg-container"> ' +
+					'<div class="d-msg"><img style="height: 150px;" src="'+data.imgPath+'"></div> ' +
+					'<span class="datetime"></span> ' +
+					'</div> ' +
+					'</div>'
+			);
+		}else{
+			$('#chatwindow .today-chats').append('' +
 				'<div class="line-chat visitor_chat_dash"> ' +
 				'<p class="s_name"><strong>'+data.usersender+'</strong></p> ' +
 				'<div class="msg-container"> ' +
 				'<div class="d-msg"> '+data.message+'</div> ' +
 				'<span class="datetime"></span> ' +
 				'</div> ' +
-				'</div>')
+				'</div>'
+			);
+		}
+
 	}
 
 
@@ -142,7 +156,33 @@ socket.on('updateroom',function(data){
 });
 
 socket.on('updatehistories',function(data){
-	chat_data = data;
+	contentChat = '';
+	if(data.length > 0){
+		if($('#footer').css('display') != 'block'){
+			$('#chat-compressed .chat-button').empty();
+			$('#footer').css('display','block');
+		}
+		data.forEach(function(v,index){
+			pushDatatoArray({
+				'room': v.receiver,
+				'usersender': v.sender,
+				'message': v.msg,
+				'imgPath': v.imgPath,
+			});
+			contentMesg = rendermesg({from: v.sender,mesg: v.msg,imgPath: v.imgPath});
+
+			if($('#li_'+ v.receiver).length == 0){
+				$('#chat-compressed .chat-button').append('' +
+						'<li id="li_'+v.receiver+'" style="width: 50%;" class="unread">' +
+						'<a class="open_windows" id="'+v.sender+'" href="javascript:popupchat(\''+v.receiver+'\');">' +
+						'<i id="status_'+v.sender+'" class="i-con-tab i-away"></i>' + v.sender +
+						'</a>' +
+						'<i class="close-button-chat" id="'+v.sender+'"></i>' +
+						'</li>');
+			}
+
+		});
+	}
 });
 function popupchat(room,option){
 	var nameuserinroom = "";
@@ -263,6 +303,15 @@ function rendermesg(data){
 	}
 	if(data.from == 'system'){
 		return '<div class="line-notify">'+data.mesg+'</div>'
+	}if(data.imgPath){
+		return '' +
+				'<div class="line-chat supporter_chat_dash"> ' +
+				'<p class="s_name"> <strong> '+data.from+' </strong> </p> ' +
+				'<div class="msg-container">' +
+				'<div class="d-msg"><img style="height: 150px;" src="'+data.imgPath+'"></div> ' +
+				'<span class="datetime"></span> ' +
+				'</div> ' +
+				'</div>'
 	}else{
 		return '' +
 				'<div class="line-chat visitor_chat_dash"> ' +
@@ -292,7 +341,7 @@ function pushDatatoArray(data){
 	if(typeof chat_data[data.room] == 'undefined'){
 		chat_data[data.room] = [];
 	}
-	chat_data[data.room].push({from:data.usersender,mesg:data.message});
+	chat_data[data.room].push({from:data.usersender,mesg:data.message,imgPath:data.imgPath});
 }
 
 function actionchatwindow(element){

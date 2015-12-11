@@ -17,7 +17,9 @@
             </div>
         </div>
     </div>
-    <script type='text/javascript'>window._sbzq||function(e){e._sbzq=[];var t=e._sbzq;t.push(["_setAccount",27228]);var n=e.location.protocol=="https:"?"https:":"http:";var r=document.createElement("script");r.type="text/javascript";r.async=true;r.src=n+"//static.subiz.com/public/js/loader.js";var i=document.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)}(window);</script>
+    <script>
+        var chat_data = {};
+    </script>
     <?php
 $this->user()->getMentor();
 
@@ -47,7 +49,7 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 //                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
 //                    ?>
 <!--                    <div id="chat_list">-->
-<!--                        <div class="user" style="cursor:pointer;" onclick="popupchat('--><?//=$name ?>//')"><?//=$name ?><!--</div>-->
+<!--                        <div class="user" style="cursor:pointer;" onclick="popupchat('--><?//=$name ?><?//=$name ?><!--</div>-->
 <!--                    </div>-->
 <!--                    --><?php
 //                }
@@ -66,7 +68,7 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 //                if ($name != $this->user()->getUser($this->user()->getIdentity())->getUsername()) {
 //                    ?>
 <!--                    <div id="chat_list">-->
-<!--                        <div class="user --><?//=$name?><!--" style="cursor:pointer;" onclick="updateuserchat(this,'--><?//=$name ?>//')"><?//=$name ?><!--</div>-->
+<!--                        <div class="user --><?//=$name?><!--" style="cursor:pointer;" onclick="updateuserchat(this,'--><?//=$name ?><?//=$name ?><!--</div>-->
 <!--                    </div>-->
 <!--                    --><?php
 //                }
@@ -77,7 +79,32 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 <?php //}
 } ?>
 <div id="template-report">
-    <input type="radio" name="rating" value="1">Tot<br>
-    <input type="radio" name="rating" value="2">Xau<br>
-    <textarea rows="4" cols="50" class="comment" ></textarea>
+    <div class="msg_body">
+        <h4>Bạn thấy Callcenter thế nào</h4>
+        <input type="radio" name="ratingCallcenter" value="1">Tot<br>
+        <input type="radio" name="ratingCallcenter" value="2">Xau<br>
+        <textarea rows="4" cols="50" class="commentCallcenter" ></textarea>
+        <h4>Bạn thấy mentor thế nào</h4>
+        <input type="radio" name="ratingMentor" value="1">Tot<br>
+        <input type="radio" name="ratingMentor" value="2">Xau<br>
+        <textarea rows="4" cols="50" class="commentMentor" ></textarea>
+        <button class="btnLeaveroom">Kết thúc</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="imgModal" class="modal fade" role="dialog" style="display: none">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+<!--                <button type="button"><a href="">Tải xuống</a></button>-->
+                <h4>Xem trước</h4>
+            </div>
+            <img width="853" height="480" src="" frameborder="0">
+        </div>
+
+    </div>
 </div>
