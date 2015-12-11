@@ -74,7 +74,17 @@ class Signup extends FormBase
 					'break_chain_on_failure' => true,
 					'options' => array(
 						'messages' => array(
-							'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ'
+							'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ',
+							'emailAddressInvalidHostname' =>'Không tồn tại máy chủ mail',
+							'hostnameInvalidHostname' => 'Không tồn tại hostname như trên',
+							'hostnameInvalidLocalName' => 'Không tồn tại hostname như trên',
+							'hostnameLocalNameNotAllowed' =>  'Không tồn tại hostname như vậy',
+							'emailAddressDotAtom' => 'Không tồn tại định dạng E-mail như trên',
+							'emailAddressQuotedString' => "Định dạng không hợp lệ",
+							'emailAddressInvalidLocalPart' => 'Định dạng không hợp lệ',
+							'hostnameUnknownTld' => 'Domain name không hợp lệ'
+
+
 						)
 					)
 				),
@@ -133,7 +143,7 @@ class Signup extends FormBase
 					'options' => array(
 						'pattern' => "/^[a-z0-9_-]{4,32}$/",
 						'messages' => array(
-							'regexNotMatch' => 'Chỉ chấp nhận các kí tự là chữ, chữ số, dấu - và dấu _'
+							'regexNotMatch' => 'Chỉ chấp nhận các kí tự là chữ thường, chữ số, dấu - và dấu _'
 						)
 					),
 				),
@@ -173,6 +183,7 @@ class Signup extends FormBase
 						)
 					)
 				),
+
 				array(
 					'name'    => 'StringLength',
 					'break_chain_on_failure' => true,
@@ -180,6 +191,17 @@ class Signup extends FormBase
 						'min' => 6,
 						'messages' => array(
 							'stringLengthTooShort' => 'Mật khẩu phải có từ 6 kí tự trở lên'
+						)
+					),
+				),
+
+				array(
+					'name'    => 'Regex',
+					'break_chain_on_failure' => true,
+					'options' => array(
+						'pattern' => "/^[a-zA-Z0-9]{4,32}$/",
+						'messages' => array(
+							'regexNotMatch' => 'Mật khẩu chỉ bao gồm chữ hoa, thường và số',
 						)
 					),
 				),
@@ -204,7 +226,7 @@ class Signup extends FormBase
 					'break_chain_on_failure' => true,
 					'options' => array(
 						'messages' => array(
-							'isEmpty' => 'Bạn chưa nhập Mật khẩu'
+							'isEmpty' => 'Bạn chưa xác nhận Mật khẩu'
 						)
 					)
 				),

@@ -70,7 +70,15 @@ class Signin extends FormBase
 					'break_chain_on_failure' => true,
 					'options' => array(
 						'messages' => array(
-							'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ'
+							'emailAddressInvalidFormat' => 'Địa chỉ email không hợp lệ',
+							'emailAddressInvalidHostname' => 'Không có tên miền như vậy',
+							'hostnameInvalidHostname' => 'Hostname không đúng quy định',
+							'hostnameLocalNameNotAllowed' =>'Hostname không được cho phép',
+							'hostnameInvalidLocalName' => 'Hostname không đúng',
+							'emailAddressDotAtom' => 'Địa chỉ email không hợp lệ',
+							'emailAddressQuotedString' => 'Địa chỉ email sai định dạng',
+							'emailAddressInvalidLocalPart' => 'Địa chỉ email không hợp lệ',
+
 						)
 					)
 				),

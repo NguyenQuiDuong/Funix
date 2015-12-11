@@ -169,9 +169,17 @@ public function get($sub){
         if($options instanceof Subject && $options->getCategoryId() ){
             $select->where(['s.categoryId' => $options->getCategoryId()]);
         }
+
         $select->order([
-            's.id' => 'DESC'
+            's.id' => 'asce'
         ]);
+        if($options== "category"){
+            $select->order(
+                [
+                    'c.id' => 'asce'
+                ]
+            );
+        }
         $query = $this->getDbSql()->buildSqlString($select);
         $results = $this->getDbAdapter()->query($query,Adapter::QUERY_MODE_EXECUTE);
         $subjects = array();

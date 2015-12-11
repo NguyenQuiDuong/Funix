@@ -34,21 +34,11 @@ class UserController extends AbstractActionController
         $request = $this->getRequest();
 
         $redirect = trim($request->getQuery('redirect'));
-//        if ($this->user()->hasIdentity()) {
-//            if (!$redirect) {
-//                $authorize = $this->getServiceLocator()->get('\Authorize\Service\Authorize');
-//                if(!$authorize->isAllowed('company:announcement', 'index')){
-//                    return $this->redirect()->toRoute('home');
-//                }else{
-//                    return $this->redirect()->toRoute('company');
-//                }
-//            }
-//            return $this->redirect()->toUrl($redirect);
-//        }
+
         $sl = $this->getServiceLocator();
 
         $form = new \User\Form\Signin($this->getServiceLocator());
-        //$form = new \User\Form\Signin();
+
         $failNumber = isset($_SESSION['failNumber']) ? $_SESSION['failNumber'] : 0;
         if($failNumber < 2){
             $form->removeCaptcha();
@@ -78,37 +68,41 @@ class UserController extends AbstractActionController
 //                 /* @var $serviceUser \User\Service\User */
 //                 $serviceUser = $this->getServiceLocator()->get('User\Service\User');
 //                 // @todo show captcha after signing 3 times failed
-//                 if(!$serviceUser->authenticate($username, $password)) {
+                 if(!$serviceUser->authenticate($username, $password)) {
 //                     $form->showInvalidMessage();
-//                 } else {
-//                     /* @var $user \User\Model\User */
-//                     $user = $serviceUser->getUser();
-//                     if(!$user) {
-//                         return;
-//                     }
-//                     if(!$user->getLocked() && $user->getActive()) {
-//                         if (!$redirect) {
-//                             return $this->redirect()->toRoute('home');
-//                         } else {
-//                             return $this->redirect()->toUrl($redirect);
-//                         }
-//                     }
-//                     if($user->getLocked()) {
-//                         $form->showInvalidMessage(\User\Form\Signin::ERROR_LOCKED);
-//                     }
-//                     if(!$user->getActive()) {
-//                         $form->showInvalidMessage(\User\Form\Signin::ERROR_INACTIVE);
-//                     }
-//                 }
+                     $form->get('mail')->setMessages(['tai khaonr']);
+                 } else {
+                     /* @var $user \User\Model\User */
+                     $user = $serviceUser->getUser();
+                     if(!$user) {
+                         return;
+                     }
+                     if(!$user->getLocked() && $user->getActive()) {
+                         if (!$redirect) {
+                             return $this->redirect()->toRoute('home');
+                         } else {
+                             return $this->redirect()->toUrl($redirect);
+                         }
+                     }
+                     if($user->getLocked()) {
+                         $form->showInvalidMessage(\User\Form\Signin::ERROR_LOCKED);
+                     }
+                     if(!$user->getActive()) {
+                         $form->showInvalidMessage(\User\Form\Signin::ERROR_INACTIVE);
+                     }
+                 }
             } else {
                 $_SESSION['failNumber'] = ++$failNumber;
                 if($failNumber >= 10){
-                    $username = $form->getInputFilter()->getValue('username');
+                    $email = $form->getInputFilter()->getValue('mail');
                     $userMapper = $this->getServiceLocator()->get('\User\Model\UserMapper');
-                    if(!!($user = $userMapper->get(null, $username))){
+                    if(!!($user = $userMapper->get(null, null,$email))){
                         $userMapper->updateColumns(['locked' => 1], $user);
-                        $form->get('username')->setMessages([$form::ERROR_LOCKED]);
+                        $form->get('mail')->setMessages([$form::ERROR_LOCKED]);
                     }
+                }
+                if($failNumber < 10 && $failNumber > 3){
+                    $form->get('mail')->setMessages(['Bạn còn '.(10-$failNumber).' lần đăng nhập sai!']);
                 }
             }
         }

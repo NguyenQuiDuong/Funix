@@ -45,6 +45,10 @@ class User extends DataGrid
                     'name' => 'setrole',
                     'content' => 'Set Role'
                 ),
+                array(
+                    'name' => 'lockAccount',
+                    'content' => 'Khóa tài khoản'
+                ),
                 
 
             )
@@ -124,9 +128,9 @@ class User extends DataGrid
                 ));
                  // Status
                 if($item->getActive()==1){
-                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" checked>';
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().',"active");" checked>';
                 }else{
-                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" >';
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().',"active");" >';
                 }
                 $row->addColumn(array(
                     'name' => 'status',
@@ -142,6 +146,18 @@ class User extends DataGrid
                 $row->addColumn(array(
                     'name' => 'setrole',
                     'content' => $setrole,
+                    'attributes' => ['style' => 'width:30px;']
+                ));
+
+                // lock
+                if(!$item->getLocked()){
+                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="changeActive('.$item->getId().',"lock");" checked>';
+                }else{
+                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="changeActive('.$item->getId().',"lock");" >';
+                }
+                $row->addColumn(array(
+                    'name' => 'lockAccount',
+                    'content' => $status,
                     'attributes' => ['style' => 'width:30px;']
                 ));
 

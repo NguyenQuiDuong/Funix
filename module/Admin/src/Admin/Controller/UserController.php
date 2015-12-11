@@ -31,16 +31,22 @@ class UserController extends ControllerBase {
     public function changeAction() {
         $id = $this->params()->fromQuery('id', null);
         if ($id) {
-            $active = $this->params()->fromQuery('active', 0);
             $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
             $user = new User();
             $user->setId($id);
             $user = $userMapper->get($user->getId());
-            if ($user->getEmail()) {
-                $user->setActive($active);
-                //  var_dump($user);die;
-                $userMapper->save($user);
+            if($this->params()->fromQuery('active')){
+                $active = $this->params()->fromQuery('active', 0);
+                if ($user->getEmail()) {
+                    $user->setActive($active);
+                    //  var_dump($user);die;
+                }
             }
+            if($this->params()->fromQuery('lock')){
+                $lock = $this->params()->fromQuery('lock',0);
+                $user->setLocked($lock);
+            }
+            $userMapper->save($user);
             echo "Cập nhật thành công";
             die;
         }

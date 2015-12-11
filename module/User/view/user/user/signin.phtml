@@ -38,6 +38,14 @@ $this->headLink()->prependStylesheet('/css/style-sign-in.css');
 							)));
 							if($form->getElements()['captcha'] != null){
 								echo $this->formelement($form->get('captcha'));
+								if($this->formelementerrors($form->get('captcha'))){
+									$form->get('captcha')->setMessages([
+										'badCaptcha' => 'Bạn nhập sai captcha, xin vui lòng nhập lại',
+									]);
+								};
+								echo $this->formelementerrors($form->get('captcha'),[
+									'class'	=>	'center alert alert-error flash-message topAlert'
+								]);
 							}
 							echo $this->formelement($form->get('submit')->setAttributes(array(
 								'class' =>  'btn btn-primary submitBtn',
@@ -59,3 +67,8 @@ $this->headLink()->prependStylesheet('/css/style-sign-in.css');
 		</div>
 	</center>
 </div>
+<style>
+	li{
+		list-style-type: none;
+	}
+</style>

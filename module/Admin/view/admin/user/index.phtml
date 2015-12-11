@@ -60,7 +60,7 @@ if ($this->flashMessenger()->hasMessages()) {
         </div>
     </div>
     <!-- Button trigger modal -->
-   
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -71,7 +71,7 @@ if ($this->flashMessenger()->hasMessages()) {
       </div>
          <form method="post" action="/admin/user/changerole">
       <div class="modal-body">
-         
+
               <input type="hidden"  id="modal-id" name="id" value="">
               <div class="form-group">
                   <label>Email</label>
@@ -88,8 +88,8 @@ if ($this->flashMessenger()->hasMessages()) {
                   <label>Link Facebook</label>
                   <input class="form-control"  id="modal-face" name="facebook">
               </div>
-              
-         
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -99,11 +99,12 @@ if ($this->flashMessenger()->hasMessages()) {
     </div>
   </div>
 </div>
-   
+
     <?php $this->headScript()->captureStart() ?>
     $.fn.bootstrapSwitch.defaults.onText = 'Active';
     $.fn.bootstrapSwitch.defaults.offText = 'Disable';
     $("[name='my-checkbox']").bootstrapSwitch();
+    $("[name='lock-checkbox']").bootstrapSwitch({Ư);
 
     function setMentor(id){
         var user=$('#change-role-'+id);
@@ -114,10 +115,10 @@ if ($this->flashMessenger()->hasMessages()) {
         $('#myModal').modal();
     }
     function changeActive(id) {
-       
+
     var status = $('#switch-change' + id).bootstrapSwitch('state') ? 1 : 0;
     //        alert(status);
-   // console.log("/admin/ajax/chinh-sua-quyen-{{$old['id']}}-" + id + "-" + status + ".html");
+    console.log("/admin/ajax/chinh-sua-quyen-{{$old['id']}}-" + id + "-" + status + ".html");
     $.ajax({
     url: "/admin/user/change?id="+id+"&active="+status,
     type: "GET",

@@ -56,7 +56,7 @@ return array(
 		'reCAPTCHA' => array(
 			'domainName' => 'hotels.local',
 			'publicKey' => '6LeKwMQSAAAAAOnwp1Tl7Z5J2ixvYPiNLBIPdZvu',
-			'privateKey' => '6LeKwMQSAAAAAJSxtj5329MM-wL5ae-hfkR9jzAT'
+			'privateKey' => '6LeKwMQSAAAAAJSxtj5329MM-wL5ae-hfkR9jzAT',
 		)
 	),
 );

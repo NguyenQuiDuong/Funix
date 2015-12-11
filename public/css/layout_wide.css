@@ -11828,3 +11828,7 @@ Footer CSS
 .footer_menu ul li a:hover{
     color: #ff3d00;
 }
+
+li{
+    list-style-type: none;
+}
