@@ -35,21 +35,38 @@ class UserController extends ControllerBase {
             $user = new User();
             $user->setId($id);
             $user = $userMapper->get($user->getId());
-            if($this->params()->fromQuery('active')){
-                $active = $this->params()->fromQuery('active', 0);
-                if ($user->getEmail()) {
-                    $user->setActive($active);
-                    //  var_dump($user);die;
-                }
-            }
-            if($this->params()->fromQuery('lock')){
-                $lock = $this->params()->fromQuery('lock',0);
-                $user->setLocked($lock);
+            $active = $this->params()->fromQuery('active', 0);
+            if ($user->getEmail()) {
+                $user->setActive($active);
+                //  var_dump($user);die;
             }
             $userMapper->save($user);
             echo "Cập nhật thành công";
             die;
         }
+    }
+
+    public function lockAction() {
+        $id = $this->params()->fromQuery('id', null);
+        /** @var \User\Model\UserMapper $userMapper */
+        $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+        if(!$id || !$userMapper->get($id)){
+            echo "Không tìm thấy user";
+            die;
+        }
+
+            /** @var \User\Model\USer $user */
+            $user = new User();
+            $user->setId($id);
+            $user = $userMapper->get($user->getId());
+            $lock = $this->params()->fromQuery('lock', 0);
+            if ($user->getEmail()) {
+                $user->setLocked($lock);
+                //  var_dump($user);die;
+            }
+            $userMapper->updateUser($user);
+            echo "Cập nhật thành công";
+            die;
     }
 
     public function changeroleAction() {

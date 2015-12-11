@@ -104,7 +104,10 @@ if ($this->flashMessenger()->hasMessages()) {
     $.fn.bootstrapSwitch.defaults.onText = 'Active';
     $.fn.bootstrapSwitch.defaults.offText = 'Disable';
     $("[name='my-checkbox']").bootstrapSwitch();
-    $("[name='lock-checkbox']").bootstrapSwitch({Ư);
+    $("[name='lock-checkbox']").bootstrapSwitch({
+        'onText':'Lock',
+        'offText':'Unlock',
+    });
 
     function setMentor(id){
         var user=$('#change-role-'+id);
@@ -117,13 +120,31 @@ if ($this->flashMessenger()->hasMessages()) {
     function changeActive(id) {
 
     var status = $('#switch-change' + id).bootstrapSwitch('state') ? 1 : 0;
-    //        alert(status);
-    console.log("/admin/ajax/chinh-sua-quyen-{{$old['id']}}-" + id + "-" + status + ".html");
+
     $.ajax({
     url: "/admin/user/change?id="+id+"&active="+status,
     type: "GET",
     success: function (data) {
-  //  alert(data);
+
+    if (data) {
+    alert(data);
+    }
+    },
+    error: function () {
+    alert("failure");
+    }
+    });
+    }
+
+    function lockAccount(id) {
+
+    var status = $('#switch-change-lock' + id).bootstrapSwitch('state') ? 0 : 1;
+
+    $.ajax({
+    url: "/admin/user/lock?id="+id+"&lock="+status,
+    type: "GET",
+    success: function (data) {
+
     if (data) {
     alert(data);
     }

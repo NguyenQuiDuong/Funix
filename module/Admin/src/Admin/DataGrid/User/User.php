@@ -128,9 +128,9 @@ class User extends DataGrid
                 ));
                  // Status
                 if($item->getActive()==1){
-                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().',"active");" checked>';
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" checked>';
                 }else{
-                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().',"active");" >';
+                    $status = '<input type="checkbox" name="my-checkbox" id="switch-change'.$item->getId().'" onchange="changeActive('.$item->getId().');" >';
                 }
                 $row->addColumn(array(
                     'name' => 'status',
@@ -151,9 +151,9 @@ class User extends DataGrid
 
                 // lock
                 if(!$item->getLocked()){
-                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="changeActive('.$item->getId().',"lock");" checked>';
+                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="lockAccount('.$item->getId().');" checked>';
                 }else{
-                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="changeActive('.$item->getId().',"lock");" >';
+                    $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="lockAccount('.$item->getId().');" >';
                 }
                 $row->addColumn(array(
                     'name' => 'lockAccount',
