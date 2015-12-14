@@ -9,6 +9,7 @@ if (typeof my_token === 'undefined') {
 } else {
     userCurrent.id = my_token;
 }
+var isRead = false;
 function send_individual_msg(event, username, room, messages) {
     if (event.keyCode == 13) {
         $('#chatwindow .today-chats').append('' +
@@ -78,6 +79,7 @@ socket.on('updatevisitors', function (users) {
 
 // listener, whenever the server emits 'msg_user_handle', this updates the chat body
 socket.on('msg_user_handle', function (data) {
+    $.playSound('/audio/alert');
     if ($('#footer').css('display') != 'block') {
         $('#chat-compressed .chat-button').empty();
         if ($('#li_' + data.room).length == 0) {
@@ -102,7 +104,7 @@ socket.on('msg_user_handle', function (data) {
                 '</li>');
         }
     }
-
+    $('#li_' + data.room).addClass('unread');
     pushContenttoArray(data);
 
     if ($('#chatwindow').html()) {
@@ -191,6 +193,7 @@ socket.on('updatehistories', function (data) {
 function popupchat(room, option) {
     var nameuserinroom = "";
     var contenthtmlmesg = "";
+    $('#li_'+room).removeClass('unread');
     contentsChat = chat_data['contents'];
     if (typeof contentsChat[room] != 'undefined') {
         for (i = 0; i < contentsChat[room].length; i++) {

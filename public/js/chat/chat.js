@@ -29,7 +29,8 @@ function send_individual_msg(event, username, room, messages) {
             role: my_role,
             userreceiver: username,
             room: room,
-            message: messages
+            message: messages,
+            avatar:my_avatar,
         });
         console.log(username);
     }
@@ -49,14 +50,15 @@ socket.on('connect', function () {
 });
 // listener, whenever the server emits 'msg_user_handle', this updates the chat body
 socket.on('msg_user_handle', function (data) {
+    $.playSound('/audio/alert');
     //console.log('<b>'+username + ':</b> ' + data + '<br>');
     contentMesg = '<div class="appChatboxMessage clearfix">' +
-        '<img class="appChatboxMessage-avatar" alt="' + data.usersender + '" src="">' +
+        '<img class="appChatboxMessage-avatar" alt="' + data.usersender + '" src="'+data.avatar+'">' +
         '<div class="msg_a appChatboxMessage-content">' + data.message + '</div>' +
         '</div>';
     if (data.imgPath) {
         contentMesg = '<div class="appChatboxMessage clearfix">' +
-            '<img class="appChatboxMessage-avatar" alt="' + data.usersender + '" src="">' +
+            '<img class="appChatboxMessage-avatar" alt="' + data.usersender + '" src="'+data.avatar+'">' +
             '<div class="msg_a appChatboxMessage-content"><img onclick="previewImg(\'' + data.imgPath + '\')" src="' + data.imgPath + '"></div>' +
             '</div>';
     }
@@ -75,7 +77,7 @@ socket.on('msg_user_handle', function (data) {
             '<div class="msg_push"></div>' +
             '</div>' +
             '<div class="msg_footer">' +
-            '<textarea chatusers="' + data.room + '" onkeypress="send_individual_msg(event,\'' + data.usersender + '\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>' +
+            '<textarea autofocus chatusers="' + data.room + '" onkeypress="send_individual_msg(event,\'' + data.usersender + '\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>' +
             '<div class="tool-chat">' +
             '<div class="inputWrapper"><i class="fa fa-camera"></i>' +
             '<input accept="image/*|MIME_type"  onchange="uploadfile(event,this,\'' + data.room + '\',\'' + data.usersender + '\')" class="fileInput"  type="file">' +
@@ -123,7 +125,7 @@ socket.on('updateexpert', function (data) {
     $.post(
         '/user/user/loaduserajaxchat?q=e',
         function (rs) {
-            if (rs.code) {
+            if (rs.code == 1) {
                 console.log(rs.data);
                 $.each(rs.data, function (sub, users) {
                     contentchatbody += '<h4 class="subject_mentor">' + sub + '</h4>';
@@ -163,7 +165,7 @@ function popupchat(username) {
         '<div class="msg_push"></div>' +
         '</div>' +
         '<div class="msg_footer">' +
-        '<textarea chatusers="' + room + '" onkeypress="send_individual_msg(event,\'' + username + '\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>' +
+        '<textarea autofocus chatusers="' + room + '" onkeypress="send_individual_msg(event,\'' + username + '\',this.getAttribute(\'chatusers\'),value)" placeholder="Send a message..." class="msg_input appChatbox-input" rows="1"></textarea>' +
         '<div class="tool-chat">' +
         '<div class="inputWrapper"><i class="fa fa-camera"></i>' +
         '<input accept="image/*|MIME_type"  onchange="uploadfile(event,this,\'' + room + '\',\'' + username + '\')" class="fileInput"  type="file">' +
