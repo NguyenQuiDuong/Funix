@@ -116,7 +116,7 @@ $subjectCategories = array();
                            <div class="inboxNotification"><a class="cm-notify"><?= $this->user()->getUser()->getUserName()?></a></div>
                       </li>
                       <li class="dropdown hideMobile pull-right">
-                          <a class="dropdown-toggle profile-avatar ng-scope" data-toggle="dropdown" href="#" ng-class="{'show':profileMenu}" ng-controller="headerProfileAvatarCtrl" ng-init="init('https://www.gravatar.com/avatar/e396607e917deb8ab2306669cbede5f9?d=mm&amp;s=200')">
+                          <a class="dropdown-toggle profile-avatar ng-scope" data-toggle="dropdown" href="#" >
                               <img src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>">
                           </a>
                           <ul class="dropdown-menu profile-avatar-menu">

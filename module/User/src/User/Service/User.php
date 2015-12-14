@@ -333,7 +333,7 @@ class User implements ServiceLocatorAwareInterface
 
     /**
      * @param \User\Model\User $user
-     * @return boolean
+     * @return user
      */
     public function updateUser(\User\Model\User $user)
     {

@@ -47,7 +47,7 @@ class User extends Base
     protected $id;
 
     /**
-     * @var string
+     * @var int
      */
     protected $role;
 
@@ -87,7 +87,7 @@ class User extends Base
     protected $mobile;
 
     /**
-     * @var string
+     * @var int
      */
     protected $gender;
 
@@ -150,7 +150,7 @@ class User extends Base
 
     const STATUS_ACTIVE = 1;
     /**
-     * @var string
+     * @var int
      */
     protected $active;
 

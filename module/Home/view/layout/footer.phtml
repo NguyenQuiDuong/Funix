@@ -19,6 +19,8 @@
     </div>
     <script>
         var chat_data = {};
+        chat_data['contents'] = {};
+        chat_data['aId'] = [];
     </script>
     <?php
 $this->user()->getMentor();
@@ -78,17 +80,18 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 <!--</div>-->
 <?php //}
 } ?>
-<div id="template-report">
-    <div class="msg_body">
-        <h4>Bạn thấy Callcenter thế nào</h4>
-        <input type="radio" name="ratingCallcenter" value="1">Tot<br>
-        <input type="radio" name="ratingCallcenter" value="2">Xau<br>
-        <textarea rows="4" cols="50" class="commentCallcenter" ></textarea>
-        <h4>Bạn thấy mentor thế nào</h4>
-        <input type="radio" name="ratingMentor" value="1">Tot<br>
-        <input type="radio" name="ratingMentor" value="2">Xau<br>
-        <textarea rows="4" cols="50" class="commentMentor" ></textarea>
-        <button class="btnLeaveroom">Kết thúc</button>
+<div id="template-report" style="display: none">
+    <div class="content-feedback col-md-12">
+        <h4 class="title title-feedback"></h4>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="1">Rất Tệ</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="2">Khá tệ</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="3">Tệ</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="4">Tạm được</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="5">Được</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="6">Khá tốt</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="7">Tốt</label>
+            <label class="radio-inline"><input type="radio" name="ratingCallcenter" value="8">Rất tốt</label>
+        <textarea rows="4" cols="50" class="comment form-control" ></textarea>
     </div>
 </div>
 
@@ -108,3 +111,21 @@ $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCr
 
     </div>
 </div>
+
+<div id="feedbackModal" class="modal fade" role="dialog" style="display: none">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Phản hồi</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+</div>
+

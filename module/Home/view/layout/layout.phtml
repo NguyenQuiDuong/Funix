@@ -49,7 +49,7 @@ $js = array(
 	'/js/jquery/jquery.min.js',
 	'/js/jquery/autoNumeric.min.js',
 	'/js/jquery/jquery-ui.min.js',
-// 	'/js/jquery/bootstrap.min.js',
+ 	'/js/jquery/bootstrap.min.js',
 	'/js/jquery/modernizr.js',
 	'/js/daterangepicker/moment.js',
 	'/js/daterangepicker/daterangepicker.js',
@@ -57,7 +57,7 @@ $js = array(
 	'/js/notification/jquery.gritter.min.js',
 	'/js/bootstrap-datetimepicker.js',
     '/js/jquery/select2.min.js',
-    '/js/application.js',
+//    '/js/application.js',
     '/js/chat/popupchat.js'
 
 );
@@ -65,7 +65,11 @@ echo '<script type="text/javascript" src="/min/f=' . implode(',', $js) . '?2"></
 echo '<script type="text/javascript" src="/tool/ckeditor/ckeditor.js"></script>';
 if($this->user()->getIdentity()){
     echo '<script type="text/javascript" src="/min/f=/js/chat/socket.io-1.3.7.js"></script>';
-    echo '<script type="text/javascript" src="/min/f=/js/chat/chat.js"></script>';
+    if($this->user()->getUser()->getRole() == \User\Model\User::ROLE_MENTOR){
+        echo '<script type="text/javascript" src="/min/f=/js/chat/chatM.js"></script>';
+    }else{
+        echo '<script type="text/javascript" src="/min/f=/js/chat/chat.js"></script>';
+    }
 }
 echo '<script type="text/javascript" src="/min/f=' . implode(',', [
         '/tp/v1/js/a.js',
