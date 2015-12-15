@@ -790,12 +790,13 @@ io.sockets.on('connection', function (socket) {
                                                'room':room,
                                            });
                                            createRoomMongoose(room, uC.userName, ac.insertId, function (cr) {
+                                               console.log('da tao phong ' + cr.room);
                                            });
                                        });
                                    console.log(u.userName + ' da tao phong');
-                                   createRoomMongoose(room, u.userName, function (cr) {
-                                       console.log('da tao phong ' + cr.room);
-                                   });
+                                   //createRoomMongoose(room, u.userName, '',function (cr) {
+                                   //    console.log('da tao phong ' + cr.room);
+                                   //});
                                }
                            })
                        }
