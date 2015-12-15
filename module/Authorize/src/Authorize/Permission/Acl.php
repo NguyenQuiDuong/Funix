@@ -22,7 +22,7 @@ class Acl extends ZendAcl
         $this->addRole(new Role('Admin'), 'Member');
         $this->addRole(new Role('Super Admin'), 'Member');
 
-        $this->addRole(new Role('Call Center'),'Member');
+        $this->addRole(new Role('CallCenter'),'Member');
 
         $this->addResource('home:index');
         $this->addResource('home:media');
@@ -56,7 +56,7 @@ class Acl extends ZendAcl
 
 
 
-        $this->allow('Guest', 'home:index');
+        $this->allow('Guest', 'home:index',['index']);
         $this->allow('Guest', 'home:media');
         $this->allow('Guest', 'home:search');
         $this->allow('Guest', 'address:district', ['load']);
@@ -77,6 +77,8 @@ class Acl extends ZendAcl
         $this->allow('Member', 'system:user', ['suggest']);
         $this->allow('Member', 'expert:index');
         $this->allow('Member', 'subject:subject');
+
+        $this->allow('CallCenter','home:index',['callcenter']);
 
 
         $this->allow('Admin', null);

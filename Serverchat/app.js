@@ -705,8 +705,8 @@ io.sockets.on('connection', function (socket) {
                         console.log(el);
                         console.log(el.count);
                         CallCenter.update(
-                            {userName: username},
-                            {$inc: {'count': 1}},
+                            {userName: el.userName},
+                            {$inc: {count: 1}},
                             {w: 1},
                             function (err) {
                                 if (err) throw err;

@@ -33,7 +33,7 @@ class UserController extends AbstractActionController
         /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
 
-        $redirect = trim($request->getQuery('redirect'));
+        $redirect = $request->getQuery('redirect');
 
         $sl = $this->getServiceLocator();
 
@@ -79,6 +79,9 @@ class UserController extends AbstractActionController
                      }
                      if(!$user->getLocked() && $user->getActive()) {
                          if (!$redirect) {
+                             if($user->getRole() == User::ROLE_CALLCENTER){
+                                 return $this->redirect()->toUrl('/home/callcenter');
+                             }
                              return $this->redirect()->toRoute('home');
                          } else {
                              return $this->redirect()->toUrl($redirect);
