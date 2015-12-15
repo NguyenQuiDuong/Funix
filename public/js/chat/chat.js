@@ -22,7 +22,7 @@ function send_individual_msg(event, username, room, messages) {
         });
 
         height += '';
-        pushContenttoArray({room: room, usersender: my_username, message: messages});
+        pushContenttoArray({room: room,avatar:my_avatar, usersender: my_username, message: messages});
         $('#' + room + ' .msg_body').animate({scrollTop: height});
         socket.emit('send', {
             usersender: my_username,
@@ -223,6 +223,7 @@ socket.on('updatehistories', function (data) {
                 'usersender': v.sender,
                 'message': v.msg,
                 'imgPath': v.imgPath,
+                'avatar': v.avatar,
             });
             contentMesg = rendermesg({from: v.sender, mesg: v.msg, imgPath: v.imgPath});
             if ($('#' + v.receiver).length > 0) {
@@ -382,6 +383,7 @@ function uploadfile(e, el, room, username) {
                 'imageType': file.type,
                 'imageName': file.name,
                 'imageSize': file.size,
+                'avatar':my_avatar,
                 'usersender': my_username,
                 'role': my_role,
                 'userreceiver': username,
@@ -427,13 +429,13 @@ function rendermesg(data) {
         if (data.imgPath) {
             return '' +
                 '<div class="appChatboxMessage clearfix">' +
-                '<img class="appChatboxMessage-avatar" alt="' + data.from + '" src="">' +
+                '<img class="appChatboxMessage-avatar" alt="' + data.from + '" src="'+data.avatar+'">' +
                 '<div class="msg_a appChatboxMessage-content"><img onclick="previewImg(\'' + data.imgPath + '\')" src="' + data.imgPath + '"></div>' +
                 '</div>';
         }
         return '' +
             '<div class="appChatboxMessage clearfix">' +
-            '<img class="appChatboxMessage-avatar" alt="' + data.from + '" src="">' +
+            '<img class="appChatboxMessage-avatar" alt="' + data.from + '" src="'+data.avatar+'">' +
             '<div class="msg_a appChatboxMessage-content">' + data.mesg + '</div>' +
             '</div>';
     }
@@ -443,5 +445,5 @@ function pushContenttoArray(data) {
     if (typeof chat_data['contents'][data.room] == 'undefined') {
         chat_data['contents'][data.room] = [];
     }
-    chat_data['contents'][data.room].push({from: data.usersender, mesg: data.message, imgPath: data.imgPath});
+    chat_data['contents'][data.room].push({from: data.usersender,avatar:data.avatar, mesg: data.message, imgPath: data.imgPath});
 }

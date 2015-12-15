@@ -283,14 +283,17 @@ socket.on('leaved', function (username, room) {
     $('#chatwindow .today-chats').append('<div class="line-notify">' + username + ' đã rời khỏi phòng</div>');
 });
 function leaveroom(username, room) {
-    if ($('#chatwindow').html() != '') {
-        $('#chatwindow').empty();
-        $('#chatwindow').css('display', 'none');
+    c =confirm('Bạn muốn thoát khỏi cuộc trò chuyện này ?');
+    if(c){
+        if ($('#chatwindow').html() != '') {
+            $('#chatwindow').empty();
+            $('#chatwindow').css('display', 'none');
+        }
+        if ($('#li_' + room).length > 0) {
+            $('#li_' + room).remove();
+        }
+        socket.emit('leaveroom', username, room);
     }
-    if ($('#li_' + room).length > 0) {
-        $('#li_' + room).remove();
-    }
-    socket.emit('leaveroom', username, room);
 }
 function signout() {
     console.log(my_username);

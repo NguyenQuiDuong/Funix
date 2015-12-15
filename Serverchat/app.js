@@ -57,6 +57,7 @@ dbmysql.connect(function (err) {
 
 var messageSchema = mongoose.Schema({
     sender: String,
+    avatar:String,
     receiver: String,
     msg: String,
     imgPath: String,
@@ -851,6 +852,7 @@ io.sockets.on('connection', function (socket) {
         // save message to mongo
         message = {
             sender: data.usersender,
+            avatar:data.avatar,
             receiver: data.room,
             msg: data.message,
             imgPath: '',
@@ -1005,6 +1007,7 @@ io.sockets.on('connection', function (socket) {
             msg.imgPath = '/media/chat/' + msg.room + '/' + msg.imageMetaData + '/' + msg.usersender + '/' + msg.imageName;
             message = {
                 sender: msg.usersender,
+                avatar:msg.avatar,
                 receiver: msg.room,
                 msg: '',
                 imgPath: msg.imgPath,
