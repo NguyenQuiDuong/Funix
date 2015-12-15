@@ -27,7 +27,8 @@ function send_individual_msg(event, username, room, messages) {
             role: my_role,
             userreceiver: username,
             room: room,
-            message: messages
+            message: messages,
+            avatar:my_avatar,
         });
     }
 }

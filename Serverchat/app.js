@@ -365,9 +365,9 @@ function createRoomMongoose(roomName, userName, roomId, callback) {
         userName: userName,
         roomId: roomId,
     });
-    room.save(function (err) {
+    room.save(function (err,rs) {
         if (err) throw err;
-        callback(room);
+        callback(rs);
     });
 }
 /**
@@ -702,12 +702,15 @@ io.sockets.on('connection', function (socket) {
                 // if(err) throw  err;
                 if (cc.length > 0) {
                     cc.forEach(function (el, index) {
-                        CallCenter.update({userName: username},
-                            {$set: {count:el.count+1}},
+                        console.log(el);
+                        console.log(el.count);
+                        CallCenter.update(
+                            {userName: username},
+                            {$inc: {'count': 1}},
                             {w: 1},
                             function (err) {
                                 if (err) throw err;
-                                console.log('update callcenter user success');
+                                console.log('update callcenter user success '+ (el.count+1));
                             })
                         callcenterName = el.userName;
 
@@ -934,7 +937,7 @@ io.sockets.on('connection', function (socket) {
                             if(cc.length > 0){
                                 cc.forEach(function(value,index){
                                     CallCenter.update({userName: value.userName},
-                                        {$set: {count:value.count-1}},
+                                        {$inc: {'count':-1}},
                                         {w: 1},
                                         function (err) {
                                             if (err) throw err;

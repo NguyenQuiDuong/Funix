@@ -4,7 +4,8 @@
             <script>
                 var my_username = '<?= $this->user()->getUser($this->user()->getIdentity())->getUserName()?>';
                 var my_token = '<?= strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime())?>';
-                var my_role = '<?=$this->user()->getUser()->getRole() ?>'
+                var my_role = '<?=$this->user()->getUser()->getRole() ?>';
+                var my_avatar = '<?=\Home\Service\Uri::getViewPath($this->user()->getUser())?>';
             </script>
         <?php } ?>
 
