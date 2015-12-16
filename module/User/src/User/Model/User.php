@@ -26,7 +26,7 @@ class User extends Base
     protected $roles = array(
         self::ROLE_SUPERADMIN 	=> 'Super Admin',
         self::ROLE_ADMIN 		=> 'Admin',
-        self::ROLE_CALLCENTER   => 'Call Center',
+        self::ROLE_CALLCENTER   => 'CallCenter',
         self::ROLE_MENTOR 		=> 'Mentor',
         self::ROLE_MEMBER		=> 'Member',
         self::ROLE_GUEST 		=> 'Guest',

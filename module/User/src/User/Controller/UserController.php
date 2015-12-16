@@ -43,6 +43,10 @@ class UserController extends AbstractActionController
         if($failNumber < 2){
             $form->removeCaptcha();
         }
+        if($this->user()->getIdentity()){
+            $viewModel = new ViewModel();
+            return $viewModel->setTemplate('error/403');
+        }
         if ($request->isPost()) {
 
             $form->setData($request->getPost());
@@ -54,26 +58,29 @@ class UserController extends AbstractActionController
                         return $this->redirect()->toUrl(Uri::build('/user/user/updatecode', ['redirect'=>$redirect]));
                     }
                 } */
-                if (!$redirect) {
-                    $authorize = $this->getServiceLocator()->get('\Authorize\Service\Authorize');
-                    if(!$authorize->isAllowed('company:announcement', 'index')){
-                        return $this->redirect()->toRoute('home');
-                    }else{
-                        return $this->redirect()->toRoute('company');
-                    }
+//                if (!$redirect) {
+//                    $authorize = $this->getServiceLocator()->get('\Authorize\Service\Authorize');
+//                    if(!$authorize->isAllowed('company:announcement', 'index')){
+//                        return $this->redirect()->toRoute('home');
+//                    }else{
+//                        return $this->redirect()->toRoute('company');
+//                    }
+//                }
+                if($userService->getIdentity() == User::ROLE_CALLCENTER){
+                    return $this->redirect()->toUrl('/home/callcenter');
                 }
-                return $this->redirect()->toUrl($redirect);
-//                 $username = $form->getInputFilter()->getValue('username');
-//                 $password = $form->getInputFilter()->getValue('password');
+//                return $this->redirect()->toUrl($redirect);
+                 $username = $form->getInputFilter()->getValue('mail');
+                 $password = $form->getInputFilter()->getValue('password');
 //                 /* @var $serviceUser \User\Service\User */
 //                 $serviceUser = $this->getServiceLocator()->get('User\Service\User');
 //                 // @todo show captcha after signing 3 times failed
-                 if(!$serviceUser->authenticate($username, $password)) {
+                 if(!$userService->authenticate($username, $password)) {
 //                     $form->showInvalidMessage();
                      $form->get('mail')->setMessages(['tai khaonr']);
                  } else {
                      /* @var $user \User\Model\User */
-                     $user = $serviceUser->getUser();
+                     $user = $userService->getUser();
                      if(!$user) {
                          return;
                      }
@@ -82,16 +89,16 @@ class UserController extends AbstractActionController
                              if($user->getRole() == User::ROLE_CALLCENTER){
                                  return $this->redirect()->toUrl('/home/callcenter');
                              }
-                             return $this->redirect()->toRoute('home');
+                             return $this->redirect()->toUrl('/');
                          } else {
                              return $this->redirect()->toUrl($redirect);
                          }
                      }
                      if($user->getLocked()) {
-                         $form->showInvalidMessage(\User\Form\Signin::ERROR_LOCKED);
+                         $form->get('mail')->setMessages([\User\Form\Signin::ERROR_LOCKED]);
                      }
                      if(!$user->getActive()) {
-                         $form->showInvalidMessage(\User\Form\Signin::ERROR_INACTIVE);
+                         $form->get('mail')->setMessages([\User\Form\Signin::ERROR_INACTIVE]);
                      }
                  }
             } else {

@@ -69,7 +69,8 @@ if($this->user()->getIdentity()){
     echo '<script type="text/javascript" src="/min/f=/js/chat/socket.io-1.3.7.js"></script>';
     if($this->user()->getUser()->getRole() == \User\Model\User::ROLE_MENTOR){
         echo '<script type="text/javascript" src="/min/f=/js/chat/chatM.js"></script>';
-    }else{
+    }
+    if($this->user()->getUser()->getRole() == \User\Model\User::ROLE_MEMBER){
         echo '<script type="text/javascript" src="/min/f=/js/chat/chat.js"></script>';
     }
 }

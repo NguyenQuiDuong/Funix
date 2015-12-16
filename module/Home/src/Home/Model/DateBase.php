@@ -16,7 +16,7 @@ class DateBase extends DateTime
 	const FILEPATH_DATE_FORMAT = 'Ymd';
 
 	/**
-	 * @author VanCK
+	 * @author DuongNq
 	 * @return string
 	 */
 	public static function getDisplayDateFormat()

@@ -95,6 +95,7 @@ socket.on('msg_user_handle', function (data) {
 
     height += '';
     pushContenttoArray(data);
+    autoscroll(data.room);
 });
 
 
@@ -216,6 +217,7 @@ socket.on('leaved', function (username, room) {
 
 socket.on('updatehistories', function (data) {
     contentChat = '';
+    titlechat ='';
     if (data.length > 0) {
         data.forEach(function (v, index) {
             pushContenttoArray({
@@ -225,10 +227,11 @@ socket.on('updatehistories', function (data) {
                 'imgPath': v.imgPath,
                 'avatar': v.avatar,
             });
-            contentMesg = rendermesg({from: v.sender, mesg: v.msg, imgPath: v.imgPath});
+            contentMesg = rendermesg({avatar: v.avatar,from: v.sender, mesg: v.msg, imgPath: v.imgPath});
             if ($('#' + v.receiver).length > 0) {
                 $('#' + v.receiver + ' .msg_body').append(contentMesg);
             } else {
+                if(title.spli)
                 $('#chat-area').append(
                     '<div id="' + v.receiver + '" class="msg_box">' +
                     '<div class="msg_head"><div class="msg_title" onclick="showChat(\'' + v.receiver + '\')">' + v.sender + '</div>' +
@@ -250,8 +253,8 @@ socket.on('updatehistories', function (data) {
                     '</div>' +
                     '</div>' +
                     '</div>');
-                console.log(data.room);
             }
+            autoscroll(v.receiver);
         });
     }
 });

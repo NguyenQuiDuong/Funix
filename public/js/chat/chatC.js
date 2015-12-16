@@ -132,7 +132,7 @@ socket.on('msg_user_handle', function (data) {
         }
 
     }
-
+    autoscroll(data.room);
 
 });
 
@@ -187,7 +187,7 @@ socket.on('updatehistories', function (data) {
                     '<i class="close-button-chat" id="' + v.sender + '"></i>' +
                     '</li>');
             }
-
+            autoscroll(v.receiver);
         });
     }
 });

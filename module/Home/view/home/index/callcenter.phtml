@@ -12,27 +12,97 @@
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 
         <title>Funix Callcenter</title>
-
+        <link href="/css/bootstrap.min.css" media="all" rel="stylesheet">
         <link href="/css/callcenter/callcenter.css" media="all" rel="stylesheet">
+        <link href="/css/layout_wide.css" media="all" rel="stylesheet">
         <link href="https://dashboard.subiz.com/public/css/typeahead.tagging.css" media="all" rel="stylesheet">
     </head>
 
     <body>
-    <header id="header">
-        <section id="headtop">
-            <div id="topright">
-                <div class="bmember">
-                    <img src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>" class="avatar" alt="">
-                    <span class="welcome reset" username="datnguyen">Chào mừng, <?= $this->user()->getUser()->getUserName()?></span>
-                    <span class="iconstatus">
-                        <span>
-                            <i class="subizdasboard status" id="i-available"></i>
-                        </span>
-                        <i class="subizdasboard status" id="i-arrow"></i>
-                    </span>
+    <header>
+        <div class='navbar menu_new_v2' id='main-header' style='margin-bottom:0px;'>
+            <div class='navbar-inner'>
+                <div class='container'>
+                    <div class='btn btn-navbar' data-target='.nav-collapse' data-toggle='collapse'>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                    </div>
+                    <a class='brand' href='/' style="padding: 0px;margin-left: 0px">
+                        <img alt="Funix" src="http://funix.edu.vn/wp-content/uploads/2015/10/Logo_FUNIX_update_9102015_convert-012.png"/>
+                    </a>
+                    <!-- Unsign Up User -->
+                    <div class='nav-collapse collapse'>
+                        <ul class='nav pull-right'>
+                            <?php if ($this->user()->getIdentity()){
+                    ?>
+                      <li class="hideMobile">
+                          <div class="chatNotification pull-right"><a class="cm-notify" href="#" ><i class="icon-comments"></i><i class="count ng-binding ng-hide" >0</i></a><div class="notification-list list-group ng-hide" ><div class="list-group-heading clearfix"><h3 class="list-group-title pull-left">Inbox<img ng-src="/assets/ajax-loader.gif"  src="/assets/ajax-loader.gif" class="ng-hide"></h3></div><div class="list-group-body"><!-- ngRepeat: noti in chatNoti.notifications --><div class="empty-notification list-group-item read center" ng-show="chatNoti.notifications.length==0">No notifications.</div></div><div class="list-group-footer center clearfix"></div></div></div>
+                      </li>
+                      <li class="hideMobile">
+                          <div class="inboxNotification pull-right"><a class="cm-notify" ><i class="icon-bell-alt"></i><i class="count ng-binding ng-hide" ng-hide="count<=0 || hideCount">0</i></a><div class="notification-list list-group ng-hide" ng-show="show"><div class="list-group-heading clearfix"><h3 class="list-group-title pull-left">Notifications<img ng-src="/assets/ajax-loader.gif" ng-show="loading" src="/assets/ajax-loader.gif" class="ng-hide"></h3><div class="action pull-right"><a href="#" ng-click="markAllAsRead()">Mark as Read</a></div></div><div class="list-group-body" style="max-height: 1px;"><!-- ngRepeat: noti in notifications --><div class="empty-notification list-group-item read center" ng-show="notifications.length==0">No notifications.</div></div><div class="list-group-footer center clearfix"><a href="/notifications">See All</a></div></div></div>
+                      </li>
+                      <!-- Gravatar Dropdown Will be hidden when hambuger -->
+                      <li class="hideMobile">
+                           <div class="inboxNotification"><a class="cm-notify"><?= $this->user()->getUser()->getUserName()?></a></div>
+                      </li>
+                      <li class="dropdown hideMobile pull-right">
+                          <a class="dropdown-toggle profile-avatar ng-scope" data-toggle="dropdown" href="#" >
+                              <img src="<?= \Home\Service\Uri::getViewPath($this->user()->getUser())?>">
+                          </a>
+                          <ul class="dropdown-menu profile-avatar-menu">
+                            <li class="item">
+                                  <a  clear-storage="" rel="nofollow" href="/profile"><i class="icon-user"></i>
+                                      Hồ sơ
+                                  </a>
+                              </li>
+                          <?php if($this->user()->isAdmin()){?>
+                              <li class="item">
+                                  <a href="/admin">
+                                      <i class="icon-credit-card"></i>
+                                      Admin
+                                  </a>
+                              </li>
+                          <?php }?>
+                          <?php if($this->user()->getUser()->getRole() == \User\Model\User::ROLE_CALLCENTER){?>
+                              <li class="item">
+                                  <a href="/home/callcenter">
+                                      <i class="fa fa-phone-square"></i>
+                                      CallCenter
+                                  </a>
+                              </li>
+                          <?php }?>
+                              <li class="item">
+                                  <a onclick="signout()" id="signout" clear-storage="" rel="nofollow" href="/user/signout"><i class="icon-signout"></i>
+                                      Đăng xuất
+                                  </a>
+                              </li>
+                          </ul>
+                      <!-- Will be shown when hambuger -->
+                      <li class="showMobile">
+                          <a href="/users/profile_setting">
+                              <i class="icon-gear"></i>
+                              Cài đặt
+                          </a>
+                      </li>
+                      <li class="showMobile">
+                          <a clear-storage="" rel="nofollow" href="/user/signout"><i class="icon-signout"></i>
+                              Đăng xuất
+                          </a></li>
+                      </li>
+                <?php }else{?>
+                      <li>
+                          <a href="/user/signup" class="highlight red-btn"  id="headerSignUpBtn">Đăng kí</a>
+                      </li>
+                      <li>
+                          <a href='/user/signin'>Đăng nhập</a>
+                      </li>
+                <?php }?>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
         <nav id="nav">
             <ul class="menubar">
                 <li class="current" id="visitors_menu">
@@ -48,7 +118,6 @@
                     <a title="Thống kê" class="tab parent"><b><i class="iconmenu icon-reports"></i>Thống kê</b></a>
                 </li>
             </ul>
-            <a href="javascript:void(0);" class="settinghome onchange_menu"   title="Setting"><i class="iconsetting subizdasboard"></i>Cài đặt</a>
         </nav>
     </header>
     <div id="content_js_visistor">

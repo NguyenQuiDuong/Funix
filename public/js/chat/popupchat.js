@@ -24,8 +24,10 @@ $(document).ready(function(){
                 $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
             }
         });
-
-
-
 });
+
+function autoscroll(room){
+    var objDiv = $('#'+room).find('.msg_body')[0];
+    objDiv.scrollTop = objDiv.scrollHeight;
+}
 
