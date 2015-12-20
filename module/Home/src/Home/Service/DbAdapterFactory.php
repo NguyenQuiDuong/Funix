@@ -11,7 +11,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class DbAdapterFactory implements FactoryInterface
 {
 	/**
-	 * @author VanCK
 	 * @param ServiceLocatorInterface $serviceLocator
 	 * @return \Home\Service\Store
 	 */
