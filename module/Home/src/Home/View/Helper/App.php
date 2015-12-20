@@ -55,7 +55,6 @@ class App extends AbstractHelper
     }
 
     /**
-     * @author VanCK
      * @param string $name
      * @return boolean
      */
@@ -64,7 +63,6 @@ class App extends AbstractHelper
     }
 
     /**
-     * @author VanCK
      * @param string $name
      */
     public function slGet($name) {
@@ -110,7 +108,6 @@ class App extends AbstractHelper
     }
 
     /**
-     * @author VanCK
      * @param array $params
      */
     public function appendUriParams($params)
@@ -165,7 +162,6 @@ class App extends AbstractHelper
     }
 
     /**
-     * @author AnhNV
      * return format time for estimateTime
      */
     public function minutesToHm($minutes)
