@@ -69,6 +69,9 @@ class UserController extends AbstractActionController
                 if($userService->getIdentity() == User::ROLE_CALLCENTER){
                     return $this->redirect()->toUrl('/home/callcenter');
                 }
+                if($userService->getIdentity() <= User::ROLE_ADMIN){
+                    return $this->redirect()->toUrl('/admin');
+                }
 //                return $this->redirect()->toUrl($redirect);
                  $username = $form->getInputFilter()->getValue('mail');
                  $password = $form->getInputFilter()->getValue('password');
