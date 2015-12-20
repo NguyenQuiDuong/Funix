@@ -1,11 +1,4 @@
 <?php
-/**
- * Home\Menu
- *
- * @category   	Restaurant library
- * @copyright  	http://restaurant.vn
- * @license    	http://restaurant.vn/license
- */
 
 namespace Home\Menu;
 
