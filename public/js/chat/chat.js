@@ -10,7 +10,7 @@ if (typeof my_token === 'undefined') {
     userCurrent.id = my_token;
 }
 function send_individual_msg(event, username, room, messages) {
-    if (event.keyCode == 13) {
+    if (event.keyCode == 13 && messages.trim().length > 0) {
         //alert(id);
         //alert(my_username);
         //socket.emit('check_user', my_username, id);
