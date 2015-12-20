@@ -1,8 +1,4 @@
 <?php
-/**
- * @copyright   http://funix.nhanh.vn
- * @license		http://funix.nhanh.vn/license
- */
 
 namespace Home\Service;
 
@@ -19,48 +15,6 @@ class Uri
     public static function getSavePath($obj, $options = null)
     {
         switch ($obj) {
-            case $obj instanceof \Work\Model\TaskFile:
-                $path = DateBase::toFormat($obj->getCreatedDateTime(), 'Ymd');
-                return MEDIA_PATH . '/work/attachfile/'.$path.'/'.$obj->getTaskId();
-                break;
-            case $obj instanceof \Work\Model\MeetingFile:
-                $path = DateBase::toFormat($obj->getCreatedDateTime(), 'Ymd');
-                return MEDIA_PATH . '/projects/meetings/'.$path.'/'.$obj->getMeetingId();
-                break;
-            case $obj instanceof \Hrm\Model\Recruitment\Candidate:
-                $path = DateBase::toFormat($obj->getCreatedDate(), 'Ymd', 'Y-m-d');
-                if($obj->getOptions()['temp'] == 1){
-                    return MEDIA_PATH . '/hrm/candidate/'.$path;
-                }
-                return MEDIA_PATH . '/hrm/candidate/'.$path;
-                break;
-            case $obj instanceof \Document\Model\DocumentFile:
-                if(!$obj->getDocumentId()){
-                    return MEDIA_PATH . '/document/documents/temp';
-                }
-
-                return MEDIA_PATH . '/document/documents/'
-                    .DateBase::toFormat($obj->getCreatedDateTime(), 'Ymd', DateBase::COMMON_DATETIME_FORMAT).'/'.$obj->getDocumentId();
-                break;
-            case $obj instanceof \Crm\Model\Contract\File:
-            	return BASE_PATH.'/public/media/contracts/'.$obj->getContractId();
-            case $obj instanceof \Company\Model\AnnouncementFile:
-            	/* if($obj->getOption('companyId')){
-            		return MEDIA_PATH.'/company/announcement/'.$obj->getOption('companyId').'/'.$obj->getAnnouncementId();
-            	} elseif ($options) {
-            		return MEDIA_PATH.'/company/announcement/'.$options.'/'.$obj->getAnnouncementId();
-            	} else {
-            		return MEDIA_PATH.'/company/announcement/temp/'.$obj->getAnnouncementId();
-            	} */
-
-
-            	if(!$obj->getFilePath()){
-            		return MEDIA_PATH.'/announcement/temp/'.$obj->getAnnouncementId();
-            	}
-            	return MEDIA_PATH.'/announcement/'.$obj->getFilePath().'/'.$obj->getAnnouncementId();
-
-            case $obj instanceof \Idea\Model\File:
-               	return MEDIA_PATH.'/idea/'.$obj->getFilePath().'/'.$obj->getIdeaId();
             case $obj instanceof \User\Model\User:
                 if (!$obj->getCreatedDateTime()){
                     return MEDIA_PATH.'/users/default/'.$obj->getId().'/';
@@ -93,7 +47,6 @@ class Uri
 
 
     /**
-     * @author AnhNV
      * @param $str
      * @return mixed
      * make link from string
