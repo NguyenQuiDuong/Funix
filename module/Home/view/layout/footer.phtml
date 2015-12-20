@@ -28,7 +28,7 @@ $this->user()->getMentor();
 $mytoken = '';
 if ($this->user()->getIdentity()) {
 $mytoken = strtotime($this->user()->getUser($this->user()->getIdentity())->getCreatedDateTime()); ?>
-    <?php if($this->user()->getUser($this->user()->getIdentity())->getRole() != \User\Model\User::ROLE_CALLCENTER){ ?>
+    <?php if($this->user()->getUser($this->user()->getIdentity())->getRole() != \User\Model\User::ROLE_CALLCENTER && $this->user()->getUser($this->user()->getIdentity())->getRole() > \User\Model\User::ROLE_ADMIN){ ?>
 <div id="chat_boxid" class="chat_box">
     <div class="chat_head">Trợ giúp</div>
     <div class="chat_body">
