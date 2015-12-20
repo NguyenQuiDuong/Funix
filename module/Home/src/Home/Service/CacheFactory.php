@@ -12,7 +12,6 @@ use Zend\Cache\StorageFactory;
 class CacheFactory implements FactoryInterface
 {
 	/**
-	 * @author VanCK
 	 * @param ServiceLocatorInterface $serviceLocator
 	 * @return \Zend\Cache\StorageFactory
 	 */
