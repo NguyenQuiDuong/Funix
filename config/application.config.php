@@ -9,7 +9,9 @@ return array(
     	'Address',
         'Subject',
         'Admin',
-        'Expert'
+        'Expert',
+        'DoctrineModule',
+        'DoctrineMongoODMModule'
 	),
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => array(
