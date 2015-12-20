@@ -1,9 +1,4 @@
 <?php
-/**
- * @Acl            Shop99 library
- * @copyright      http://shop99.vn
- * @license        http://shop99.vn/license
- */
 
 namespace Authorize\Permission;
 
@@ -85,10 +80,10 @@ class Acl extends ZendAcl
         $this->allow('Super Admin', null);
     }
     
-	private function loadPrivilege()
-	{
-
-	}
+//	private function loadPrivilege()
+//	{
+//
+//	}
 
     /**
      * @return array
