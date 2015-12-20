@@ -217,7 +217,7 @@ socket.on('leaved', function (username, room) {
 
 socket.on('updatehistories', function (data) {
     contentChat = '';
-    titlechat ='';
+    var titlechat ='';
     if (data.length > 0) {
         data.forEach(function (v, index) {
             pushContenttoArray({
@@ -227,14 +227,23 @@ socket.on('updatehistories', function (data) {
                 'imgPath': v.imgPath,
                 'avatar': v.avatar,
             });
+            if(v.sender != my_username){
+                console.log("title chat "+ titlechat);
+                if(titlechat.split(',').length == 1){
+                    titlechat = v.sender;
+                }else{
+                    titlechat += ','+ v.sender;
+                }
+
+            }
             contentMesg = rendermesg({avatar: v.avatar,from: v.sender, mesg: v.msg, imgPath: v.imgPath});
             if ($('#' + v.receiver).length > 0) {
                 $('#' + v.receiver + ' .msg_body').append(contentMesg);
+                $('#' + v.receiver + ' .msg_head .msg_title').text(titlechat);
             } else {
-                if(title.spli)
                 $('#chat-area').append(
                     '<div id="' + v.receiver + '" class="msg_box">' +
-                    '<div class="msg_head"><div class="msg_title" onclick="showChat(\'' + v.receiver + '\')">' + v.sender + '</div>' +
+                    '<div class="msg_head"><div class="msg_title" onclick="showChat(\'' + v.receiver + '\')">' + titlechat + '</div>' +
                     '<div class="msg_close msg_tool" onclick="closeChat(\'' + v.receiver + '\')">x</div>' +
                     classmentorlist +
                     '</div>' +
