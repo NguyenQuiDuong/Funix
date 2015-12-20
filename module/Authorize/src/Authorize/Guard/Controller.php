@@ -100,7 +100,6 @@ class Controller implements ListenerAggregateInterface {
 	 * Event callback to be triggered on dispatch, causes application error triggering
 	 * in case of failed authorization check
 	 *
-	 * @author VanCK
 	 * @param  MvcEvent $event
 	 * @return void
 	 */
