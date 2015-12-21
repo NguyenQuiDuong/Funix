@@ -150,7 +150,7 @@ class User extends DataGrid
                 ));
 
                 // lock
-                if(!$item->getLocked()){
+                if($item->getLocked() == \User\Model\User::UNLOCKED){
                     $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="lockAccount('.$item->getId().');" checked>';
                 }else{
                     $status = '<input type="checkbox" name="lock-checkbox" id="switch-change-lock'.$item->getId().'" onchange="lockAccount('.$item->getId().');" >';
