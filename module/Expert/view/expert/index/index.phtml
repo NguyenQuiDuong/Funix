@@ -7,14 +7,14 @@ $subjectsCategory = $this->subjects;
 <div class="topBlock">
     <div class="customizeContainer">
 
-            <div class="row-fluid">
-                <?php include(TEMPLATES_PATH.'\html\expert.html')?>
-                <?php if(!$this->user()->getIdentity()){?>
-                    <a class="actionLink" data-target="#signup-modal" data-toggle="modal" role="button">
-                        Nhận sự giúp đỡ luôn
-                    </a>
-                <?php }?>
-            </div>
+        <div class="row-fluid">
+            <?php include(TEMPLATES_PATH . '\html\expert.html') ?>
+            <?php if (!$this->user()->getIdentity()) { ?>
+                <a class="actionLink" data-target="#signup-modal" data-toggle="modal" role="button">
+                    Nhận sự giúp đỡ luôn
+                </a>
+            <?php } ?>
+        </div>
     </div>
 </div>
 <div class="breadcrumb">
@@ -40,7 +40,9 @@ Expert Mentors
             <div class="span9">
                 <div class="searchBarContent">
                     <div class="bootstrap-tagsinput">
-                        <input class="input ng-pristine ng-valid ng-touched" type="text" name="subject" maxlength="255"  placeholder="Tên môn học" id="subject" value="" class="ui-autocomplete-input" autocomplete="off">
+                        <input class="input ng-pristine ng-valid ng-touched" type="text" name="subject" maxlength="255"
+                               placeholder="Tên môn học" id="subject" value="" class="ui-autocomplete-input"
+                               autocomplete="off">
                     </div>
                 </div>
                 <div class="searchButton" ng-click="searchAndRedirect()">
@@ -52,69 +54,196 @@ Expert Mentors
 </div>
 <div class="resultBlock">
     <div class="customizeContainer">
-    <div class="switchBlock">
-    <div class="row-fluid">
-        <?php foreach($subjectsCategory as $category=>$subjects){ ?>
-            <div class="span4">
-                <div class="topicBlock">
-                    <a class="link" href="/experts/index/list?id=<?=explode('-',$category)[0]?>">
-                        <center>
-                            <img alt="<?=explode('-',$category)[1]?>" class="imgBlock" src="/images/topic/web-programming.png">
-                            <span class="titleBlock"><?=explode('-',$category)[1]?></span>
-                        </center>
-                    </a>
-                    <div class="moreLink">
-                        <?php
-                        $count = 0;
-                        foreach($subjects as $subject){
-                            $count++;
-                            if($count == 1){
-                                if(count($subjects) > 1){
-                                ?>
-                                <div class="row-fluid">
-                                <div class="span6">
-                                    <img class="catImg" src="/images/experts/ruby-expert-help.png">
-                                    <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
-                                        <?=$subject['name']?>
-                                    </a>
-                                </div>
-                                <?php
-                                }else{
-                                    ?>
-                                    <div class="row-fluid">
+        <div class="switchBlock">
+            <?php
+            $countCate = 0;
+            foreach ($subjectsCategory as $category => $subjects){
+            $countCate++;
+            if ($countCate == 1) {
+                ?>
+                <div class="row-fluid">
+                <div class="span4">
+                    <div class="topicBlock">
+                        <a class="link" href="/experts/index/list?id=<?= explode('-', $category)[0] ?>">
+                            <center>
+                                <img alt="<?= explode('-', $category)[1] ?>" class="imgBlock"
+                                     src="/images/topic/web-programming.png">
+                                <span class="titleBlock"><?= explode('-', $category)[1] ?></span>
+                            </center>
+                        </a>
+
+                        <div class="moreLink">
+                            <?php
+                            $count = 0;
+                            foreach ($subjects as $subject) {
+                                $count++;
+                                if ($count == 1) {
+                                    if (count($subjects) > 1) {
+                                        ?>
+                                        <div class="row-fluid">
                                         <div class="span6">
                                             <img class="catImg" src="/images/experts/ruby-expert-help.png">
-                                            <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
-                                                <?=$subject['name']?>
+                                            <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                <?= $subject['name'] ?>
                                             </a>
                                         </div>
-                                     </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                                <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                    <?= $subject['name'] ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } elseif ($count == 2) {
+                                    $count = 0;
+                                    ?>
+                                    <div class="span6">
+                                        <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                        <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                            <?= $subject['name'] ?>
+                                        </a>
+                                    </div>
+                                    </div>
                                     <?php
                                 }
-                            }elseif($count == 2) {
-                                $count = 0;
-                                ?>
-                                <div class="span6">
-                                    <img class="catImg" src="/images/experts/ruby-expert-help.png">
-                                    <a class="catLink" href="/experts/index/view?id=<?=$subject['id'] ?>">
-                                        <?= $subject['name'] ?>
-                                    </a>
-                                </div>
-                                </div>
-                                <?php
-                            }
 
-                         } ?>
+                            } ?>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php } elseif ($countCate == 3) {
+                ?>
+                <div class="span4">
+                    <div class="topicBlock">
+                        <a class="link" href="/experts/index/list?id=<?= explode('-', $category)[0] ?>">
+                            <center>
+                                <img alt="<?= explode('-', $category)[1] ?>" class="imgBlock"
+                                     src="/images/topic/web-programming.png">
+                                <span class="titleBlock"><?= explode('-', $category)[1] ?></span>
+                            </center>
+                        </a>
+
+                        <div class="moreLink">
+                            <?php
+                            $count = 0;
+                            foreach ($subjects as $subject) {
+                                $count++;
+                                if ($count == 1) {
+                                    if (count($subjects) > 1) {
+                                        ?>
+                                        <div class="row-fluid">
+                                        <div class="span6">
+                                            <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                            <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                <?= $subject['name'] ?>
+                                            </a>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                                <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                    <?= $subject['name'] ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } elseif ($count == 2) {
+                                    $count = 0;
+                                    ?>
+                                    <div class="span6">
+                                        <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                        <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                            <?= $subject['name'] ?>
+                                        </a>
+                                    </div>
+                                    </div>
+                                    <?php
+                                }
+
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <?php
+            } else {
+                ?>
+
+                <div class="span4">
+                    <div class="topicBlock">
+                        <a class="link" href="/experts/index/list?id=<?= explode('-', $category)[0] ?>">
+                            <center>
+                                <img alt="<?= explode('-', $category)[1] ?>" class="imgBlock"
+                                     src="/images/topic/web-programming.png">
+                                <span class="titleBlock"><?= explode('-', $category)[1] ?></span>
+                            </center>
+                        </a>
+
+                        <div class="moreLink">
+                            <?php
+                            $count = 0;
+                            foreach ($subjects as $subject) {
+                                $count++;
+                                if ($count == 1) {
+                                    if (count($subjects) > 1) {
+                                        ?>
+                                        <div class="row-fluid">
+                                        <div class="span6">
+                                            <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                            <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                <?= $subject['name'] ?>
+                                            </a>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                                <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                                    <?= $subject['name'] ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } elseif ($count == 2) {
+                                    $count = 0;
+                                    ?>
+                                    <div class="span6">
+                                        <img class="catImg" src="/images/experts/ruby-expert-help.png">
+                                        <a class="catLink" href="/experts/index/view?id=<?= $subject['id'] ?>">
+                                            <?= $subject['name'] ?>
+                                        </a>
+                                    </div>
+                                    </div>
+                                    <?php
+                                }
+
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            } ?>
+        </div>  <!-- End row-fulid -->
         <?php } ?>
     </div>
 </div>
 </div>
-    </div>
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="signup-modal" menu-sign-up-form="" role="dialog" tabindex="-1">
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="signup-modal" menu-sign-up-form=""
+     role="dialog" tabindex="-1">
     <div class="modal-header">
         <h3 class="ng-binding">
             Sign Up and Get Help Now
@@ -134,28 +263,34 @@ Expert Mentors
                         </b>
                         your instant 1:1 expert mentor helping you in real time.
                     </p>
+
                     <div class="muted">
                         Have an account?
                         <a href="/users/sign_in">Sign In</a>
                     </div>
                     <div class="applyMentor">
-                        <a class="side_link" href="/mentor/apply" ng-hide="sf.becomeMentorLink===false">Want to become a Codementor?</a>
+                        <a class="side_link" href="/mentor/apply" ng-hide="sf.becomeMentorLink===false">Want to become a
+                            Codementor?</a>
                     </div>
                 </div>
             </div>
             <div class="span7">
                 <div class="menuSignUpForm">
-                        <div class="sign_up_form">
-                            <input label="false" class="string email required bigform input_email" type="email" pattern=".*" placeholder="Email address" name="email" id="user_email">
-                            <div class="action clearfix">
-                                <button type="submit" id="signupemail" name="commit" class="btn btn-primary pull-right">Sign Up</button>
-                                <div class="muted pull-right termOfService">
-                                    By clicking the button, you agree to the
-                                    <a href="/terms" target="_blank">terms</a>
-                                </div>
+                    <div class="sign_up_form">
+                        <input label="false" class="string email required bigform input_email" type="email" pattern=".*"
+                               placeholder="Email address" name="email" id="user_email">
+
+                        <div class="action clearfix">
+                            <button type="submit" id="signupemail" name="commit" class="btn btn-primary pull-right">Sign
+                                Up
+                            </button>
+                            <div class="muted pull-right termOfService">
+                                By clicking the button, you agree to the
+                                <a href="/terms" target="_blank">terms</a>
                             </div>
-                            <div id="errorModal"></div>
                         </div>
+                        <div id="errorModal"></div>
+                    </div>
 
                 </div>
             </div>
