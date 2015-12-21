@@ -399,3 +399,8 @@ function addusertoroom(username) {
     $('#chatwindow .op-search').val(1);
 
 }
+
+function autoscroll(room){
+    var objDiv = $('#'+room).find('.today-chats')[0];
+    objDiv.scrollTop = objDiv.scrollHeight;
+}
