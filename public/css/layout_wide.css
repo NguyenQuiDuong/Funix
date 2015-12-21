@@ -7666,7 +7666,7 @@ app-sys-chatbox .appChatbox-dialog {
 .appChatboxMessage-content, .appChatbox-system-msg {
     padding: 6px 8px;
     border-radius: 0px 3px 3px 3px;
-    margin-left: 4px;
+    margin-left: 11px;
     float: left;
     margin-bottom: 5px;
     max-width: 200px;
@@ -10477,7 +10477,7 @@ body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .learnThirdMenu {
 }
 
 body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .learnThirdMenu .subMenuItem {
-    height: 40px
+    height: 78px
 }
 
 body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .learnThirdMenu a.thirdlink {
@@ -10487,7 +10487,7 @@ body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .learnThirdMenu a.th
     font-weight: 500;
     line-height: 30px;
     margin-top: 5px;
-    margin-left: 20px;
+    margin-left: -4px;
     text-decoration: none
 }
 
@@ -10518,7 +10518,7 @@ body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .learnThirdMenu .hea
 
 body .menu_new_v2 .container .learnTopMenu .learnSecondMenu .expert-third-menu {
     width: 320px;
-    height: auto;
+    height: 320px;
 }
 
 body .menu_new_v2 .container .learnTopMenu:hover {

@@ -31,7 +31,7 @@
 .chat_head,.msg_head{
     background:#f39c12;
     color:white;
-    padding:10px;
+    padding:8px;
     font-weight:bold;
     cursor:pointer;
     border-radius:5px 5px 0px 0px;
@@ -69,15 +69,15 @@
     height:10px;
     width:10px;
     left:10px;
-    top:15px;
+    top:13px;
     border-radius:6px;
 }
 
 .msg_body{
     background:white;
-    height:230px;
+    height:270px;
     font-size:12px;
-    padding:15px;
+    padding:0px;
     overflow-y:scroll;
     overflow-x: hidden;
 }
@@ -140,11 +140,11 @@
 .msg_a{
     position:relative;
     background:#FDE4CE;
-    padding:10px;
+    padding:7px;
     min-height:10px;
     margin-bottom:5px;
     margin-right:10px;
-    border-radius:5px;
+    border-radius:7px;
 }
 .msg_a:before{
     content:"";

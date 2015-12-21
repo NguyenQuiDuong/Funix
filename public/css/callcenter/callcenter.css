@@ -8157,7 +8157,7 @@ body.rtl .formError .formErrorArrow, body[dir=rtl] .formError .formErrorArrow {
 }
 
 .chatwindow {
-    background-color: #4a4a4a;
+    background-color: #999;
     border-radius: 3px;
     padding: 8px 10px 10px;
     box-shadow: 0 0 5px #666;
