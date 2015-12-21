@@ -59,10 +59,9 @@ class UserController extends ControllerBase {
             $user = new User();
             $user->setId($id);
             $user = $userMapper->get($user->getId());
-            $lock = $this->params()->fromQuery('lock', 0);
+            $lock = $this->params()->fromQuery('lock', 2);
             if ($user->getEmail()) {
                 $user->setLocked($lock);
-                //  var_dump($user);die;
             }
             $userMapper->updateUser($user);
             echo "Cập nhật thành công";
