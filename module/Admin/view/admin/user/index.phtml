@@ -138,7 +138,7 @@ if ($this->flashMessenger()->hasMessages()) {
 
     function lockAccount(id) {
 
-    var status = $('#switch-change-lock' + id).bootstrapSwitch('state') ? 0 : 1;
+    var status = $('#switch-change-lock' + id).bootstrapSwitch('state') ? 2 : 1;
 
     $.ajax({
     url: "/admin/user/lock?id="+id+"&lock="+status,
