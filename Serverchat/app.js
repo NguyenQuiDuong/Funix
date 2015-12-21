@@ -726,6 +726,7 @@ io.sockets.on('connection', function (socket) {
                                     student: arrayTemp[0],
                                     createdDateTime: new Date().toMysqlFormat('DateTime'),
                                     createdDate: new Date().toMysqlFormat(),
+                                    room:room,
                                 };
                                 createActivity(activity, function (ac) {
                                     io.in(room).emit('updatechatactivityid', {
@@ -781,6 +782,7 @@ io.sockets.on('connection', function (socket) {
                                            student: arrayTemp[0],
                                            createdDateTime: new Date().toMysqlFormat('DateTime'),
                                            createdDate: new Date().toMysqlFormat(),
+                                           room: room,
                                        };
                                        createActivity(activity, function (ac) {
                                            io.in(room).emit('updatechatactivityid', {
@@ -814,6 +816,7 @@ io.sockets.on('connection', function (socket) {
                         student: arrayTemp[0],
                         createdDateTime: new Date().toMysqlFormat('DateTime'),
                         createdDate: new Date().toMysqlFormat(),
+                        room:room,
                     };
                     createActivity(activity, function (ac) {
                         createRoomMongoose(room, username,ac.insertId, function (cr) {
