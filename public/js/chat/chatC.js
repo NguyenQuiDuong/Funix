@@ -377,7 +377,7 @@ function actionchatwindow(element) {
                         $('#list-mentor').append(boxmentorchatbody);
                     }
                     if (rs.code == 2) {
-                        $('#list-mentor').append('<h4 class="subject_mentor">Khôn có mentor online</h4>');
+                        $('#list-mentor').append('<h4 class="subject_mentor">Không có mentor online</h4>');
                         $('#list-mentor').append('<div class="user" style="cursor:pointer;" onclick="addusertoroom()">Quay trở lại</div>');
                     }
                 }
