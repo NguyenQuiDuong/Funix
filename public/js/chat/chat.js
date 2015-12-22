@@ -343,7 +343,7 @@ $('#feedbackModal .modal-body').empty();
                 $('#feedbackModal .modal-body').append($('#template-report').html());
             }
         });
-        $('#feedbackModal .modal-footer').append('<button type="button" onclick="feedback(\''+room+'\')" class="btn btn-default" data-dismiss="modal">Submit</button>');
+        $('#feedbackModal .modal-footer').append('<button type="button" onclick="feedback(\''+room+'\')" class="btn btn-default" data-dismiss="modal">Gửi</button>');
         $('#feedbackModal').modal('show');
     } else {
         $('#' + room).remove();
