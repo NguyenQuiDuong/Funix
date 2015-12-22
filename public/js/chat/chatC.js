@@ -37,7 +37,8 @@ var classmentorlist = '';
 if ($('.mentorlist').length != 0) {
     classmentorlist = '<div class="msg_tool" onclick="listmentor(this)"><a class="close" >+</a><div class="chatmentor"></div></div>';
 }
-var socket = io('127.0.0.1:8008');
+var url = window.location.hostname;
+var socket = io(url+':8008');
 
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function () {
@@ -59,13 +60,13 @@ socket.on('updatevisitors', function (users) {
             $('#tbl_visitor').find('tbody').append(
                 '<tr id="' + user.username + '" class="open_windows" onclick="popupchat(\'' + user.username + '-' + my_username + '\',\'' + 'adduser' + '\')" style="cursor:pointer;"> ' +
                 '<td class="clumn1">' +
-                '<i class="icon-user subizdasboard"></i>' +
+                '<i class="icon-user"></i>' +
                 '</td> ' +
                 '<td class="clumn2">' +
                 '<a href="javascript:void(0)">' + user.username + '</a>' +
                 '</td> ' +
-                '<td class="" title="Vietnam Hanoi">' +
-                '<i class="flag-all flag-vn"></i>Hanoi' +
+                '<td class="">' +
+                '<i class="flag-all flag-vn"></i>' +
                 '</td> ' +
                 '<td class=""></td> ' +
                 '<td class="">Funix</td>' +
@@ -191,6 +192,20 @@ socket.on('updatehistories', function (data) {
         });
     }
 });
+socket.on('updatechatactivityid',function(data){
+    if(typeof chat_data['aId'][data.room] == 'undefined'){
+        chat_data['aId'][data.room] = [];
+    }
+    chat_data['aId'][data.room].push({activityId: data.activityId,userName:data.userName,role:data.role});
+});
+socket.on('loadchatactivity',function(data){
+    data.forEach(function(value,index){
+        if(typeof chat_data['aId'][value.room] == 'undefined'){
+            chat_data['aId'][value.room] = [];
+        }
+        chat_data['aId'][value.room].push({activityId: value.activityId,userName:value.userName,role:value.role});
+    });
+});
 function popupchat(room, option) {
     var nameuserinroom = "";
     var contenthtmlmesg = "";
@@ -200,10 +215,12 @@ function popupchat(room, option) {
         for (i = 0; i < contentsChat[room].length; i++) {
             name = contentsChat[room][i].from;
             if (nameuserinroom.indexOf(name) == -1) {
-                if (nameuserinroom.length == 0) {
-                    nameuserinroom += name;
-                } else {
-                    nameuserinroom += ',' + name;
+                if(name != my_username){
+                    if (nameuserinroom.length == 0) {
+                        nameuserinroom += name;
+                    } else {
+                        nameuserinroom += ',' + name;
+                    }
                 }
             }
             contenthtmlmesg += rendermesg(contentsChat[room][i]);
@@ -374,9 +391,11 @@ function actionchatwindow(element) {
                                 }
                             })
                         });
+                        $('#list-mentor').empty();
                         $('#list-mentor').append(boxmentorchatbody);
                     }
                     if (rs.code == 2) {
+                        $('#list-mentor').empty();
                         $('#list-mentor').append('<h4 class="subject_mentor">Không có mentor online</h4>');
                         $('#list-mentor').append('<div class="user" style="cursor:pointer;" onclick="addusertoroom()">Quay trở lại</div>');
                     }
@@ -393,7 +412,17 @@ function addusertoroom(username) {
     $('#list-mentor').css('display', 'none');
     $('#chatwindow .conversion').css('display', 'block');
     $('#chatwindow .type_message').css('display', 'block');
-    if (username) {
+    room = $('#chatwindow').attr('room');
+    var check = true;
+    chat_data['aId'][room].forEach(function (value,index) {
+        if(value.userName == username){
+            check = false;
+        }
+    });
+    if (check == false){
+        alert('Đã có người này trong phòng');
+    }
+    if (check ==true && username) {
         socket.emit('adduserroom', username, $('#chatwindow').attr('room'), 'mentorlist');
     }
     $('#chatwindow .op-search').val(1);
@@ -401,6 +430,8 @@ function addusertoroom(username) {
 }
 
 function autoscroll(room){
-    var objDiv = $('#'+room).find('.today-chats')[0];
-    objDiv.scrollTop = objDiv.scrollHeight;
+    var objDiv = $('#chatwindow').find('.today-chats')[0];
+    if(typeof objDiv != 'undefined'){
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
 }

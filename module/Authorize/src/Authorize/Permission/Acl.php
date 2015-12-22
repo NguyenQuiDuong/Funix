@@ -28,6 +28,7 @@ class Acl extends ZendAcl
         $this->addResource('admin:user');
         $this->addResource('admin:expert');
         $this->addResource('admin:theme');
+        $this->addResource('admin:report');
 
         $this->addResource('expert:index');
 
@@ -65,7 +66,7 @@ class Acl extends ZendAcl
         $this->allow('Guest', 'system:api',['getuser']);
         $this->allow('Guest', 'expert:index');
 
-        $this->allow('Guest', 'subject:subject',['suggest','fetchall']);
+        $this->allow('Guest', 'subject:subject',['suggest','fetchall','suggestcategory']);
 
         $this->allow('Member', 'user:profile');
         $this->allow('Member', 'user:user', ['updatecode','loaduserajaxchat']);

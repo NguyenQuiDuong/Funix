@@ -40,7 +40,8 @@ if ($('.mentorlist').length != 0) {
     classmentorlist = '<div class="msg_tool" onclick="listmentor(this)"><a class="close" >+</a><div class="chatmentor"></div></div>';
 }
 //var socket = io('10.20.15.57:8008');
-var socket = io('127.0.0.1:8008');
+var url = window.location.hostname;
+var socket = io(url+':8008');
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function () {
     // call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -95,6 +96,7 @@ socket.on('msg_user_handle', function (data) {
 
     height += '';
     pushContenttoArray(data);
+    autoscroll(data.room);
 });
 
 
@@ -207,10 +209,18 @@ function updateuserchat(el, usrname) {
 //	$('#'+data.room).find('.'+data.username).attr('onclick','leaveroom(\''+data.username+'\',\''+data.room+'\')');
 //});
 socket.on('leaved', function (username, room) {
+    console.log(username);
+    console.log(room);
     $('#' + room).find('.' + username).css('color', 'black');
     $('#' + room).find('.' + username).attr('onclick', 'updateuserchat(this,\'' + username + '\')');
     msg_titlearr = $('#' + room).find('.msg_title').text().split(',');
     $('#' + room).find('.msg_title').text(msg_titlearr[0]);
+
+    contentMesg = '<div class="row-fluid gray">' +
+        '<div class="span12 show-time">' + username + ' đã rời khỏi phòng</div>' +
+        '</div>';
+    $('#' + data.room + ' .msg_body').append(contentMesg);
+
     pushContenttoArray({'room':room,usersender: 'system', message: username + ' đã rời khỏi phòng'});
 });
 

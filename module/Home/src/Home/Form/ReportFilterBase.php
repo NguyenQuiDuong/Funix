@@ -15,7 +15,6 @@ use Home\Model\DateBase;
 
 class ReportFilterBase extends FormBase{
 	/**
-	 * @author KienNN
 	 * @param unknown $serviceLocator
 	 * @param string $options
 	 */
@@ -58,20 +57,6 @@ class ReportFilterBase extends FormBase{
 				),
 			));
 		}
-
-		$companyId = $this->addElementCompany('companyId', null, ['required' => false,]);
-				
-		$departmentId = new Select('departmentId');
-		$departmentId->setValueOptions(['' => '- Phòng ban -']);
-		$this->add($departmentId);
-		$this->loadDepartments($departmentId, $companyId);
-		$filter->add(array(
-		    'name'     => 'departmentId',
-		    'required' => false,
-		    'filters'  => array(
-		        array('name' => 'StringTrim')
-		    ),
-		));
 	}
 
 	/**

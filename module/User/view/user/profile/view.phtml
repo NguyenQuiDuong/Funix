@@ -1,0 +1,118 @@
+<?php
+$this->headLink()->appendStylesheet('/css/user/font-awesome.css');
+$this->headLink()->appendStylesheet('/css/user/mentee-profile.css');
+/** @var \User\Model\User $user */
+$user = $this->user;
+$subjects = '';
+if(isset($this->subjects)){
+    $subjects = $this->subjects;
+}
+?>
+<div class="menteeProfile ng-scope">
+    <div class="form">
+        <div class="personalInfoPart">
+            <div class="customizeContainer">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <center>
+                                    <div class="profileImageWrapper">
+                                        <a class="imageHover" href="/profile/edit">
+                                            <img class="menteeImage img-circle img-rounded" src="<?= \Home\Service\Uri::getViewPath($user)?>">
+                                            <div class="textOnHover">
+                                                Update Photo
+                                            </div>
+                                        </a>
+                                    </div>
+                                </center>
+                            </div>
+                            <div class="span9">
+                                <div class="nameBlock">
+                                    <h1 class="menteeName ng-binding"><?=$user->getFullName()?$user->getFullName():$user->getUsername()?></h1>
+                                </div>
+                                <div class="timezone">
+                                    <div class="displaySection">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span ng-bind="mentee.time_zone_str" class="ng-binding"><?=$user->getAddress().' - '.$user->getDistrict()->getName().' - '.$user->getCity()->getName()?></span>
+                                    </div>
+                                </div>
+                                <?php if($user->getRole() == \User\Model\User::ROLE_MENTOR){ ?>
+                                    <div class="needCategories">
+                                        <div class="needCatTitle">
+                                            <i class="fa fa-tags"></i>
+                                            Môn học mà tôi trợ giúp:
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <div class="row-fluid">
+                                    <?php if(count($subjects[$user->getId()])){ ?>
+                                        <div class="span10 needCatContent">
+                                            <?php foreach($subjects[$user->getId()] as $s){?>
+                                                <span class="badge customizeBadge ng-binding ng-scope"><?=$s?></span>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                    <div class="formSection ng-hide">
+                                        <div class="control-group text tagInput ng-scope">
+                                            <div class="controls">
+                                                <tags-input min-length="1" placeholder="Search Categories..." class="ng-pristine ng-untouched ng-valid ng-isolate-scope ng-valid-max-tags ng-valid-min-tags ng-valid-leftover-text">
+                                                    <div class="host" tabindex="-1">
+                                                        <div class="tags">
+                                                            <ul class="tag-list">
+                                                                <li class="tag-item ng-scope">
+                                                                    <ti-tag-item data="tag" class="ng-isolate-scope skrollable skrollable-between">
+                                                                        <ng-include src="$$template" class="ng-scope">
+                                                                            <span ng-bind="$getDisplayText()" class="ng-binding ng-scope">JavaScript</span>
+                                                                            <a class="remove-button ng-binding ng-scope">×</a>
+                                                                        </ng-include>
+                                                                    </ti-tag-item></li>
+                                                            </ul>
+                                                            <input class="input ng-pristine ng-untouched ng-valid" autocomplete="off"  type="text" placeholder="Search Categories..." style="width: 138px;">
+                                                            <span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">Search Categories...</span>
+                                                        </div>
+                                                        <auto-complete min-length="1" class="ng-scope ng-isolate-scope">
+
+                                                        </auto-complete>
+                                                    </div>
+                                                </tags-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menuPart skrollable skrollable-before" data-50-top="position:fixed;" data-bottom-top="position:relative;" data-emit-events="" style="position: relative; top: auto; box-shadow: none;">
+            <div class="customizeContainer">
+                <div class="menuTab active">
+                    <a class="menuLink tabQuestion">
+                        Tổng quan
+                    </a>
+                </div>
+                <!--				<span class="aboutMe red">* Your profile is not public and is only visible to mentors on Codementor</span>-->
+            </div>
+        </div>
+        <div class="contentPart secondPart skrollable skrollable-before" data-104-top="padding-top:55px;" data-105-top="padding-top:0px;" data-emit-events="" style="padding-top: 0px;">
+            <div class="customizeContainer">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <div id="overview">
+                            <div class="block">
+                                <h2 class="subTitle">
+                                    Giới thiệu bản thân
+                                </h2>
+                                <div class="blockDecoration whyUse">
+                                    <?= $user->getDescription()?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

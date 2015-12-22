@@ -1,0 +1,119 @@
+<?php
+$data = $this->data;
+function createSortLink($view,$column,$content,$option){
+    $result = '<a href="';
+    $params =  $view->app()->getQueryParams();
+    $iconClass = 'fa-sort';
+    if(!isset($params['sort']) || $params['sort'] != $column){
+        $params['sort'] = $column;
+        $params['dir'] = $option?:'asc';
+    } else {
+        if(isset($params['dir']) && $params['dir']){
+            if($params['dir'] == 'desc'){
+                $params['dir'] = 'asc';
+                $iconClass = 'fa-sort-asc';
+            } else {
+                $params['dir'] = 'desc';
+                $iconClass = 'fa-sort-desc';
+            }
+        } else {
+            $params['dir'] = $option?:'desc';
+        }
+    }
+    $result .= $view->app()->appendUriParams($params).'">';
+    $result .= '<i class="fa '.$iconClass.'"></i> ';
+    $result .= $content;
+    $result .= '</a>';
+    return $result;
+}
+?>
+
+<ul class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+    <li><a href="/admin/report/index">Báo cáo</a></li>
+</ul>
+<div id='page-idea-contact'>
+    <?php
+    $this->headTitle ( $this->escapeHtml ( $this->translate ( "Báo cáo nhân viên" ) ) );
+    echo '<div class="filterContainer">';
+    echo $this->partial ( 'partial/formFilter', [
+        'form' => $this->form
+    ] );
+    echo '</div>';
+    ?>
+</div>
+
+<div class="widget widget-table">
+    <div class="widget-header">
+        <h3><i class="fa fa-table"></i>Báo cáo chất lượng phục vụ</h3>
+    </div>
+    <div class="dgContainer widget-content table-responsive">
+        <div class="row">
+            <div class="col-md-6 dgButtons"></div>
+            <div class="col-md-6 paginatorItem">
+                <div class="paginator"></div>
+            </div>
+            <div style="clear: both;"></div>
+            <br>
+        </div>
+        <table  class="table table-bordered" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Họ tên</th>
+                <th>Nhóm</th>
+                <th><?= createSortLink($this,'count','Số lượng phục vụ',null)?></th>
+                <th><?= createSortLink($this,'rating','Đánh giá',null)?></th>
+                <th><?= createSortLink($this,'time','Thời gian hỗ trợ',null)?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+                if(count($data)){
+                    foreach($data as $date=>$row){
+                        $check  = 0;
+                        foreach($row as $r){
+                            if($r['user'] != null){
+                                $check++;
+                                echo '<tr>';
+                                $datedisplay = \Home\Model\DateBase::toDisplayDate($date);
+                                if($check == 1){
+                                    echo '<td rowspan="'.count($row).'">'.$datedisplay.'</td>';
+                                }
+                                $url = \Home\Service\Uri::build('/admin/report/detail',['id' =>$r['user']->getId(),'created'=>$datedisplay]);
+                                if ($r['user']->getFullName()){
+                                    echo '<td><a href="'.$url.'">'.$r['user']->getFullName().' - '.$r['user']->getUsername().'</a></td>';
+                                }else{
+                                    echo '<td><a href="'.$url.'">'.$r['user']->getEmail().' - '.$r['user']->getUsername().'</td>';
+                                }
+                                echo '<td>'.$r['user']->getRoleDisplayName().'</td>';
+                                echo '<td>'.$r['count'].'</td>';
+                                echo '<td>'.\Home\Model\Format::toNumber($r['rating']).'</td>';
+                                echo '<td>'.\Home\Model\Format::toNumber($r['time']/60).'</td>';
+                                echo '</tr>';
+                            }
+                        }
+                    }
+                }
+            ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Dialog bootstrap -->
+    <div id="alertModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Thông báo</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type='button' class='btn btn-default reload' data-dismiss='modal'>Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -133,19 +133,6 @@ class FormBase extends Form implements ServiceLocatorAwareInterface
      * @see \Zend\Form\Form::setData()
      */
     public function setData($data){
-    	if($this->has('companyId') && isset($data['companyId']) && $data['companyId']){
-    		$companyId = $this->get('companyId');
-    		if($companyId instanceof \Zend\Form\Element\Hidden && $this->has('companyIdSuggest')){
-				if(!isset($data['companyIdSuggest']) || !$data['companyIdSuggest']){
-					$company = new \Company\Model\Company();
-					$company->setId($data['companyId']);
-					$companyMapper = $this->getServiceLocator()->get('\Company\Model\CompanyMapper');
-					if($companyMapper->get($company)){
-						$data['companyIdSuggest'] = $company->getName();
-					}
-				}
-    		}
-    	}
     	return parent::setData($data);
     }
 

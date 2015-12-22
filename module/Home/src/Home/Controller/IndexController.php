@@ -58,4 +58,35 @@ class IndexController extends ControllerBase
         $this->getViewModel()->setTerminal(true);
         return $this->getViewModel();
     }
+    public function historyAction(){
+        $id = $this->params()->fromQuery('id');
+        $created = $this->params()->fromQuery('created');
+        if(!$id || $created){
+            return $this->page404();
+        }
+        /** @var \Admin\Model\ReportMapper $reportMapper */
+        $reportMapper = $this->getServiceLocator()->get('Admin\Model\ReportMapper');
+
+        /** @var \User\Model\UserMapper $userMapper */
+        $userMapper = $this->getServiceLocator()->get('User\Model\UserMapper');
+        $user = new User();
+        if(!$user->getId() || !$userMapper->get($user->getId())){
+            return $this->page404();
+        }
+        if(!$this->params()->fromQuery('created') || !DateBase::validateDate($this->params()->fromQuery('created'),DateBase::DISPLAY_DATE_FORMAT)){
+            return $this->page404();
+        }
+        $user = $userMapper->get($id);
+        /** @var \Admin\Model\MessagesMG $mess */
+        $mess = new MessagesMG();
+        $mess->setSender($user->getUsername());
+        $mess->setCreated($this->params()->fromQuery('created'));
+
+
+
+        $data = $reportMapper->reportdetail($mess);
+        $this->getViewModel()->setVariable('data',$data);
+        $this->getViewModel()->setVariable('user',$user);
+        return $this->getViewModel();
+    }
 }

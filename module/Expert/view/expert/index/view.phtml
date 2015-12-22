@@ -15,7 +15,7 @@ $subject = $this->subject;
         <div class="customizeContainer">
             <div class="row-fluid">
                 <div class="span12">
-                    <div :xmlns:v="http://rdf.data-vocabulary.org/#" class="innerBreadcrumb">
+                    <div class="innerBreadcrumb">
 <span ng-hide="loaded" typeof="v:Breadcrumb">
 <span typeof="v:Breadcrumb">
 <a class="breadLink" href="/experts" property="v:title" rel="v:url">
@@ -107,7 +107,7 @@ Ruby
 <!--                                        </a>-->
                                     </div>
                                     <div class="span9 mentor-details">
-                                        <a class="name" href="/">
+                                        <a class="name" href="<?=\Home\Service\Uri::buildAutoHttp('/user/porfile/view',['id'=>$mentor->getId()])?>">
                                             <?=$mentor->getFullName()?$mentor->getFullName():$mentor->getUsername()?>
                                         </a>
                                             <span class="ratingNum"><?=$mentor->getRating()?>   </span>

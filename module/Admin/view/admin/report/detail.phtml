@@ -1,0 +1,85 @@
+<?php
+$data = $this->data;
+/** @var \User\Model\User $user */
+$user = $this->user;
+?>
+<div class="widget">
+    <div class="widget-header">
+        <h3>Lịch sử chat</h3>
+    </div>
+    <div class="widget-content">
+        <div class="custom-tabs-left">
+            <ul class="nav nav-tabs" role="tablist">
+                <?php
+                    foreach($data as $time=>$d){
+                        $createDateTime = new \DateTime(\Home\Model\DateBase::toCommonDateTime(explode(' - ',$time)[0]));
+                        $endedDateTime = new \DateTime(\Home\Model\DateBase::toCommonDateTime(explode(' - ',$time)[1]));
+                        echo '<li class="" data-toggle="tooltip" data-original-title="Comment: '.$d['comment'].' Vote: '.$d['rating'].'"><a aria-expanded="true" href="#'.$createDateTime->getTimestamp().$endedDateTime->getTimestamp().'" data-toggle="tab"><i class="fa fa-weixin"></i> '.$time.'</a></li>';
+                    }
+                ?>
+<!--                <li class="active"><a aria-expanded="true" href="#step1" data-toggle="tab"><i class="fa fa-plus-square"></i> Step 1</a></li>-->
+<!--                <li class=""><a aria-expanded="false" href="#step2" data-toggle="tab"><i class="fa fa-cloud-upload"></i> Step 2</a></li>-->
+<!--                <li class=""><a aria-expanded="false" href="#step3" data-toggle="tab"><i class="fa fa-check-circle"></i> Step 3</a></li>-->
+            </ul>
+            <div class="tab-content clearfix">
+                <?php
+                foreach($data as $time=>$d){
+                    $createDateTime = new \DateTime(\Home\Model\DateBase::toCommonDateTime(explode(' - ',$time)[0]));
+                    $endedDateTime = new \DateTime(\Home\Model\DateBase::toCommonDateTime(explode(' - ',$time)[1]));
+                    $idTime = $createDateTime->getTimestamp().$endedDateTime->getTimestamp();
+                ?>
+
+                <div class="tab-pane fade" id="<?=$idTime?>">
+                    <?php foreach($d['messages'] as $mess){ ?>
+                    <div class="line">
+                        <?php
+                            if($user->getUsername() == $mess['sender']){
+                                echo '<b>'.$mess['sender'].'</b>';
+                            }else{
+                                echo '<b style="color:red">'.$mess['sender'].'</b>';
+                            }
+                        ?>
+                        <span class="date"> - <?=$mess['created']?></span>
+                        <?php if($mess['msg'] != null){
+                            echo '<p>'.$mess['msg'].'</p>';
+                        }
+                        if($mess['imgPath'] != null){
+                            echo '</br><img style="height:150px" src="'.$mess['imgPath'].'">';
+                        }
+                        ?>
+                    </div>
+                    <?php }?>
+                </div>
+
+                <?php
+                }
+                ?>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<style>
+    .custom-tabs-left {
+        border-bottom: none;
+    }
+    .custom-tabs-left > .nav-tabs {
+        float: left;
+        margin-right: 19px;
+        border-right: 1px solid #ccc;
+        border-bottom: none;
+    }
+    .custom-tabs-left > .nav-tabs > li {
+        float: none;
+    }
+    .custom-tabs-left .tab-content {
+        padding-top: 5px;
+        margin-left: 330px;
+    }
+    .tooltip-inner {
+        white-space:pre-wrap;
+
+    }
+</style>

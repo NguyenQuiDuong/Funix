@@ -7,6 +7,7 @@ return array(
             'Admin\Controller\User'     =>  'Admin\Controller\UserController',
             'Admin\Controller\Expert'   =>  'Admin\Controller\ExpertController',
             'Admin\Controller\Theme'    =>  'Admin\Controller\ThemeController',
+            'Admin\Controller\Report'   =>  'Admin\Controller\ReportController',
 
         )
     ),
@@ -74,4 +75,19 @@ return array(
             ),
         ),
     ),
+
+    'doctrine' => array(
+        'driver' => array(
+            'Admindriver' => array(
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
+
+                'paths' => array('module/Admin/src/Admin/Model')
+            ),
+            'odm_default' => array(
+                'drivers' => array(
+                    'Admin\Model' =>'Admindriver'
+                )
+            )
+        )
+    )
 );

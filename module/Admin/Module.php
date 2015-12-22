@@ -29,6 +29,7 @@ class Module
     {
         return array(
 			'invokables' => array(
+                'Admin\Model\ReportMapper'         => 'Admin\Model\ReportMapper',
 			),
         	'factories' => array(
         	)

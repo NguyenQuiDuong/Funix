@@ -58,6 +58,9 @@ use Zend\Validator\InArray;
 				'Trang chủ'				=>	'/admin/theme',
 				'Trang expert'			=>	'/admin/theme/expert',
 			);
+			$reportAction = array(
+				'Báo cáo'				=>	'/admin/report',
+			);
 			$urlArray = explode('/',$_SERVER['REQUEST_URI']);
 				if($urlArray[1]=='admin'){
 					if($urlArray[2] == 'subject'){

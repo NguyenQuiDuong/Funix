@@ -66,10 +66,10 @@ class UserController extends AbstractActionController
 //                        return $this->redirect()->toRoute('company');
 //                    }
 //                }
-                if($userService->getIdentity() == User::ROLE_CALLCENTER){
+                if($userService->getUser()->getRole() == User::ROLE_CALLCENTER){
                     return $this->redirect()->toUrl('/home/callcenter');
                 }
-                if($userService->getIdentity() <= User::ROLE_ADMIN){
+                if($userService->isAdmin()){
                     return $this->redirect()->toUrl('/admin');
                 }
 //                return $this->redirect()->toUrl($redirect);
@@ -87,7 +87,7 @@ class UserController extends AbstractActionController
                      if(!$user) {
                          return;
                      }
-                     if(!$user->getLocked() && $user->getActive()) {
+                     if($user->getLocked()==User::UNLOCKED && $user->getActive()) {
                          if (!$redirect) {
                              if($user->getRole() == User::ROLE_CALLCENTER){
                                  return $this->redirect()->toUrl('/home/callcenter');
@@ -97,7 +97,7 @@ class UserController extends AbstractActionController
                              return $this->redirect()->toUrl($redirect);
                          }
                      }
-                     if($user->getLocked()) {
+                     if($user->getLocked()==User::LOCKED) {
                          $form->get('mail')->setMessages([\User\Form\Signin::ERROR_LOCKED]);
                      }
                      if(!$user->getActive()) {

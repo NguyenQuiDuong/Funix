@@ -363,4 +363,28 @@ class ProfileController extends ControllerBase
                                    'message' => $message));
     }
 
+    public function viewAction(){
+        $id = $this->params()->fromQuery('id');
+        /** @var \User\Model\UserMapper $userMapper */
+        $userMapper = $this->getServiceLocator()->get('\User\Model\UserMapper');
+        if(!$id || !$userMapper->get($id)){
+            return $this->page404();
+        }
+        $user = new User();
+        $user = $userMapper->get($id);
+        $this->getViewModel()->setVariable('user',$user);
+        if($user->getRole() == User::ROLE_MENTOR){
+            /** @var \Expert\Model\Expert\Subject $ex */
+            $exsub = new Subject();
+            $exsub->setExpertId($user->getId());
+            /** @var \Expert\Model\Expert\SubjectMapper $expertSubjectMapper */
+            $expertSubjectMapper = $this->getServiceLocator()->get('Expert\Model\Expert\SubjectMapper');
+            $subjects = $expertSubjectMapper->fetchAllSubject($exsub);
+            $this->getViewModel()->setVariables([
+                'subjects' => $subjects,
+            ]);
+        }
+        return $this->getViewModel();
+    }
+
 }

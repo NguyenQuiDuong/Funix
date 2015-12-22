@@ -23,6 +23,9 @@ class User extends Base
     const STATUS_ONLINE = 1;
     const STATUS_OFFLINE = 2;
 
+    const LOCKED = 1;
+    const UNLOCKED = 2;
+
     protected $roles = array(
         self::ROLE_SUPERADMIN 	=> 'Super Admin',
         self::ROLE_ADMIN 		=> 'Admin',
@@ -146,6 +149,11 @@ class User extends Base
      * @var string
      */
     protected $locked;
+
+    /**
+     * @var string
+     */
+    protected $status;
 
 
     const STATUS_ACTIVE = 1;
@@ -504,13 +512,29 @@ class User extends Base
     {
         $this->locked = $locked;
     }
-
     /**
      * @return string
      */
     public function getLocked()
     {
         return $this->locked;
+    }
+
+    /**
+     * @param string $stauts
+     */
+    public function setStatus($stauts)
+    {
+        $this->status = $stauts;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

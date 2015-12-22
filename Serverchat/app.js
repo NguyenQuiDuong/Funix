@@ -144,7 +144,7 @@ function createActivity(activity, callback) {
  * @param callback
  */
 function updateActivity(activity,callback){
-    if (activity.student && activity.rating && activity.note){
+    if (activity.student && activity.rating){
         console.log(activity);
         dbmysql.query('UPDATE chat_activities SET endedDate = ?, endedDateTime = ? ,rating = ?,note = ? WHERE id = ? ',
             [
@@ -521,7 +521,7 @@ io.sockets.on('connection', function (socket) {
                                     socket.emit('updatechatactivityid',{
                                         'userName': value.userName,
                                         'activityId': value.roomId,
-                                        'role': u.role,
+                                        'role': parseInt(u.role),
                                         'room': v.room,
                                     });
                                 }else{
@@ -732,7 +732,7 @@ io.sockets.on('connection', function (socket) {
                                     io.in(room).emit('updatechatactivityid', {
                                         'userName': callcenterName,
                                         'activityId': ac.insertId,
-                                        'role': 'callcenter',
+                                        'role': ROLE_CALLCENTER,
                                         'room':room,
                                     });
                                     createRoomMongoose(room, arrayTemp[0], ac.insertId, function (cr) {
@@ -788,7 +788,7 @@ io.sockets.on('connection', function (socket) {
                                            io.in(room).emit('updatechatactivityid', {
                                                'userName': uC.userName,
                                                'activityId': ac.insertId,
-                                               'role': 'callcenter',
+                                               'role': ROLE_CALLCENTER,
                                                'room':room,
                                            });
                                            createRoomMongoose(room, uC.userName, ac.insertId, function (cr) {
@@ -827,7 +827,7 @@ io.sockets.on('connection', function (socket) {
                         io.in(room).emit('updatechatactivityid', {
                             'userName': username,
                             'activityId': ac.insertId,
-                            'role': 'mentor',
+                            'role': ROLE_MENTOR,
                             'room':room,
                         });
                     });
@@ -1032,12 +1032,13 @@ io.sockets.on('connection', function (socket) {
             activity = {
                 id:data[key].activityId,
                 rating:data[key].rating,
-                note:data[key].comment,
+                note:data[key].comment?data[key].comment:'',
                 student:room.split('-')[0],
+                room:room,
             }
             updateActivity(activity,function(rows){
                 sockets[key].leave(room);
-                io.in(room).emit('leaved',key,room);
+                io.sockets.in(room).emit('leaved',key,room);
                 console.log(key + ' da roi khoi room');
                 deleteRoomMongoose(room,'','',function(r){
                     console.log('da xoa room '+ room + ' khoi mongodb');

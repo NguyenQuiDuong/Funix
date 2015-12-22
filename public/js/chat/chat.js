@@ -40,7 +40,8 @@ if ($('.mentorlist').length != 0) {
     classmentorlist = '<div class="msg_tool" onclick="listmentor(this)"><a class="close" >+</a><div class="chatmentor"></div></div>';
 }
 //var socket = io('10.20.15.57:8008');
-var socket = io('127.0.0.1:8008');
+var url = window.location.hostname;
+var socket = io(url+':8008');
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function () {
     // call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -302,7 +303,7 @@ function feedback(room) {
     });
     $('#feedbackModal textarea').each(function(){
         if(typeof data[$(this).attr('data-name')] != 'undefined'){
-            data[$(this).attr('data-name')].comment = $(this).val();
+            data[$(this).attr('data-name')].comment = $(this).val()?$(this).val():'';
         }
     });
     console.log(data);

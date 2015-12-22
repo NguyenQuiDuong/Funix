@@ -101,5 +101,5 @@ Zend\Loader\AutoloaderFactory::factory(array(
 		),
 	)
 ));
-
+include 'vendor/autoload.php';
 Zend\Mvc\Application::init(require BASE_PATH.'/config/application.config.php')->run();

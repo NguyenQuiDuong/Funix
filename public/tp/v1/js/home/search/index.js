@@ -27,7 +27,7 @@ $('.cancel').click(function(){
     $('.request-info-wrapper').removeClass('ng-hide');
     $('.request-form').addClass('ng-hide');
     $('.non-login-form-bg').remove();
-})
+});
 // radio button
 jQuery(function ($) {
     $('div.budget-buttons[data-toggle-name]').each(function () {
@@ -127,3 +127,6 @@ $('#submit').click(function(){
         }
     )
 });
+var expertList = '';
+expertList = $('.request-section').height()+85;
+$('.expert-list').css('margin-top',expertList+'px');
